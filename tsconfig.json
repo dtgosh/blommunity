@@ -19,6 +19,12 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "paths": {
+      "@app/db": [
+        "libs/db/src"
+      ],
+      "@app/db/*": [
+        "libs/db/src/*"
+      ],
       "@app/util": [
         "libs/util/src"
       ],
