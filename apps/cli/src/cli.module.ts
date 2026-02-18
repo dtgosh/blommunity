@@ -1,4 +1,4 @@
-import { configModuleOptions } from '@app/config/config.constants';
+import { configModuleOptions } from '@app/config';
 import { DbModule } from '@app/db';
 import { UtilModule } from '@app/util';
 import { Module } from '@nestjs/common';

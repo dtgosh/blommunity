@@ -8,6 +8,7 @@
   "scripts": {
     "postinstall": "npx prisma generate",
     "build": "nest build",
+    "build:all": "nest build --all",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
