@@ -3,12 +3,10 @@ import { DbModule } from '@app/db';
 import { UtilModule } from '@app/util';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CliController } from './cli.controller';
-import { CliService } from './cli.service';
+import { BasicCommand } from './commands/basic.command';
 
 @Module({
   imports: [ConfigModule.forRoot(configModuleOptions), DbModule, UtilModule],
-  controllers: [CliController],
-  providers: [CliService],
+  providers: [BasicCommand],
 })
 export class CliModule {}
