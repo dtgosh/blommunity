@@ -1,98 +1,192 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Blommunity Backend
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+블로그 커뮤니티 서비스의 백엔드 서버입니다.
 
-## Description
+## Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| 분류 | 기술 |
+|------|------|
+| Framework | NestJS 11 (Monorepo) |
+| Language | TypeScript 5 |
+| Database | PostgreSQL 18 |
+| ORM | Prisma 7 |
+| CLI | nest-commander |
+| Logger | Winston + nest-winston |
+| Validation | Joi |
+| Test | Jest 30 + Supertest |
+| Code Quality | ESLint 9, Prettier, Husky, lint-staged, commitlint |
 
-## Project setup
+## Project Structure
 
-```bash
-$ npm install
+```
+├── apps/
+│   ├── api/                  # REST API 서버
+│   │   ├── src/
+│   │   │   ├── main.ts
+│   │   │   ├── api.module.ts
+│   │   │   ├── api.controller.ts
+│   │   │   └── api.service.ts
+│   │   └── test/             # E2E 테스트
+│   └── cli/                  # CLI 애플리케이션
+│       └── src/
+│           ├── main.ts
+│           ├── cli.module.ts
+│           └── commands/
+│               └── basic.command.ts
+├── libs/
+│   ├── config/               # 환경 변수 관리 및 설정
+│   │   └── src/
+│   │       ├── config.constants.ts
+│   │       ├── config.enums.ts
+│   │       ├── config.interfaces.ts
+│   │       └── configs/
+│   │           ├── app.config.ts
+│   │           ├── db.config.ts
+│   │           └── logger.config.ts
+│   ├── db/                   # Prisma ORM 서비스
+│   │   └── src/
+│   │       ├── db.module.ts
+│   │       └── db.service.ts
+│   └── util/                 # 유틸리티 함수
+│       └── src/
+│           ├── util.module.ts
+│           └── util.service.ts
+├── prisma/
+│   ├── schema.prisma         # DB 스키마 정의
+│   └── migrations/           # 마이그레이션 파일
+└── compose.dev-infra.yaml    # 개발용 Docker Compose
 ```
 
-## Compile and run the project
+### Path Aliases
+
+| Alias | Path |
+|-------|------|
+| `@app/config` | `libs/config/src` |
+| `@app/db` | `libs/db/src` |
+| `@app/util` | `libs/util/src` |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- Docker (개발용 PostgreSQL)
+
+### Installation
 
 ```bash
-# development
-$ npm run start
+# 의존성 설치
+npm install
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# 환경 변수 설정
+cp .env.example .env
 ```
 
-## Run tests
+### Environment Variables
 
 ```bash
-# unit tests
-$ npm run test
+# PostgreSQL Docker 컨테이너 설정
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=LocalDbPw
+POSTGRES_DB=postgres
 
-# e2e tests
-$ npm run test:e2e
+# DB 접속 정보
+DB_HOST=localhost        # Docker 내부에서는 컨테이너 이름(blommunity-db) 사용
+DB_PORT=5432
+DB_SCHEMA=public
 
-# test coverage
-$ npm run test:cov
+# 애플리케이션 설정
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}
+NODE_ENV=development     # development | testing | staging | production
+PORT=3000
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Database Setup
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# 개발용 PostgreSQL 컨테이너 실행
+npm run start:dev:infra
+
+# Prisma 마이그레이션 실행
+npx prisma migrate dev
+
+# 개발용 PostgreSQL 컨테이너 종료 (볼륨 및 이미지 포함 삭제)
+npm run stop:dev:infra
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Run
 
-## Resources
+```bash
+# API 서버 (개발 모드)
+npm run start:dev
 
-Check out a few resources that may come in handy when working with NestJS:
+# API 서버 (프로덕션)
+npm run start:prod:api
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# CLI 실행 (프로덕션)
+npm run start:prod
+```
 
-## Support
+## Scripts
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+| 명령어 | 설명 |
+|--------|------|
+| `npm run build` | 기본 앱 빌드 |
+| `npm run build:all` | 전체 앱 빌드 |
+| `npm run start` | 기본 앱 실행 |
+| `npm run start:dev` | 개발 모드 실행 (watch) |
+| `npm run start:debug` | 디버그 모드 실행 |
+| `npm run start:prod` | CLI 프로덕션 실행 |
+| `npm run start:prod:api` | API 프로덕션 실행 |
+| `npm run start:dev:infra` | 개발용 DB 컨테이너 실행 |
+| `npm run stop:dev:infra` | 개발용 DB 컨테이너 종료 |
+| `npm run lint` | ESLint 실행 |
+| `npm run format` | Prettier 포매팅 |
+| `npm run test` | 단위 테스트 실행 |
+| `npm run test:watch` | 테스트 watch 모드 |
+| `npm run test:cov` | 테스트 커버리지 |
+| `npm run test:e2e:api` | API E2E 테스트 |
+| `npm run commit` | Commitizen 대화형 커밋 |
+| `npm run release` | 버전 릴리스 |
 
-## Stay in touch
+## Database Schema
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### User
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | BigInt | PK, Auto Increment |
+| email | String | Unique |
+| password | String | |
+| name | String? | Optional |
+| createdAt | DateTime | Default: now() |
+| updatedAt | DateTime | Auto Update |
+
+### Post
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | BigInt | PK, Auto Increment |
+| title | String | |
+| content | String? | Optional |
+| isPublished | Boolean? | Default: false |
+| authorId | BigInt? | FK -> User.id |
+| createdAt | DateTime | Default: now() |
+| updatedAt | DateTime | Auto Update |
+
+## Git Conventions
+
+- **Commit**: [Conventional Commits](https://www.conventionalcommits.org/) (`npm run commit`으로 대화형 커밋)
+- **Hooks**: Husky로 pre-commit(lint-staged), commit-msg(commitlint) 자동 실행
+
+## TODO
+
+1. 캐싱 기능 추가
+2. 커맨더에 테스트코드 추가
+3. .vscode 설정
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+[MIT](LICENSE)
