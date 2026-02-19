@@ -1,0 +1,6 @@
+# 커밋 메시지가 이미 제공된 경우 (-m 플래그, commit-and-tag-version 등) commitizen 건너뛰기
+if [ "$2" = "message" ]; then
+  exit 0
+fi
+
+exec < /dev/tty && npx cz --hook || true
