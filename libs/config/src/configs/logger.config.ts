@@ -19,7 +19,7 @@ export default registerAs(
             : winston.format.combine(
                 winston.format.timestamp(),
                 winston.format.ms(),
-                utilities.format.nestLike('BlommunityApi', {
+                utilities.format.nestLike('Blommunity', {
                   colors: true,
                   prettyPrint: true,
                   processId: true,
