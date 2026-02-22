@@ -1,5 +1,5 @@
+import { validatedEnv } from './libs/config/src/config.constants';
 import { defineConfig } from 'prisma/config';
-import { validatedEnv } from './libs/config/src';
 
 export default defineConfig({
   schema: 'libs/db/schema.prisma',

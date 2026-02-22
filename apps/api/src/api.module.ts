@@ -1,10 +1,10 @@
-import { configModuleOptions } from '@app/config';
+import { ConfigModule } from '@app/config';
 import { DbModule } from '@app/db';
 import { UtilModule } from '@app/util';
 import KeyvValkey from '@keyv/valkey';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
-    ConfigModule.forRoot(configModuleOptions),
+    ConfigModule,
     DbModule,
     UtilModule,
   ],

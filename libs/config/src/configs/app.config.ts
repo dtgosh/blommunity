@@ -1,4 +1,4 @@
 import { registerAs } from '@nestjs/config';
-import { isDevEnv, validatedEnv } from '..';
+import { validatedEnv } from '../config.constants';
 
-export default registerAs('app', () => ({ isDevEnv, port: validatedEnv.PORT }));
+export default registerAs('app', () => ({ port: validatedEnv.PORT }));

@@ -1,8 +1,6 @@
-import { Env } from '@app/config';
+import { LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { utilities, WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
 import { ApiModule } from './api.module';
 
 async function bootstrap(): Promise<void> {
@@ -12,29 +10,8 @@ async function bootstrap(): Promise<void> {
 
   const configService = app.get(ConfigService);
 
-  app.useLogger(
-    WinstonModule.createLogger({
-      transports: new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.timestamp(),
-          ...(configService.getOrThrow<Env>('app.env') === Env.DEV
-            ? [
-                winston.format.ms(),
-                utilities.format.nestLike('BlommunityApi', {
-                  colors: true,
-                  prettyPrint: true,
-                  processId: true,
-                  appName: true,
-                }),
-              ]
-            : [winston.format.json()]),
-        ),
-      }),
-    }),
-  );
+  app.useLogger(configService.getOrThrow<LoggerService>('logger'));
 
-  const port = configService.getOrThrow<number>('app.port');
-
-  await app.listen(port);
+  await app.listen(configService.getOrThrow<number>('app.port'));
 }
 void bootstrap();
