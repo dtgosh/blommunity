@@ -8,27 +8,179 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        BigInt   @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  posts     Post[]
+/// 사용자 계정 정보
+model Account {
+  /// 고유 식별자
+  id          BigInt       @id @default(autoincrement())
+  /// 사용자 이름 (고유)
+  username    String       @unique
+  /// 계정 역할 (OWNER, ADMIN, USER)
+  role        AccountRole  @map("role")
+  /// 이메일 주소 (고유)
+  email       String       @unique
+  /// 비밀번호
+  password    String
+  /// 생성일시
+  createdAt   DateTime     @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  /// 삭제일시 (소프트 삭제)
+  deletedAt   DateTime?    @map("deleted_at")
+  /// 작성한 댓글 목록
+  comments    Comment[]
+  /// 소속 그룹 목록
+  memberships Membership[]
+  /// 작성한 게시글 목록
+  posts       Post[]
 
-  @@map("users")
+  @@map("accounts")
 }
 
-model Post {
-  id          BigInt   @id @default(autoincrement())
-  title       String
-  content     String?
-  isPublished Boolean? @default(false) @map("is_published")
-  authorId    BigInt?  @map("author_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  author      User?    @relation(fields: [authorId], references: [id])
+/// 커뮤니티 그룹
+model Group {
+  /// 고유 식별자
+  id          BigInt          @id @default(autoincrement())
+  /// 그룹 이름 (고유)
+  name        String          @unique
+  /// 그룹 설명
+  description String?
+  /// 공개 범위 (PUBLIC, PRIVATE)
+  visibility  GroupVisibility
+  /// 생성일시
+  createdAt   DateTime        @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  /// 삭제일시 (소프트 삭제)
+  deletedAt   DateTime?       @map("deleted_at")
+  /// 소속 멤버십 목록
+  memberships Membership[]
+  /// 그룹 내 게시글 목록
+  posts       Post[]
 
+  @@map("groups")
+}
+
+/// 그룹 멤버십 (계정과 그룹 간의 다대다 관계)
+model Membership {
+  /// 고유 식별자
+  id        BigInt         @id @default(autoincrement())
+  /// 그룹 ID
+  groupId   BigInt         @map("group_id")
+  /// 계정 ID
+  accountId BigInt         @map("account_id")
+  /// 그룹 내 역할 (OWNER, ADMIN, USER)
+  role      MembershipRole @map("role")
+  /// 생성일시
+  createdAt DateTime       @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  /// 삭제일시 (소프트 삭제)
+  deletedAt DateTime?      @map("deleted_at")
+  /// 계정
+  account   Account        @relation(fields: [accountId], references: [id])
+  /// 그룹
+  group     Group          @relation(fields: [groupId], references: [id])
+
+  @@unique([groupId, accountId])
+  @@index([accountId])
+  @@map("memberships")
+}
+
+/// 게시글
+model Post {
+  /// 고유 식별자
+  id          BigInt    @id @default(autoincrement())
+  /// 작성자 ID
+  authorId    BigInt    @map("author_id")
+  /// 소속 그룹 ID
+  groupId     BigInt    @map("group_id")
+  /// 제목
+  title       String
+  /// 본문 내용
+  content     String?
+  /// 게시 여부
+  isPublished Boolean   @default(false) @map("is_published")
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  /// 삭제일시 (소프트 삭제)
+  deletedAt   DateTime? @map("deleted_at")
+  /// 댓글 목록
+  comments    Comment[]
+  /// 작성자
+  author      Account   @relation(fields: [authorId], references: [id])
+  /// 소속 그룹
+  group       Group     @relation(fields: [groupId], references: [id])
+
+  @@index([groupId])
+  @@index([authorId])
   @@map("posts")
+}
+
+/// 댓글 (대댓글 지원)
+model Comment {
+  /// 고유 식별자
+  id              BigInt    @id @default(autoincrement())
+  /// 작성자 ID
+  authorId        BigInt    @map("author_id")
+  /// 게시글 ID
+  postId          BigInt    @map("post_id")
+  /// 상위 댓글 ID (대댓글인 경우)
+  parentCommentId BigInt?   @map("parent_comment_id")
+  /// 댓글 내용
+  content         String
+  /// 생성일시
+  createdAt       DateTime  @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  /// 삭제일시 (소프트 삭제)
+  deletedAt       DateTime? @map("deleted_at")
+  /// 작성자
+  author          Account   @relation(fields: [authorId], references: [id])
+  /// 상위 댓글
+  parentComment   Comment?  @relation("parent_comment_child_comments", fields: [parentCommentId], references: [id])
+  /// 하위 댓글 목록
+  childComments   Comment[] @relation("parent_comment_child_comments")
+  /// 게시글
+  post            Post      @relation(fields: [postId], references: [id])
+
+  @@index([postId])
+  @@index([parentCommentId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+/// 계정 역할
+enum AccountRole {
+  /// 최고관리자
+  OWNER @map("owner")
+  /// 관리자
+  ADMIN @map("admin")
+  /// 일반 사용자
+  USER  @map("user")
+
+  @@map("account_roles")
+}
+
+/// 그룹 내 역할
+enum MembershipRole {
+  /// 그룹 소유자
+  OWNER @map("owner")
+  /// 그룹 관리자
+  ADMIN @map("admin")
+  /// 그룹 일반 사용자
+  USER  @map("user")
+
+  @@map("membership_roles")
+}
+
+/// 그룹 공개 범위
+enum GroupVisibility {
+  /// 공개
+  PUBLIC  @map("public")
+  /// 비공개
+  PRIVATE @map("private")
+
+  @@map("group_visibilities")
 }
