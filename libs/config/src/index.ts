@@ -11,12 +11,6 @@ import dbConfig from './configs/db.config';
 expand(dotenv.config());
 
 const validationSchema = Joi.object<ValidatedEnv>({
-  POSTGRES_USER: Joi.string().optional(),
-  POSTGRES_PASSWORD: Joi.string().optional(),
-  POSTGRES_DB: Joi.string().optional(),
-  DB_HOST: Joi.string().optional(),
-  DB_PORT: Joi.number().port().optional(),
-  DB_SCHEMA: Joi.string().optional(),
   NODE_ENV: Joi.string()
     .valid(...Object.values(Env))
     .required(),
