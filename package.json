@@ -33,10 +33,13 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
     "cache-manager": "^7.2.8",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
     "joi": "^18.0.2",
     "nest-commander": "^3.20.1",
     "nest-winston": "^1.10.2",
@@ -100,6 +103,7 @@
     "moduleNameMapper": {
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/db(|/.*)$": "<rootDir>/libs/db/src/$1",
+      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
       "^@app/util(|/.*)$": "<rootDir>/libs/util/src/$1"
     }
   },

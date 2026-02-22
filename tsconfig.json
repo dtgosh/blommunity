@@ -31,6 +31,12 @@
       "@app/db/*": [
         "libs/db/src/*"
       ],
+      "@app/post": [
+        "libs/post/src"
+      ],
+      "@app/post/*": [
+        "libs/post/src/*"
+      ],
       "@app/util": [
         "libs/util/src"
       ],

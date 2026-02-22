@@ -5,6 +5,7 @@ import KeyvValkey from '@keyv/valkey';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ConfigService } from '@nestjs/config';
     ConfigModule,
     DbModule,
     UtilModule,
+    PostsModule,
   ],
   providers: [Logger],
 })
