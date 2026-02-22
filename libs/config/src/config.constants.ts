@@ -4,7 +4,7 @@ import * as Joi from 'joi';
 import { Env } from './config.enums';
 import { ValidatedEnv } from './config.interfaces';
 
-export const isRemoteEnv = [Env.PRD, Env.STG, Env.TST].includes(
+const isRemoteEnv = [Env.PRD, Env.STG, Env.TST].includes(
   process.env.NODE_ENV as Env,
 );
 
