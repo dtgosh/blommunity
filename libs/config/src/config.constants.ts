@@ -23,5 +23,5 @@ export const validatedEnv = Joi.attempt(
     CACHE_URL: Joi.string().uri().required(),
   }),
   '환경 변수 유효성 검사 실패: ',
-  { allowUnknown: true, stripUnknown: true },
+  { stripUnknown: true },
 );
