@@ -101,6 +101,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@app/cache(|/.*)$": "<rootDir>/libs/cache/src/$1",
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/db(|/.*)$": "<rootDir>/libs/db/src/$1",
       "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",

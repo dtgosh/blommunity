@@ -19,6 +19,12 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "paths": {
+      "@app/cache": [
+        "libs/cache/src"
+      ],
+      "@app/cache/*": [
+        "libs/cache/src/*"
+      ],
       "@app/config": [
         "libs/config/src"
       ],
