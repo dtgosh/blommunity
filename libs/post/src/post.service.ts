@@ -1,6 +1,6 @@
 import { DbService } from '@app/db';
-import { PostCreateArgs, PostUpdateArgs } from '@app/db/generated/models';
 import { Injectable } from '@nestjs/common';
+import { PostCreateArgs, PostUpdateArgs } from 'generated/prisma/models';
 import { FindAllPostsArgs, PostDetail, PostListItem } from './post.interfaces';
 
 @Injectable()

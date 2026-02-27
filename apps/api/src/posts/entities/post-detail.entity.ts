@@ -1,5 +1,5 @@
-import { Post } from '@app/db/generated/client';
 import { Expose } from 'class-transformer';
+import { Post } from 'generated/prisma/client';
 import { PostListItemEntity } from './post-list-item.entity';
 
 export class PostDetailEntity extends PostListItemEntity {
