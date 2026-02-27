@@ -1,9 +1,4 @@
 import { PostService } from '@app/post';
-import { CreatePostDto } from '@app/post/dto/create-post.dto';
-import { FindAllPostsDto } from '@app/post/dto/find-all-posts.dto';
-import { UpdatePostDto } from '@app/post/dto/update-post.dto';
-import { PostDetailEntity } from '@app/post/entities/post-detail.entity';
-import { PostListItemEntity } from '@app/post/entities/post-list-item.entity';
 import {
   Body,
   Controller,
@@ -15,6 +10,11 @@ import {
   Query,
   SerializeOptions,
 } from '@nestjs/common';
+import { CreatePostDto } from './dto/create-post.dto';
+import { FindAllPostsDto } from './dto/find-all-posts.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
+import { PostDetailEntity } from './entities/post-detail.entity';
+import { PostListItemEntity } from './entities/post-list-item.entity';
 
 @SerializeOptions({ strategy: 'excludeAll' })
 @Controller('posts')
@@ -22,34 +22,42 @@ export class PostsController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
-  public create(
+  public async create(
     @Body() createPostDto: CreatePostDto,
   ): Promise<PostDetailEntity> {
-    return this.postService.create(createPostDto);
+    const result = await this.postService.create(createPostDto);
+
+    return new PostDetailEntity(result);
   }
 
   @Get()
-  public findAll(
+  public async findAll(
     @Query() findAllPostsDto: FindAllPostsDto,
   ): Promise<PostListItemEntity[]> {
-    return this.postService.findAll(findAllPostsDto);
+    const result = await this.postService.findAll(findAllPostsDto);
+
+    return result.map((item) => new PostListItemEntity(item));
   }
 
   @Get(':id')
-  public findOne(@Param('id') id: string): Promise<PostDetailEntity> {
-    return this.postService.findOne(+id);
+  public async findOne(@Param('id') id: string): Promise<PostDetailEntity> {
+    const result = await this.postService.findOne(+id);
+
+    return new PostDetailEntity(result);
   }
 
   @Patch(':id')
-  public update(
+  public async update(
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostDetailEntity> {
-    return this.postService.update(+id, updatePostDto);
+    const result = await this.postService.update(+id, updatePostDto);
+
+    return new PostDetailEntity(result);
   }
 
   @Delete(':id')
-  public remove(@Param('id') id: string): Promise<void> {
-    return this.postService.remove(+id);
+  public async remove(@Param('id') id: string): Promise<void> {
+    await this.postService.remove(+id);
   }
 }

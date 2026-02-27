@@ -1,14 +1,11 @@
 import { DbService } from '@app/db';
+import { PostCreateArgs, PostUpdateArgs } from '@app/db/generated/models';
 import { Injectable } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
-import { FindAllPostsDto } from './dto/find-all-posts.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
-import { PostDetailEntity } from './entities/post-detail.entity';
-import { PostListItemEntity } from './entities/post-list-item.entity';
+import { FindAllPostsArgs, PostDetail, PostListItem } from './post.interfaces';
 
 @Injectable()
 export class PostService {
-  private defaultFindPostDetailArgs = {
+  private readonly defaultFindPostDetailArgs = {
     omit: {
       isPublished: true,
       deletedAt: true,
@@ -20,23 +17,21 @@ export class PostService {
 
   constructor(private dbService: DbService) {}
 
-  public async create(data: CreatePostDto): Promise<PostDetailEntity> {
-    const result = await this.dbService.post.create({
+  public create(data: PostCreateArgs['data']): Promise<PostDetail> {
+    return this.dbService.post.create({
       ...this.defaultFindPostDetailArgs,
       data,
     });
-
-    return new PostDetailEntity(result);
   }
 
-  public async findAll({
+  public findAll({
     id,
     authorId,
     groupId,
     skip = 1,
     take = 30,
-  }: FindAllPostsDto): Promise<PostListItemEntity[]> {
-    const results = await this.dbService.post.findMany({
+  }: FindAllPostsArgs): Promise<PostListItem[]> {
+    return this.dbService.post.findMany({
       select: {
         id: true,
         title: true,
@@ -49,30 +44,21 @@ export class PostService {
       skip,
       take,
     });
-
-    return results.map((result) => new PostListItemEntity(result));
   }
 
-  public async findOne(id: number): Promise<PostDetailEntity> {
-    const result = await this.dbService.post.findUniqueOrThrow({
+  public findOne(id: number): Promise<PostDetail> {
+    return this.dbService.post.findUniqueOrThrow({
       ...this.defaultFindPostDetailArgs,
       where: { id, deletedAt: null },
     });
-
-    return new PostDetailEntity(result);
   }
 
-  public async update(
-    id: number,
-    data: UpdatePostDto,
-  ): Promise<PostDetailEntity> {
-    const result = await this.dbService.post.update({
+  public update(id: number, data: PostUpdateArgs['data']): Promise<PostDetail> {
+    return this.dbService.post.update({
       ...this.defaultFindPostDetailArgs,
       data,
       where: { id, deletedAt: null },
     });
-
-    return new PostDetailEntity(result);
   }
 
   public async remove(id: number): Promise<void> {
