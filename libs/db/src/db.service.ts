@@ -8,7 +8,9 @@ export class DbService extends PrismaClient {
   constructor(configService: ConfigService) {
     super({
       adapter: new PrismaPg({
-        connectionString: configService.getOrThrow<string>('db.url'),
+        connectionString: configService.getOrThrow<string>(
+          'secret.DATABASE_URL',
+        ),
       }),
     });
   }

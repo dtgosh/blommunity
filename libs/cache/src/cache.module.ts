@@ -6,7 +6,9 @@ export const CacheModule = NestCacheModule.registerAsync({
   isGlobal: true,
   imports: [ConfigModule],
   useFactory: (configService: ConfigService) => ({
-    stores: new KeyvValkey(configService.getOrThrow<string>('cache.url')),
+    stores: new KeyvValkey(
+      configService.getOrThrow<string>('secret.CACHE_URL'),
+    ),
   }),
   inject: [ConfigService],
 });

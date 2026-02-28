@@ -1,12 +1,13 @@
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { isRemoteEnv } from './config.constants';
 import appConfig from './configs/app.config';
-import cacheConfig from './configs/cache.config';
-import dbConfig from './configs/db.config';
-import loggerConfig from './configs/logger.config';
+import secretConfig from './configs/secret.config';
 
 export const ConfigModule = NestConfigModule.forRoot({
   cache: true,
   isGlobal: true,
+  ignoreEnvFile: isRemoteEnv,
   skipProcessEnv: true,
-  load: [appConfig, cacheConfig, dbConfig, loggerConfig],
+  load: [appConfig, secretConfig],
+  expandVariables: !isRemoteEnv,
 });
