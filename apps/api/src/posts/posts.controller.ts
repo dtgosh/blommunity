@@ -10,6 +10,9 @@ import {
   Query,
   SerializeOptions,
 } from '@nestjs/common';
+import type { JwtPayload } from '../auth/auth.interfaces';
+import { Public } from '../auth/decorators/public.decorator';
+import { User } from '../auth/decorators/user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { FindAllPostsDto } from './dto/find-all-posts.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -30,6 +33,7 @@ export class PostsController {
     return new PostDetailEntity(result);
   }
 
+  @Public()
   @Get()
   public async findAll(
     @Query() findAllPostsDto: FindAllPostsDto,
@@ -39,6 +43,7 @@ export class PostsController {
     return result.map((item) => new PostListItemEntity(item));
   }
 
+  @Public()
   @Get(':id')
   public async findOne(@Param('id') id: string): Promise<PostDetailEntity> {
     const result = await this.postService.findOne(+id);
@@ -57,7 +62,14 @@ export class PostsController {
   }
 
   @Delete(':id')
-  public async remove(@Param('id') id: string): Promise<void> {
-    await this.postService.remove(+id);
+  public async remove(
+    @User() user: JwtPayload,
+    @Param('id') id: string,
+  ): Promise<void> {
+    await this.postService.remove({
+      postId: +id,
+      accountRole: user.role,
+      authorId: user.sub,
+    });
   }
 }

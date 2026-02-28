@@ -1,7 +1,13 @@
 import { DbService } from '@app/db';
 import { Injectable } from '@nestjs/common';
+import { AccountRole } from 'generated/prisma/enums';
 import { PostCreateArgs, PostUpdateArgs } from 'generated/prisma/models';
-import { FindAllPostsArgs, PostDetail, PostListItem } from './post.interfaces';
+import {
+  FindAllPostsArgs,
+  PostDetail,
+  PostListItem,
+  RemovePostArgs,
+} from './post.interfaces';
 
 @Injectable()
 export class PostService {
@@ -61,9 +67,18 @@ export class PostService {
     });
   }
 
-  public async remove(id: number): Promise<void> {
+  public async remove({
+    postId,
+    accountRole,
+    authorId,
+  }: RemovePostArgs): Promise<void> {
     await this.dbService.post.update({
-      where: { id, deletedAt: null },
+      where: {
+        id: postId,
+        authorId:
+          accountRole === AccountRole.USER ? BigInt(authorId) : undefined,
+        deletedAt: null,
+      },
       data: { deletedAt: new Date() },
     });
   }

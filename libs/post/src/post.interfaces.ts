@@ -1,3 +1,5 @@
+import { AccountRole } from 'generated/prisma/enums';
+
 interface PostAuthor {
   id: bigint;
   username: string;
@@ -25,4 +27,10 @@ export interface FindAllPostsArgs {
   groupId?: number;
   skip?: number;
   take?: number;
+}
+
+export interface RemovePostArgs {
+  postId: number;
+  accountRole: AccountRole;
+  authorId: string;
 }

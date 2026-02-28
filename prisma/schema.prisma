@@ -15,9 +15,9 @@ model Account {
   /// 사용자 이름 (고유)
   username    String       @unique
   /// 계정 역할 (OWNER, ADMIN, USER)
-  role        AccountRole  @map("role")
+  role        AccountRole  @default(USER) @map("role")
   /// 이메일 주소 (고유)
-  email       String       @unique
+  email       String?      @unique
   /// 비밀번호
   password    String
   /// 생성일시

@@ -1,12 +1,15 @@
 import { Env } from '@app/config/config.enums';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import helmet from 'helmet';
 import { utilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { ApiModule } from './api.module';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(ApiModule, {
+  const app = await NestFactory.create<NestExpressApplication>(ApiModule, {
     bufferLogs: true,
   });
 
@@ -35,6 +38,21 @@ async function bootstrap(): Promise<void> {
                 winston.format.json(),
               ),
       }),
+    }),
+  );
+
+  app.set('trust proxy', 'loopback');
+
+  app.use(helmet());
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      disableErrorMessages: appEnv === Env.Production,
+      stopAtFirstError: appEnv === Env.Production,
     }),
   );
 
