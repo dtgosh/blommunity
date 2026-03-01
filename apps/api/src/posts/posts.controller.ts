@@ -1,6 +1,7 @@
 import { PostService } from '@app/post';
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,7 @@ import {
   Post,
   Query,
   SerializeOptions,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { AuthenticatedUser } from '../auth/auth.interfaces';
@@ -21,6 +23,7 @@ import { FindAllPostsEntity } from './entities/find-all-posts.entity';
 import { PostDetailEntity } from './entities/post-detail.entity';
 
 @ApiTags('게시물')
+@UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({ strategy: 'excludeAll' })
 @Controller('posts')
 export class PostsController {

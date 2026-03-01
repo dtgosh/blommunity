@@ -1,11 +1,15 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Post,
+  SerializeOptions,
+  UseInterceptors,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { AuthenticatedUser } from './auth.interfaces';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -13,7 +17,6 @@ import { User } from './decorators/user.decorator';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { ProfileEntity } from './entities/profile.entity';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('인증')
 @Controller('auth')
@@ -51,6 +54,8 @@ export class AuthController {
    * @remarks 현재 로그인한 계정의 프로필을 조회합니다. JWT 토큰 인증이 필요합니다.
    */
   @ApiBearerAuth()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({ strategy: 'excludeAll' })
   @Get('profile')
   public getProfile(@User() user: AuthenticatedUser): ProfileEntity {
     return new ProfileEntity(user);
