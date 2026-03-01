@@ -1,17 +1,26 @@
+import type { PostListItem } from '@app/post/post.interfaces';
+import { ApiSchema } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { PostAuthorEntity } from './post-author.entity';
-import { PostListItem } from '@app/post/post.interfaces';
 
+@ApiSchema({
+  name: '게시물 요약 정보',
+  description: '게시물 목록 응답에 포함되는 개별 항목 정보',
+})
 export class PostListItemEntity {
+  /** 게시물 ID */
   @Expose()
   public id!: bigint;
 
+  /** 게시물 제목 */
   @Expose()
   public title!: string;
 
+  /** 작성일시 */
   @Expose()
   public createdAt!: Date;
 
+  /** 작성자 정보 */
   @Expose()
   public author!: PostAuthorEntity;
 

@@ -12,8 +12,8 @@ import { PostsModule } from './posts/posts.module';
     ConfigModule,
     DbModule,
     UtilModule,
-    PostsModule,
     AuthModule,
+    PostsModule,
   ],
   providers: [Logger],
 })
