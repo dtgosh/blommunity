@@ -1,8 +1,8 @@
 import { ApiSchema } from '@nestjs/swagger';
 import {
   IsBoolean,
+  IsInt,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -14,8 +14,8 @@ import {
 export class CreatePostDto {
   /** 그룹 ID */
   @IsNotEmpty()
-  @IsNumber()
-  public groupId!: number;
+  @IsInt()
+  public groupId!: bigint;
 
   /** 게시물 제목 */
   @IsNotEmpty()

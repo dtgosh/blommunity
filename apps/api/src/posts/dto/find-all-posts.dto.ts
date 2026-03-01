@@ -1,5 +1,5 @@
 import { ApiSchema } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 
 @ApiSchema({
   name: '게시물 목록 검색 조건',
@@ -8,21 +8,21 @@ import { IsNumber, IsOptional } from 'class-validator';
 export class FindAllPostsDto {
   /** 작성자 ID로 필터링 */
   @IsOptional()
-  @IsNumber()
-  public authorId?: number;
+  @IsInt()
+  public authorId?: bigint;
 
   /** 그룹 ID로 필터링 */
   @IsOptional()
-  @IsNumber()
-  public groupId?: number;
+  @IsInt()
+  public groupId?: bigint;
 
   /** 건너뛸 항목 수 (페이지네이션) */
   @IsOptional()
-  @IsNumber()
-  public skip?: number;
+  @IsInt()
+  public page?: number;
 
   /** 가져올 항목 수 (페이지네이션) */
   @IsOptional()
-  @IsNumber()
-  public take?: number;
+  @IsInt()
+  public size?: number;
 }
