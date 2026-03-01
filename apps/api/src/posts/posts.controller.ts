@@ -26,9 +26,13 @@ export class PostsController {
 
   @Post()
   public async create(
+    @User() user: AuthenticatedUser,
     @Body() createPostDto: CreatePostDto,
   ): Promise<PostDetailEntity> {
-    const result = await this.postService.create(createPostDto);
+    const result = await this.postService.create({
+      authorId: user.id,
+      ...createPostDto,
+    });
 
     return new PostDetailEntity(result);
   }
@@ -54,9 +58,10 @@ export class PostsController {
   @Patch(':id')
   public async update(
     @Param('id') id: string,
+    @User() user: AuthenticatedUser,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostDetailEntity> {
-    const result = await this.postService.update(+id, updatePostDto);
+    const result = await this.postService.update(+id, user.id, updatePostDto);
 
     return new PostDetailEntity(result);
   }

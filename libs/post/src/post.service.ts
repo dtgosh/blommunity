@@ -1,7 +1,11 @@
 import { DbService } from '@app/db';
 import { Injectable } from '@nestjs/common';
 import { AccountRole } from 'generated/prisma/enums';
-import { PostCreateArgs, PostUpdateArgs } from 'generated/prisma/models';
+import {
+  PostCreateArgs,
+  PostFindUniqueOrThrowArgs,
+  PostUpdateArgs,
+} from 'generated/prisma/models';
 import {
   FindAllPostsArgs,
   FindAllPostsResult,
@@ -57,18 +61,24 @@ export class PostService {
     return { totalCount, items };
   }
 
-  public findOne(id: number): Promise<PostDetail> {
+  public findOne(
+    id: PostFindUniqueOrThrowArgs['where']['id'],
+  ): Promise<PostDetail> {
     return this.dbService.post.findUniqueOrThrow({
       ...this.defaultFindPostDetailArgs,
       where: { id, deletedAt: null },
     });
   }
 
-  public update(id: number, data: PostUpdateArgs['data']): Promise<PostDetail> {
+  public update(
+    id: PostUpdateArgs['where']['id'],
+    authorId: PostUpdateArgs['where']['authorId'],
+    data: PostUpdateArgs['data'],
+  ): Promise<PostDetail> {
     return this.dbService.post.update({
       ...this.defaultFindPostDetailArgs,
       data,
-      where: { id, deletedAt: null },
+      where: { id, authorId, deletedAt: null },
     });
   }
 

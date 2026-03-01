@@ -12,10 +12,6 @@ export class CreatePostDto {
   public groupId!: number;
 
   @IsNotEmpty()
-  @IsNumber()
-  public authorId!: number;
-
-  @IsNotEmpty()
   @IsString()
   public title!: string;
 
