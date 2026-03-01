@@ -10,7 +10,7 @@ import {
   Query,
   SerializeOptions,
 } from '@nestjs/common';
-import type { JwtPayload } from '../auth/auth.interfaces';
+import type { AuthenticatedUser } from '../auth/auth.interfaces';
 import { Public } from '../auth/decorators/public.decorator';
 import { User } from '../auth/decorators/user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -63,13 +63,13 @@ export class PostsController {
 
   @Delete(':id')
   public async remove(
-    @User() user: JwtPayload,
+    @User() user: AuthenticatedUser,
     @Param('id') id: string,
   ): Promise<void> {
     await this.postService.remove({
-      postId: +id,
+      postId: BigInt(id),
       accountRole: user.role,
-      authorId: user.sub,
+      authorId: user.id,
     });
   }
 }

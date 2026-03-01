@@ -1,12 +1,14 @@
-import { AccountRole } from 'generated/prisma/enums';
 import { Request } from 'express';
+import { Account } from 'generated/prisma/client';
 
-export interface JwtPayload {
+export interface TokenPayload {
   sub: string;
-  username: string;
-  role: AccountRole;
+  username: Account['username'];
+  role: Account['role'];
 }
 
-export interface RequestWithUser extends Request {
-  user: JwtPayload;
+export type AuthenticatedUser = Pick<Account, 'id' | 'username' | 'role'>;
+
+export interface RequestWithAuthenticatedUser extends Request {
+  user: AuthenticatedUser;
 }

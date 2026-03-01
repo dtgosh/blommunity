@@ -75,8 +75,7 @@ export class PostService {
     await this.dbService.post.update({
       where: {
         id: postId,
-        authorId:
-          accountRole === AccountRole.USER ? BigInt(authorId) : undefined,
+        authorId: accountRole === AccountRole.USER ? authorId : undefined,
         deletedAt: null,
       },
       data: { deletedAt: new Date() },

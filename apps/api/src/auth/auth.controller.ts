@@ -6,12 +6,13 @@ import {
   HttpStatus,
   Post,
 } from '@nestjs/common';
-import type { JwtPayload } from './auth.interfaces';
+import type { AuthenticatedUser } from './auth.interfaces';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { User } from './decorators/user.decorator';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
+import { ProfileEntity } from './entities/profile.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +32,7 @@ export class AuthController {
   }
 
   @Get('profile')
-  public getProfile(@User() user: JwtPayload): JwtPayload {
-    return user;
+  public getProfile(@User() user: AuthenticatedUser): ProfileEntity {
+    return new ProfileEntity(user);
   }
 }

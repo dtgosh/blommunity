@@ -1,4 +1,4 @@
-import { AccountRole } from 'generated/prisma/enums';
+import { Account, Post } from 'generated/prisma/client';
 
 interface PostAuthor {
   id: bigint;
@@ -30,7 +30,7 @@ export interface FindAllPostsArgs {
 }
 
 export interface RemovePostArgs {
-  postId: number;
-  accountRole: AccountRole;
-  authorId: string;
+  postId: Post['id'];
+  accountRole: Account['role'];
+  authorId: Post['authorId'];
 }

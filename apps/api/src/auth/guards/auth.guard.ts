@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { JwtPayload, RequestWithUser } from '../auth.interfaces';
+import { RequestWithAuthenticatedUser, TokenPayload } from '../auth.interfaces';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 @Injectable()
@@ -27,7 +27,9 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest<RequestWithUser>();
+    const request = context
+      .switchToHttp()
+      .getRequest<RequestWithAuthenticatedUser>();
 
     const token = this.extractTokenFromHeader(request);
 
@@ -36,7 +38,13 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      request.user = await this.jwtService.verifyAsync<JwtPayload>(token);
+      const payload = await this.jwtService.verifyAsync<TokenPayload>(token);
+
+      request.user = {
+        id: BigInt(payload.sub),
+        username: payload.username,
+        role: payload.role,
+      };
     } catch {
       throw new UnauthorizedException();
     }
