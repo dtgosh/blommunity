@@ -1,6 +1,6 @@
-import { Expose, Transform } from 'class-transformer';
-import { Post } from 'generated/prisma/client';
+import { Expose } from 'class-transformer';
 import { PostAuthorEntity } from './post-author.entity';
+import { PostListItem } from '@app/post/post.interfaces';
 
 export class PostListItemEntity {
   @Expose()
@@ -13,13 +13,11 @@ export class PostListItemEntity {
   public createdAt!: Date;
 
   @Expose()
-  @Transform(
-    ({ value }: { value: Partial<PostAuthorEntity> }) =>
-      new PostAuthorEntity(value),
-  )
   public author!: PostAuthorEntity;
 
-  constructor(partial: Partial<Post>) {
-    Object.assign(this, partial);
+  constructor(data: PostListItem) {
+    Object.assign(this, data);
+
+    this.author = new PostAuthorEntity(data.author);
   }
 }

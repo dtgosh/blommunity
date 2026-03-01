@@ -4,8 +4,8 @@ import { AccountRole } from 'generated/prisma/enums';
 import { PostCreateArgs, PostUpdateArgs } from 'generated/prisma/models';
 import {
   FindAllPostsArgs,
+  FindAllPostsResult,
   PostDetail,
-  PostListItem,
   RemovePostArgs,
 } from './post.interfaces';
 
@@ -30,26 +30,31 @@ export class PostService {
     });
   }
 
-  public findAll({
-    id,
+  public async findAll({
     authorId,
     groupId,
-    skip = 1,
-    take = 30,
-  }: FindAllPostsArgs): Promise<PostListItem[]> {
-    return this.dbService.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        author: { select: { id: true, username: true } },
-      },
-      where: { authorId, groupId, isPublished: true, deletedAt: null },
-      orderBy: { id: 'desc' },
-      cursor: { id },
-      skip,
-      take,
-    });
+    page = 1,
+    size = 30,
+  }: FindAllPostsArgs): Promise<FindAllPostsResult> {
+    const where = { authorId, groupId, isPublished: true, deletedAt: null };
+
+    const [totalCount, items] = await Promise.all([
+      this.dbService.post.count({ where }),
+      this.dbService.post.findMany({
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+          author: { select: { id: true, username: true } },
+        },
+        where,
+        orderBy: { id: 'desc' },
+        skip: (page - 1) * size,
+        take: size,
+      }),
+    ]);
+
+    return { totalCount, items };
   }
 
   public findOne(id: number): Promise<PostDetail> {

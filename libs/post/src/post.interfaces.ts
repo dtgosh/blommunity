@@ -1,36 +1,33 @@
 import { Account, Post } from 'generated/prisma/client';
+import { PostUpdateArgs } from 'generated/prisma/models';
 
-interface PostAuthor {
-  id: bigint;
-  username: string;
-}
+export type PostAuthor = Pick<Account, 'id' | 'username'>;
 
-export interface PostDetail {
-  id: bigint;
-  title: string;
-  content: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+export interface PostDetail extends Omit<
+  Post,
+  'isPublished' | 'deletedAt' | 'authorId' | 'groupId'
+> {
   author: PostAuthor;
 }
 
-export interface PostListItem {
-  id: bigint;
-  title: string;
-  createdAt: Date;
+export interface PostListItem extends Pick<Post, 'id' | 'title' | 'createdAt'> {
   author: PostAuthor;
 }
 
 export interface FindAllPostsArgs {
-  id?: number;
   authorId?: number;
   groupId?: number;
-  skip?: number;
-  take?: number;
+  page?: number;
+  size?: number;
 }
 
 export interface RemovePostArgs {
-  postId: Post['id'];
+  postId: PostUpdateArgs['where']['id'];
   accountRole: Account['role'];
-  authorId: Post['authorId'];
+  authorId: PostUpdateArgs['where']['authorId'];
+}
+
+export interface FindAllPostsResult {
+  totalCount: number;
+  items: PostListItem[];
 }

@@ -1,5 +1,5 @@
+import { PostAuthor } from '@app/post/post.interfaces';
 import { Expose } from 'class-transformer';
-import { Account } from 'generated/prisma/client';
 
 export class PostAuthorEntity {
   @Expose()
@@ -8,7 +8,7 @@ export class PostAuthorEntity {
   @Expose()
   public username!: string;
 
-  constructor(partial: Partial<Account>) {
-    Object.assign(this, partial);
+  constructor(data: PostAuthor) {
+    Object.assign(this, data);
   }
 }

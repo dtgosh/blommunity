@@ -1,5 +1,5 @@
+import { PostDetail } from '@app/post/post.interfaces';
 import { Expose } from 'class-transformer';
-import { Post } from 'generated/prisma/client';
 import { PostListItemEntity } from './post-list-item.entity';
 
 export class PostDetailEntity extends PostListItemEntity {
@@ -9,9 +9,9 @@ export class PostDetailEntity extends PostListItemEntity {
   @Expose()
   public updatedAt!: Date;
 
-  constructor(partial: Partial<Post>) {
-    super(partial);
+  constructor(data: PostDetail) {
+    super(data);
 
-    Object.assign(this, partial);
+    Object.assign(this, data);
   }
 }

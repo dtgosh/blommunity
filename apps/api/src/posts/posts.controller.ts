@@ -16,8 +16,8 @@ import { User } from '../auth/decorators/user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { FindAllPostsDto } from './dto/find-all-posts.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { FindAllPostsEntity } from './entities/find-all-posts.entity';
 import { PostDetailEntity } from './entities/post-detail.entity';
-import { PostListItemEntity } from './entities/post-list-item.entity';
 
 @SerializeOptions({ strategy: 'excludeAll' })
 @Controller('posts')
@@ -37,10 +37,10 @@ export class PostsController {
   @Get()
   public async findAll(
     @Query() findAllPostsDto: FindAllPostsDto,
-  ): Promise<PostListItemEntity[]> {
+  ): Promise<FindAllPostsEntity> {
     const result = await this.postService.findAll(findAllPostsDto);
 
-    return result.map((item) => new PostListItemEntity(item));
+    return new FindAllPostsEntity(result);
   }
 
   @Public()
