@@ -16,11 +16,6 @@ export class FindAllPostsDto {
   @IsNumber()
   public groupId?: number;
 
-  /** 게시물 ID로 필터링 */
-  @IsOptional()
-  @IsNumber()
-  public id?: number;
-
   /** 건너뛸 항목 수 (페이지네이션) */
   @IsOptional()
   @IsNumber()

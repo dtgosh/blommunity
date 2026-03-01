@@ -1,5 +1,5 @@
 import { Account, Post } from 'generated/prisma/client';
-import { PostUpdateArgs } from 'generated/prisma/models';
+import { PostFindManyArgs, PostUpdateArgs } from 'generated/prisma/models';
 
 export type PostAuthor = Pick<Account, 'id' | 'username'>;
 
@@ -15,8 +15,8 @@ export interface PostListItem extends Pick<Post, 'id' | 'title' | 'createdAt'> {
 }
 
 export interface FindAllPostsArgs {
-  authorId?: number;
-  groupId?: number;
+  authorId?: NonNullable<PostFindManyArgs['where']>['authorId'];
+  groupId?: NonNullable<PostFindManyArgs['where']>['groupId'];
   page?: number;
   size?: number;
 }
