@@ -7,11 +7,18 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { IS_PUBLIC_KEY } from '../auth.decorators';
-import { RequestWithAuthenticatedUser, TokenPayload } from '../auth.interfaces';
+import { AccountRole } from 'generated/prisma/enums';
+import { IS_PUBLIC_KEY, ROLE_KEY } from './auth.decorators';
+import { RequestWithAuthenticatedUser, TokenPayload } from './auth.interfaces';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  private roleLevels: Record<AccountRole, number> = {
+    [AccountRole.OWNER]: 1,
+    [AccountRole.ADMIN]: 2,
+    [AccountRole.USER]: 3,
+  };
+
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
@@ -47,6 +54,17 @@ export class AuthGuard implements CanActivate {
       };
     } catch {
       throw new UnauthorizedException();
+    }
+
+    const requiredRole = this.reflector.getAllAndOverride<AccountRole>(
+      ROLE_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
+    if (requiredRole) {
+      return (
+        this.roleLevels[request.user.role] <= this.roleLevels[requiredRole]
+      );
     }
 
     return true;
