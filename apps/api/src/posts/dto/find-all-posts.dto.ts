@@ -17,12 +17,20 @@ export class FindAllPostsDto {
   @BigIntId()
   public groupId?: bigint;
 
-  /** 건너뛸 항목 수 (페이지네이션) */
+  /**
+   * 페이지 번호 (기본: 1)
+   *
+   * @example 1
+   */
   @IsOptional()
   @IsInt()
   public page?: number;
 
-  /** 가져올 항목 수 (페이지네이션) */
+  /**
+   * 페이지별 항목 수 (기본: 30)
+   *
+   * @example 30
+   */
   @IsOptional()
   @IsInt()
   public size?: number;
