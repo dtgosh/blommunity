@@ -1,3 +1,4 @@
+import { Serialize } from '@app/util/decorators/serialize.decorator';
 import {
   Body,
   Controller,
@@ -7,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Serialize } from '../serialize.decorator';
 import { Public, User } from './auth.decorators';
 import type { AuthenticatedUser } from './auth.interfaces';
 import { AuthService } from './auth.service';

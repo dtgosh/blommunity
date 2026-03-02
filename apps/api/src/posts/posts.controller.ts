@@ -1,4 +1,5 @@
 import { PostService } from '@app/post';
+import { Serialize } from '@app/util/decorators/serialize.decorator';
 import {
   Body,
   Controller,
@@ -10,7 +11,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Serialize } from '../serialize.decorator';
 import { Public, User } from '../auth/auth.decorators';
 import type { AuthenticatedUser } from '../auth/auth.interfaces';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -67,7 +67,7 @@ export class PostsController {
   @Public()
   @Get(':id')
   public async findOne(@Param('id') id: string): Promise<PostDetailEntity> {
-    const result = await this.postService.findOne(+id);
+    const result = await this.postService.findOne(BigInt(id));
 
     return new PostDetailEntity(result);
   }
@@ -84,7 +84,11 @@ export class PostsController {
     @User() user: AuthenticatedUser,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostDetailEntity> {
-    const result = await this.postService.update(+id, user.id, updatePostDto);
+    const result = await this.postService.update(
+      BigInt(id),
+      user.id,
+      updatePostDto,
+    );
 
     return new PostDetailEntity(result);
   }

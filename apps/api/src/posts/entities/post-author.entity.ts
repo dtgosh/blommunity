@@ -1,4 +1,5 @@
 import type { PostAuthor } from '@app/post/post.interfaces';
+import { BigIntId } from '@app/util/decorators/bigint-id.decorator';
 import { ApiSchema } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
@@ -9,7 +10,8 @@ import { Expose } from 'class-transformer';
 export class PostAuthorEntity {
   /** 작성자 ID */
   @Expose()
-  public id!: bigint;
+  @BigIntId()
+  public id!: string;
 
   /** 작성자 아이디 */
   @Expose()

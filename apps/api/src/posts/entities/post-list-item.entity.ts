@@ -1,4 +1,5 @@
 import type { PostListItem } from '@app/post/post.interfaces';
+import { BigIntId } from '@app/util/decorators/bigint-id.decorator';
 import { ApiSchema } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { PostAuthorEntity } from './post-author.entity';
@@ -10,7 +11,8 @@ import { PostAuthorEntity } from './post-author.entity';
 export class PostListItemEntity {
   /** 게시물 ID */
   @Expose()
-  public id!: bigint;
+  @BigIntId()
+  public id!: string;
 
   /** 게시물 제목 */
   @Expose()

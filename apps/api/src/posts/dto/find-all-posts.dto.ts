@@ -1,3 +1,4 @@
+import { BigIntId } from '@app/util/decorators/bigint-id.decorator';
 import { ApiSchema } from '@nestjs/swagger';
 import { IsInt, IsOptional } from 'class-validator';
 
@@ -8,12 +9,12 @@ import { IsInt, IsOptional } from 'class-validator';
 export class FindAllPostsDto {
   /** 작성자 ID로 필터링 */
   @IsOptional()
-  @IsInt()
+  @BigIntId()
   public authorId?: bigint;
 
   /** 그룹 ID로 필터링 */
   @IsOptional()
-  @IsInt()
+  @BigIntId()
   public groupId?: bigint;
 
   /** 건너뛸 항목 수 (페이지네이션) */

@@ -1,3 +1,4 @@
+import { BigIntId } from '@app/util/decorators/bigint-id.decorator';
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { AccountRole } from 'generated/prisma/client';
@@ -10,6 +11,7 @@ import type { AuthenticatedUser } from '../auth.interfaces';
 export class ProfileEntity {
   /** 계정 ID */
   @Expose()
+  @BigIntId()
   public id!: string;
 
   /** 사용자 아이디 */
@@ -23,7 +25,5 @@ export class ProfileEntity {
 
   constructor(user: AuthenticatedUser) {
     Object.assign(this, user);
-
-    this.id = this.id.toString();
   }
 }

@@ -18,7 +18,5 @@ export class PostDetailEntity extends PostListItemEntity {
 
   constructor(data: PostDetail) {
     super(data);
-
-    Object.assign(this, data);
   }
 }

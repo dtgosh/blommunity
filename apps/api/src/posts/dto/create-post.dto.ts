@@ -1,11 +1,6 @@
+import { BigIntId } from '@app/util/decorators/bigint-id.decorator';
 import { ApiSchema } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @ApiSchema({
   name: '게시물 생성 입력 정보',
@@ -14,7 +9,7 @@ import {
 export class CreatePostDto {
   /** 그룹 ID */
   @IsOptional()
-  @IsInt()
+  @BigIntId()
   public groupId?: bigint | null;
 
   /** 게시물 제목 */
