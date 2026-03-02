@@ -10,10 +10,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public, User } from './auth.decorators';
 import type { AuthenticatedUser } from './auth.interfaces';
 import { AuthService } from './auth.service';
-import { Public } from './decorators/public.decorator';
-import { User } from './decorators/user.decorator';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { ProfileEntity } from './entities/profile.entity';

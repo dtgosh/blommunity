@@ -13,9 +13,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public, User } from '../auth/auth.decorators';
 import type { AuthenticatedUser } from '../auth/auth.interfaces';
-import { Public } from '../auth/decorators/public.decorator';
-import { User } from '../auth/decorators/user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { FindAllPostsDto } from './dto/find-all-posts.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
