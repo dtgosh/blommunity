@@ -13,9 +13,9 @@ import {
 })
 export class CreatePostDto {
   /** 그룹 ID */
-  @IsNotEmpty()
+  @IsOptional()
   @IsInt()
-  public groupId!: bigint;
+  public groupId?: bigint | null;
 
   /** 게시물 제목 */
   @IsNotEmpty()
