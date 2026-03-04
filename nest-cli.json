@@ -18,6 +18,15 @@
   "monorepo": true,
   "root": "apps/api",
   "projects": {
+    "account": {
+      "type": "library",
+      "root": "libs/account",
+      "entryFile": "index",
+      "sourceRoot": "libs/account/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/account/tsconfig.lib.json"
+      }
+    },
     "api": {
       "type": "application",
       "root": "apps/api",
@@ -45,6 +54,15 @@
         "tsConfigPath": "apps/cli/tsconfig.app.json"
       }
     },
+    "comment": {
+      "type": "library",
+      "root": "libs/comment",
+      "entryFile": "index",
+      "sourceRoot": "libs/comment/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/comment/tsconfig.lib.json"
+      }
+    },
     "config": {
       "type": "library",
       "root": "libs/config",
@@ -61,6 +79,15 @@
       "sourceRoot": "libs/db/src",
       "compilerOptions": {
         "tsConfigPath": "libs/db/tsconfig.lib.json"
+      }
+    },
+    "group": {
+      "type": "library",
+      "root": "libs/group",
+      "entryFile": "index",
+      "sourceRoot": "libs/group/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/group/tsconfig.lib.json"
       }
     },
     "post": {

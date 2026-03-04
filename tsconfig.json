@@ -19,11 +19,23 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "paths": {
+      "@app/account": [
+        "libs/account/src"
+      ],
+      "@app/account/*": [
+        "libs/account/src/*"
+      ],
       "@app/cache": [
         "libs/cache/src"
       ],
       "@app/cache/*": [
         "libs/cache/src/*"
+      ],
+      "@app/comment": [
+        "libs/comment/src"
+      ],
+      "@app/comment/*": [
+        "libs/comment/src/*"
       ],
       "@app/config": [
         "libs/config/src"
@@ -36,6 +48,12 @@
       ],
       "@app/db/*": [
         "libs/db/src/*"
+      ],
+      "@app/group": [
+        "libs/group/src"
+      ],
+      "@app/group/*": [
+        "libs/group/src/*"
       ],
       "@app/post": [
         "libs/post/src"

@@ -5,6 +5,9 @@ import { UtilModule } from '@app/util';
 import { Logger, Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
+import { AccountsModule } from './accounts/accounts.module';
+import { GroupsModule } from './groups/groups.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -14,6 +17,9 @@ import { PostsModule } from './posts/posts.module';
     UtilModule,
     AuthModule,
     PostsModule,
+    AccountsModule,
+    GroupsModule,
+    CommentsModule,
   ],
   providers: [Logger],
 })

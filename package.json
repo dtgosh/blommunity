@@ -107,9 +107,12 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@app/account(|/.*)$": "<rootDir>/libs/account/src/$1",
       "^@app/cache(|/.*)$": "<rootDir>/libs/cache/src/$1",
+      "^@app/comment(|/.*)$": "<rootDir>/libs/comment/src/$1",
       "^@app/config(|/.*)$": "<rootDir>/libs/config/src/$1",
       "^@app/db(|/.*)$": "<rootDir>/libs/db/src/$1",
+      "^@app/group(|/.*)$": "<rootDir>/libs/group/src/$1",
       "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
       "^@app/util(|/.*)$": "<rootDir>/libs/util/src/$1"
     }
