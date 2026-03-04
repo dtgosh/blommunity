@@ -115,7 +115,8 @@
     }
   },
   "lint-staged": {
-    "*.ts": "eslint --fix"
+    "*.ts": "eslint --fix",
+    "**/schema.prisma": "npx prisma format"
   },
   "config": {
     "commitizen": {
