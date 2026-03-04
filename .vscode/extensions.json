@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "Anthropic.claude-code",
+    "ms-azuretools.vscode-containers",
+    "ms-vscode-remote.remote-containers",
+    "docker.docker",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.live-server",
+    "esbenp.prettier-vscode",
+    "Prisma.prisma"
+  ]
+}

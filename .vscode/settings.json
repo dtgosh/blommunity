@@ -1,0 +1,7 @@
+{
+    "files.autoSave": "afterDelay",
+    "search.exclude": {
+        "**/package-lock.json": true,
+    },
+    "explorer.compactFolders": false
+}

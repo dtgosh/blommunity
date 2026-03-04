@@ -28,7 +28,7 @@ model Account {
   deletedAt   DateTime?    @map("deleted_at")
   /// 작성한 댓글 목록
   comments    Comment[]
-  /// 소속 그룹 목록
+  /// 그룹 멤버십 목록
   memberships Membership[]
   /// 작성한 게시글 목록
   posts       Post[]

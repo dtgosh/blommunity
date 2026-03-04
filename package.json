@@ -1,7 +1,7 @@
 {
   "name": "blommunity",
-  "version": "0.0.1",
-  "description": "블로그 커뮤니티 서비스",
+  "version": "0.0.2",
+  "description": "포트폴리오 목적의 게시판 서비스",
   "author": "dtgosh",
   "private": false,
   "license": "MIT",

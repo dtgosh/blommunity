@@ -8,10 +8,10 @@ import { Transform } from 'class-transformer';
 import { isNumberString } from 'class-validator';
 
 /**
- * BigInt ID 필드를 위한 검증 및 변환 데코레이터.
+ * BigInt ID 필드를 위한 검증 및 변환 데코레이터입니다.
  *
- * - 요청(역직렬화): 숫자 문자열 검증 후 `string` → `BigInt`로 변환
- * - 응답(직렬화): `BigInt` → `string`으로 변환
+ * - 요청(역직렬화): 숫자 문자열을 검증한 후 `string` → `BigInt`로 변환합니다
+ * - 응답(직렬화): `BigInt` → `string`으로 변환합니다
  *
  * @example
  * ```typescript
@@ -42,6 +42,10 @@ export function BigIntId(): PropertyDecorator {
       ({ key, value }) => {
         if (typeof value === 'bigint') {
           return value.toString();
+        }
+
+        if (value === undefined || value === null) {
+          return value as undefined | null;
         }
 
         throw new InternalServerErrorException(`${key} is not bigint`);

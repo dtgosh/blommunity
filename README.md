@@ -2,7 +2,7 @@
 
 # Blommunity
 
-블로그 커뮤니티 서비스입니다.
+포트폴리오 목적의 게시판 서비스입니다.
 
 ## Tech Stack
 
@@ -12,9 +12,11 @@
 | Language | TypeScript 5 |
 | Database | PostgreSQL 18 |
 | ORM | Prisma 7 |
+| Cache | Valkey 9 (Redis 호환) |
+| Auth | JWT + bcrypt |
 | CLI | nest-commander |
 | Logger | Winston + nest-winston |
-| Validation | Joi |
+| Validation | Joi, class-validator |
 | Test | Jest 30 + Supertest |
 | Code Quality | ESLint 9, Prettier, Husky, lint-staged, commitlint |
 
@@ -26,8 +28,12 @@
 │   │   ├── src/
 │   │   │   ├── main.ts
 │   │   │   ├── api.module.ts
-│   │   │   ├── api.controller.ts
-│   │   │   └── api.service.ts
+│   │   │   ├── auth/         # 인증 모듈 (JWT, Guard, 데코레이터)
+│   │   │   │   ├── dto/
+│   │   │   │   └── entities/
+│   │   │   └── posts/        # 게시글 모듈 (컨트롤러, DTO, 엔티티)
+│   │   │       ├── dto/
+│   │   │       └── entities/
 │   │   └── test/             # E2E 테스트
 │   └── cli/                  # CLI 애플리케이션
 │       └── src/
@@ -36,6 +42,7 @@
 │           └── commands/
 │               └── basic.command.ts
 ├── libs/
+│   ├── cache/                # 캐시 모듈 (Valkey)
 │   ├── config/               # 환경 변수 관리 및 설정
 │   │   └── src/
 │   │       ├── config.constants.ts
@@ -43,19 +50,20 @@
 │   │       ├── config.interfaces.ts
 │   │       └── configs/
 │   │           ├── app.config.ts
-│   │           ├── db.config.ts
-│   │           └── logger.config.ts
+│   │           └── secret.config.ts
 │   ├── db/                   # Prisma ORM 서비스
-│   │   └── src/
-│   │       ├── db.module.ts
-│   │       └── db.service.ts
-│   └── util/                 # 유틸리티 함수
+│   ├── post/                 # 게시글 비즈니스 로직
+│   └── util/                 # 유틸리티 및 커스텀 데코레이터
 │       └── src/
 │           ├── util.module.ts
-│           └── util.service.ts
+│           ├── util.service.ts
+│           └── decorators/
+│               ├── bigint-id.decorator.ts
+│               └── serialize.decorator.ts
 ├── prisma/
 │   ├── schema.prisma         # DB 스키마 정의
 │   └── migrations/           # 마이그레이션 파일
+├── generated/                # Prisma 생성 클라이언트 (gitignore)
 └── compose.dev-infra.yaml    # 개발용 Docker Compose
 ```
 
@@ -63,8 +71,10 @@
 
 | Alias | Path |
 |-------|------|
+| `@app/cache` | `libs/cache/src` |
 | `@app/config` | `libs/config/src` |
 | `@app/db` | `libs/db/src` |
+| `@app/post` | `libs/post/src` |
 | `@app/util` | `libs/util/src` |
 
 ## Getting Started
@@ -72,7 +82,7 @@
 ### Prerequisites
 
 - Node.js
-- Docker (개발용 PostgreSQL)
+- Docker (개발용 PostgreSQL + Valkey)
 
 ### Installation
 
@@ -99,20 +109,23 @@ DB_SCHEMA=public
 
 # 애플리케이션 설정
 DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}
+CACHE_URL=redis://localhost:6379
+JWT_SECRET=<최소 32자 이상의 문자열>
 NODE_ENV=development     # development | testing | staging | production
 PORT=3000
+APP_NAME=BlommunityApi
 ```
 
 ### Database Setup
 
 ```bash
-# 개발용 PostgreSQL 컨테이너 실행
+# 개발용 PostgreSQL + Valkey 컨테이너 실행
 npm run start:dev:infra
 
 # Prisma 마이그레이션 실행
 npx prisma migrate dev
 
-# 개발용 PostgreSQL 컨테이너 종료 (볼륨 및 이미지 포함 삭제)
+# 개발용 컨테이너 종료 (볼륨 및 이미지 포함 삭제)
 npm run stop:dev:infra
 ```
 
@@ -126,7 +139,7 @@ npm run start:dev
 npm run start:prod:api
 
 # CLI 실행 (프로덕션)
-npm run start:prod
+npm run start:prod:cli
 ```
 
 ## Scripts
@@ -138,10 +151,10 @@ npm run start:prod
 | `npm run start` | 기본 앱 실행 |
 | `npm run start:dev` | 개발 모드 실행 (watch) |
 | `npm run start:debug` | 디버그 모드 실행 |
-| `npm run start:prod` | CLI 프로덕션 실행 |
 | `npm run start:prod:api` | API 프로덕션 실행 |
-| `npm run start:dev:infra` | 개발용 DB 컨테이너 실행 |
-| `npm run stop:dev:infra` | 개발용 DB 컨테이너 종료 |
+| `npm run start:prod:cli` | CLI 프로덕션 실행 |
+| `npm run start:dev:infra` | 개발용 인프라 컨테이너 실행 |
+| `npm run stop:dev:infra` | 개발용 인프라 컨테이너 종료 |
 | `npm run lint` | ESLint 실행 |
 | `npm run format` | Prettier 포매팅 |
 | `npm run test` | 단위 테스트 실행 |
@@ -153,39 +166,74 @@ npm run start:prod
 
 ## Database Schema
 
-### User
+### Account (계정)
 
 | Column | Type | Description |
 |--------|------|-------------|
 | id | BigInt | PK, Auto Increment |
-| email | String | Unique |
-| password | String | |
-| name | String? | Optional |
+| username | String | Unique |
+| role | AccountRole | OWNER / ADMIN / USER (기본값: USER) |
+| email | String? | Unique, Optional |
+| password | String | bcrypt 해싱 |
 | createdAt | DateTime | Default: now() |
 | updatedAt | DateTime | Auto Update |
+| deletedAt | DateTime? | 소프트 삭제 |
 
-### Post
+### Group (그룹)
 
 | Column | Type | Description |
 |--------|------|-------------|
 | id | BigInt | PK, Auto Increment |
+| name | String | Unique |
+| description | String? | Optional |
+| visibility | GroupVisibility | PUBLIC / PRIVATE |
+| createdAt | DateTime | Default: now() |
+| updatedAt | DateTime | Auto Update |
+| deletedAt | DateTime? | 소프트 삭제 |
+
+### Membership (멤버십)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | BigInt | PK, Auto Increment |
+| groupId | BigInt | FK -> Group.id |
+| accountId | BigInt | FK -> Account.id |
+| role | MembershipRole | OWNER / ADMIN / USER |
+| createdAt | DateTime | Default: now() |
+| updatedAt | DateTime | Auto Update |
+| deletedAt | DateTime? | 소프트 삭제 |
+
+### Post (게시글)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | BigInt | PK, Auto Increment |
+| authorId | BigInt | FK -> Account.id |
+| groupId | BigInt? | FK -> Group.id, Optional |
 | title | String | |
 | content | String? | Optional |
-| isPublished | Boolean? | Default: false |
-| authorId | BigInt? | FK -> User.id |
+| isPublished | Boolean | Default: false |
 | createdAt | DateTime | Default: now() |
 | updatedAt | DateTime | Auto Update |
+| deletedAt | DateTime? | 소프트 삭제 |
+
+### Comment (댓글)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | BigInt | PK, Auto Increment |
+| authorId | BigInt | FK -> Account.id |
+| postId | BigInt | FK -> Post.id |
+| parentCommentId | BigInt? | FK -> Comment.id (대댓글) |
+| content | String | |
+| createdAt | DateTime | Default: now() |
+| updatedAt | DateTime | Auto Update |
+| deletedAt | DateTime? | 소프트 삭제 |
 
 ## Git Conventions
 
 - **Commit**: [Conventional Commits](https://www.conventionalcommits.org/) (`npm run commit`으로 대화형 커밋)
 - **Hooks**: Husky로 pre-commit(lint-staged), commit-msg(commitlint) 자동 실행
-
-## TODO
-
-1. 캐싱 기능 추가
-2. 커맨더에 테스트코드 추가
-3. .vscode 설정
 
 ## License
 
