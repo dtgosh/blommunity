@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSubmit } from "@blommunity/frontend-core/hooks";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
@@ -8,7 +9,6 @@ import { FormError } from "@/components/ui/form-error";
 import { useToast } from "@/components/ui/toast";
 import { tenantsControllerUpdate } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
-import { ApiError } from "@/lib/api/errors";
 import type { components } from "@/lib/api/types";
 
 /** A-TN-03 — edit a tenant's name. */
@@ -23,24 +23,18 @@ export function TenantEditModal({
 }) {
   const toast = useToast();
   const [name, setName] = useState(tenant.name);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { pending: submitting, error, run } = useSubmit();
 
   const dirty = name.trim() !== tenant.name;
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    try {
+    const ok = await run(async () => {
       const updated = (await tenantsControllerUpdate({ client, path: { id: tenant.id }, body: { name: name.trim() } })).data!;
       toast.success("테넌트 이름을 저장했어요.");
       onUpdated(updated);
-      onClose();
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "저장에 실패했어요.");
-      setSubmitting(false);
-    }
+    }, "저장에 실패했어요.");
+    if (ok) onClose();
   }
 
   return (

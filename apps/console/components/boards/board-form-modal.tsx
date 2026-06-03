@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSubmit } from "@blommunity/frontend-core/hooks";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
@@ -8,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { VisibilitySelect } from "@/components/ui/visibility-select";
 import { FormError } from "@/components/ui/form-error";
-import { ApiError } from "@/lib/api/errors";
 import type { components, Visibility } from "@/lib/api/types";
 
 export interface BoardFormValues {
@@ -44,12 +44,10 @@ export function BoardFormModal({
   const [visibility, setVisibility] = useState<Visibility>(
     initial?.visibility ?? "PUBLIC",
   );
-  const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
+  const { pending: saving, error, setError, run } = useSubmit();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
     if (!editing && !spaceId) {
       setError("게시판을 만들 공간을 선택해 주세요.");
       return;
@@ -58,19 +56,15 @@ export function BoardFormModal({
       setError("게시판 이름을 입력해 주세요.");
       return;
     }
-    setSaving(true);
-    try {
-      await onSubmit({
+    const ok = await run(() =>
+      onSubmit({
         spaceId,
         name: name.trim(),
         description: description.trim(),
         visibility,
-      });
-      onClose();
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "저장하지 못했어요.");
-      setSaving(false);
-    }
+      }),
+    );
+    if (ok) onClose();
   }
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSubmit } from "@blommunity/frontend-core/hooks";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
@@ -8,7 +9,6 @@ import { FormError } from "@/components/ui/form-error";
 import { useToast } from "@/components/ui/toast";
 import { adminsControllerUpdate } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
-import { ApiError } from "@/lib/api/errors";
 import type { components } from "@/lib/api/types";
 
 /** A-AM-03 — edit an operator's name/email. */
@@ -24,24 +24,18 @@ export function OperatorEditModal({
   const toast = useToast();
   const [name, setName] = useState(operator.name);
   const [email, setEmail] = useState(operator.email);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { pending: submitting, error, run } = useSubmit();
 
   const dirty = name.trim() !== operator.name || email.trim() !== operator.email;
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    try {
+    const ok = await run(async () => {
       const updated = (await adminsControllerUpdate({ client, path: { id: operator.id }, body: { name: name.trim(), email: email.trim() } })).data!;
       toast.success("운영자 정보를 저장했어요.");
       onUpdated(updated);
-      onClose();
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "저장에 실패했어요.");
-      setSubmitting(false);
-    }
+    }, "저장에 실패했어요.");
+    if (ok) onClose();
   }
 
   return (

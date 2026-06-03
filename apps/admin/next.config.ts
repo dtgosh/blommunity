@@ -8,7 +8,12 @@ import type { NextConfig } from "next";
 const BACKEND_ORIGIN = process.env.BACKEND_ORIGIN ?? "http://localhost:3000";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@blommunity/types", "@blommunity/tokens", "@blommunity/ui"],
+  transpilePackages: [
+    "@blommunity/types",
+    "@blommunity/tokens",
+    "@blommunity/ui",
+    "@blommunity/frontend-core",
+  ],
   async rewrites() {
     return [
       {

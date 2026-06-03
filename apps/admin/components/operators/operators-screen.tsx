@@ -1,7 +1,8 @@
 "use client";
 
 // 운영자 관리 — A-AM-01~07 (✅). 목록/필터/상세 + 승인·회수·권한임명·삭제·정보수정.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useFetchList } from "@blommunity/frontend-core/hooks";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
@@ -37,37 +38,22 @@ export function OperatorsScreen() {
   const toast = useToast();
   const { user: currentAdmin } = useAuth();
 
-  const [operators, setOperators] = useState<components["schemas"]["AdminEntity"][] | null>(null);
-  const [listError, setListError] = useState<string | null>(null);
+  const {
+    data: operators,
+    error: listError,
+    reload,
+    setData: setOperators,
+    selectedId,
+    setSelectedId,
+    selected,
+  } = useFetchList(
+    () => adminsControllerFindAll({ client }).then((r) => r.data!),
+    { errorMessage: "운영자 목록을 불러오지 못했어요." },
+  );
+
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
-
-  const loadList = useCallback(async (selectFirst = false) => {
-    setListError(null);
-    try {
-      const data = (await adminsControllerFindAll({ client })).data!;
-      setOperators(data);
-      if (selectFirst && data.length > 0) {
-        setSelectedId((cur) => cur ?? data[0].id);
-      }
-    } catch (err) {
-      setOperators([]);
-      setListError(
-        err instanceof ApiError ? err.message : "운영자 목록을 불러오지 못했어요.",
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    void loadList(true);
-  }, [loadList]);
-
-  const selected = useMemo(
-    () => operators?.find((o) => o.id === selectedId) ?? null,
-    [operators, selectedId],
-  );
 
   const counts = useMemo(() => {
     const all = operators ?? [];
@@ -90,7 +76,7 @@ export function OperatorsScreen() {
     try {
       await adminsControllerApprove({ client, path: { id: op.id } });
       toast.success("운영자를 승인했어요.");
-      await loadList();
+      await reload();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "승인에 실패했어요.");
     }
@@ -100,7 +86,7 @@ export function OperatorsScreen() {
     try {
       await adminsControllerRevokeApproval({ client, path: { id: op.id } });
       toast.success("승인을 회수했어요.");
-      await loadList();
+      await reload();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "회수에 실패했어요.");
     }
@@ -110,7 +96,7 @@ export function OperatorsScreen() {
     try {
       await adminsControllerAssignRole({ client, path: { id: op.id }, body: { role } });
       toast.success("권한을 변경했어요.");
-      await loadList();
+      await reload();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "권한 변경에 실패했어요.");
     }
@@ -121,7 +107,7 @@ export function OperatorsScreen() {
       await adminsControllerRemove({ client, path: { id: op.id } });
       toast.success("운영자를 삭제했어요.");
       if (selectedId === op.id) setSelectedId(null);
-      await loadList();
+      await reload();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "삭제에 실패했어요.");
     }
@@ -207,7 +193,7 @@ export function OperatorsScreen() {
               title="불러오기 실패"
               description={listError}
               action={
-                <Button size="sm" variant="secondary" icon="refresh" onClick={() => loadList(true)}>
+                <Button size="sm" variant="secondary" icon="refresh" onClick={() => reload(true)}>
                   다시 시도
                 </Button>
               }

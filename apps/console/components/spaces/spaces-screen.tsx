@@ -2,7 +2,8 @@
 
 // 공간 관리 — T-SP-01~12 (✅). 목록/생성/상세/수정/삭제 + 멤버(상세 기반)·초대.
 // T-SP-13(멤버목록 전용 API)·14(역할변경)·15(탈퇴)는 백엔드 미구현(📅).
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
+import { useFetchList, useFetchOne } from "@blommunity/frontend-core/hooks";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Spinner } from "@/components/ui/spinner";
@@ -18,8 +19,6 @@ import {
   spacesControllerRemove,
 } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
-import { ApiError } from "@/lib/api/errors";
-import type { components } from "@/lib/api/types";
 import { SpaceListItem } from "./space-list-item";
 import { SpacePanel } from "./space-detail";
 import { SpaceFormModal, type SpaceFormValues } from "./space-form-modal";
@@ -28,80 +27,40 @@ export function SpacesScreen() {
   const toast = useToast();
   const { user } = useAuth();
 
-  const [spaces, setSpaces] = useState<components["schemas"]["SpaceEntity"][] | null>(null);
-  const [listError, setListError] = useState<string | null>(null);
+  const {
+    data: spaces,
+    error: listError,
+    reload: reloadList,
+    setData: setSpaces,
+    selectedId,
+    setSelectedId,
+  } = useFetchList(
+    () => spacesControllerFindAll({ client }).then((r) => r.data!),
+    { errorMessage: "공간 목록을 불러오지 못했어요." },
+  );
+
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const [detail, setDetail] = useState<components["schemas"]["SpaceEntity"] | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState<string | null>(null);
-
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const loadList = useCallback(async (selectFirst = false) => {
-    setListError(null);
-    try {
-      const data = (await spacesControllerFindAll({ client })).data!;
-      setSpaces(data);
-      if (selectFirst && data.length > 0) {
-        setSelectedId((cur) => cur ?? data[0].id);
-      }
-    } catch (err) {
-      setSpaces([]);
-      setListError(
-        err instanceof ApiError ? err.message : "공간 목록을 불러오지 못했어요.",
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    void loadList(true);
-  }, [loadList]);
-
-  // Load detail when selection changes.
-  useEffect(() => {
-    if (!selectedId) {
-      setDetail(null);
-      return;
-    }
-    let cancelled = false;
-    setDetailLoading(true);
-    setDetailError(null);
-    spacesControllerFindOne({ client, path: { id: selectedId } })
-      .then((r) => {
-        if (!cancelled) setDetail(r.data!);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setDetail(null);
-        setDetailError(
-          err instanceof ApiError ? err.message : "공간을 불러오지 못했어요.",
-        );
-      })
-      .finally(() => {
-        if (!cancelled) setDetailLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedId]);
-
-  const refreshDetail = useCallback(async () => {
-    if (!selectedId) return;
-    try {
-      setDetail((await spacesControllerFindOne({ client, path: { id: selectedId } })).data!);
-    } catch {
-      /* keep last good detail */
-    }
-  }, [selectedId]);
+  // 선택된 공간 상세 — id 변경 시 cancellation 로더(useFetchOne 가 캡슐화).
+  const {
+    data: detail,
+    loading: detailLoading,
+    error: detailError,
+    reload: refreshDetail,
+    setData: setDetail,
+  } = useFetchOne(
+    selectedId,
+    (id) => spacesControllerFindOne({ client, path: { id } }).then((r) => r.data!),
+    { errorMessage: "공간을 불러오지 못했어요." },
+  );
 
   async function handleCreate(values: SpaceFormValues) {
     const created = (await spacesControllerCreate({ client, body: { name: values.name, description: values.description || undefined, visibility: values.visibility } })).data!;
     toast.success("공간을 만들었어요.");
-    await loadList();
+    await reloadList();
     setSelectedId(created.id);
   }
 
@@ -109,7 +68,7 @@ export function SpacesScreen() {
     if (!detail) return;
     await spacesControllerUpdate({ client, path: { id: detail.id }, body: { name: values.name, description: values.description || undefined, visibility: values.visibility } });
     toast.success("공간을 수정했어요.");
-    await Promise.all([loadList(), refreshDetail()]);
+    await Promise.all([reloadList(), refreshDetail()]);
   }
 
   async function handleDelete() {
@@ -120,7 +79,7 @@ export function SpacesScreen() {
     setDetail(null);
     setSelectedId(null);
     setSpaces((prev) => prev?.filter((s) => s.id !== deletedId) ?? null);
-    await loadList(true);
+    await reloadList(true);
   }
 
   const list = (spaces ?? []).filter((s) =>
@@ -174,7 +133,7 @@ export function SpacesScreen() {
               title="불러오기 실패"
               description={listError}
               action={
-                <Button size="sm" variant="secondary" icon="refresh" onClick={() => loadList(true)}>
+                <Button size="sm" variant="secondary" icon="refresh" onClick={() => reloadList(true)}>
                   다시 시도
                 </Button>
               }

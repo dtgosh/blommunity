@@ -1,24 +1,9 @@
-import type { AdminTokenPayload } from "./types";
-import { decodeJwtSegment } from "@blommunity/types";
+import { createTokenManager } from "@blommunity/frontend-core/token";
+import { decodeJwtSegment, type AdminTokenPayload } from "@blommunity/types";
 
 // ADMIN token only (the operator admin never holds USER tokens — X-SC-02). The
 // tenant console uses a different key on a different origin, so they never mix.
-const TOKEN_KEY = "bl-admin-token";
-
-export function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(TOKEN_KEY);
-}
-
-export function setToken(token: string): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(TOKEN_KEY, token);
-}
-
-export function clearToken(): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.removeItem(TOKEN_KEY);
-}
+export const { getToken, setToken, clearToken } = createTokenManager("bl-admin-token");
 
 /**
  * Decode (NOT verify) an ADMIN JWT. Verification is the server's job; the admin

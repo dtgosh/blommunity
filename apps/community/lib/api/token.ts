@@ -1,25 +1,10 @@
-import type { UserTokenPayload } from "./types";
-import { decodeJwtSegment } from "@blommunity/types";
+import { createTokenManager } from "@blommunity/frontend-core/token";
+import { decodeJwtSegment, type UserTokenPayload } from "@blommunity/types";
 
 // USER token only (the admin app uses ADMIN tokens on a different key — X-SC-02).
 // console uses "bl-console-token"; community uses a separate key to avoid
 // collision if both apps are served under the same origin.
-const TOKEN_KEY = "bl-community-token";
-
-export function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(TOKEN_KEY);
-}
-
-export function setToken(token: string): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(TOKEN_KEY, token);
-}
-
-export function clearToken(): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.removeItem(TOKEN_KEY);
-}
+export const { getToken, setToken, clearToken } = createTokenManager("bl-community-token");
 
 /**
  * Decode (NOT verify) a USER JWT. Verification is the server's job; the console

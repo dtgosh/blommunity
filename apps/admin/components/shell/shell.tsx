@@ -1,24 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import { Sidebar } from "./sidebar";
-import { Topbar } from "./topbar";
+// 사이드바형 앱 셸은 @blommunity/frontend-core/shell 의 SidebarShell 이 담당하고,
+// 여기서는 어드민 고유 값(브랜드·브레드크럼·프로필 경로·displayName)과 인증/테마만 주입한다.
+import { SidebarShell } from "@blommunity/frontend-core/shell";
+import { useAuth } from "@/components/auth/auth-provider";
+import { useTheme } from "@/components/theme/theme-provider";
+import { NAV, isNavActive } from "./nav";
 
-/**
- * App shell — Sidebar + (Topbar over scrollable content).
- * Ported from console-system.jsx `Shell`. On narrow widths the sidebar collapses
- * into an off-canvas drawer toggled by the Topbar menu button.
- */
 export function Shell({ children }: { children: React.ReactNode }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const { theme, toggle } = useTheme();
 
   return (
-    <div className="flex h-dvh w-full overflow-hidden">
-      <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
-      <main className="flex min-w-0 flex-1 flex-col bg-surface-0">
-        <Topbar onMenu={() => setMobileOpen(true)} />
-        <div className="min-h-0 flex-1 overflow-auto">{children}</div>
-      </main>
-    </div>
+    <SidebarShell
+      nav={NAV}
+      isNavActive={isNavActive}
+      brandTitle="Blommunity"
+      brandSubtitle="운영자 어드민"
+      breadcrumbRoot="운영자 어드민"
+      profileHref="/admin/profile"
+      user={
+        user
+          ? { displayName: user.name, email: user.email, role: user.role }
+          : null
+      }
+      theme={theme}
+      onToggleTheme={toggle}
+      logout={logout}
+    >
+      {children}
+    </SidebarShell>
   );
 }

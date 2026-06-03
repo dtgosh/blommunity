@@ -1,0 +1,36 @@
+{
+  "name": "@blommunity/frontend-core",
+  "version": "0.0.0",
+  "private": true,
+  "//": "세 Next.js 앱이 공유하는 프런트엔드 앱 로직(토큰/인증 팩토리, 데이터 페칭 훅, Nav, shell, 프로필 폼). UI 프리미티브는 @blommunity/ui, 순수 타입은 @blommunity/types에 둔다.",
+  "exports": {
+    "./token": "./src/token.ts",
+    "./auth-events": "./src/auth-events.ts",
+    "./auth": "./src/auth.tsx",
+    "./nav": "./src/nav.ts",
+    "./hooks": "./src/hooks.ts",
+    "./shell": "./src/shell.tsx",
+    "./profile": "./src/profile.tsx"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@blommunity/eslint-config": "*"
+  },
+  "peerDependencies": {
+    "lucide-react": ">=0.469.0",
+    "next": ">=15",
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "dependencies": {
+    "@blommunity/api-client": "*",
+    "@blommunity/types": "*",
+    "@blommunity/ui": "*"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix"
+  }
+}

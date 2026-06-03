@@ -3,6 +3,7 @@
 // 게시판 관리 — T-BD-01~12 (✅). 목록/생성/상세/수정/삭제 + 초대.
 // 멤버목록(T-BD-13)·역할변경(14)·탈퇴(15)·카테고리(16)는 백엔드 미구현(📅).
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useFetchOne } from "@blommunity/frontend-core/hooks";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Spinner } from "@/components/ui/spinner";
@@ -34,10 +35,6 @@ export function BoardsScreen() {
   const [listError, setListError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const [detail, setDetail] = useState<components["schemas"]["BoardEntity"] | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState<string | null>(null);
 
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -74,41 +71,18 @@ export function BoardsScreen() {
     void loadList(true);
   }, [loadList]);
 
-  useEffect(() => {
-    if (!selectedId) {
-      setDetail(null);
-      return;
-    }
-    let cancelled = false;
-    setDetailLoading(true);
-    setDetailError(null);
-    boardsControllerFindOne({ client, path: { id: selectedId } })
-      .then((r) => {
-        if (!cancelled) setDetail(r.data!);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setDetail(null);
-        setDetailError(
-          err instanceof ApiError ? err.message : "게시판을 불러오지 못했어요.",
-        );
-      })
-      .finally(() => {
-        if (!cancelled) setDetailLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedId]);
-
-  const refreshDetail = useCallback(async () => {
-    if (!selectedId) return;
-    try {
-      setDetail((await boardsControllerFindOne({ client, path: { id: selectedId } })).data!);
-    } catch {
-      /* keep last good detail */
-    }
-  }, [selectedId]);
+  // 선택된 게시판 상세 — id 변경 시 cancellation 로더(useFetchOne 가 캡슐화).
+  const {
+    data: detail,
+    loading: detailLoading,
+    error: detailError,
+    reload: refreshDetail,
+    setData: setDetail,
+  } = useFetchOne(
+    selectedId,
+    (id) => boardsControllerFindOne({ client, path: { id } }).then((r) => r.data!),
+    { errorMessage: "게시판을 불러오지 못했어요." },
+  );
 
   async function handleCreate(values: BoardFormValues) {
     const created = (await boardsControllerCreate({ client, body: { spaceId: values.spaceId, name: values.name, description: values.description || undefined, visibility: values.visibility } })).data!;

@@ -1,16 +1,6 @@
-import type { IconName } from "@/components/ui/icon";
+import { isNavActive as isNavActiveFor, type NavEntry } from "@blommunity/frontend-core/nav";
 
-/** Backend-readiness of the screen (per docs/feature-spec §5.3). */
-export type NavStatus = "live" | "soon";
-
-export interface NavEntry {
-  key: string;
-  label: string;
-  href: string;
-  icon: IconName;
-  status: NavStatus;
-  featureIds: string[];
-}
+export type { NavEntry, NavStatus } from "@blommunity/frontend-core/nav";
 
 // 커뮤니티 상단 내비게이션 (회원 시점 IA — feature-spec §5.3).
 export const NAV: NavEntry[] = [
@@ -42,6 +32,5 @@ export const NAV: NavEntry[] = [
 
 /** Whether `href` is the active nav entry for the current pathname. */
 export function isNavActive(pathname: string, href: string): boolean {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(href + "/");
+  return isNavActiveFor(pathname, href, "/");
 }

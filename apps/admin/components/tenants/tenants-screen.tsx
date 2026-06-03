@@ -2,7 +2,8 @@
 
 // 사업자(테넌트) 관리 — A-TN-01~04 (✅). 목록/상세/이름수정/삭제.
 // 정지·재개(A-TN-05)·사용량(A-TN-06)은 백엔드 미구현(📅).
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useFetchList } from "@blommunity/frontend-core/hooks";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -19,36 +20,21 @@ import { TenantEditModal } from "./tenant-edit-modal";
 export function TenantsScreen() {
   const toast = useToast();
 
-  const [tenants, setTenants] = useState<components["schemas"]["TenantEntity"][] | null>(null);
-  const [listError, setListError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [editing, setEditing] = useState(false);
-
-  const loadList = useCallback(async (selectFirst = false) => {
-    setListError(null);
-    try {
-      const data = (await tenantsControllerFindAll({ client })).data!;
-      setTenants(data);
-      if (selectFirst && data.length > 0) {
-        setSelectedId((cur) => cur ?? data[0].id);
-      }
-    } catch (err) {
-      setTenants([]);
-      setListError(
-        err instanceof ApiError ? err.message : "테넌트 목록을 불러오지 못했어요.",
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    void loadList(true);
-  }, [loadList]);
-
-  const selected = useMemo(
-    () => tenants?.find((t) => t.id === selectedId) ?? null,
-    [tenants, selectedId],
+  const {
+    data: tenants,
+    error: listError,
+    reload,
+    setData: setTenants,
+    selectedId,
+    setSelectedId,
+    selected,
+  } = useFetchList(
+    () => tenantsControllerFindAll({ client }).then((r) => r.data!),
+    { errorMessage: "테넌트 목록을 불러오지 못했어요." },
   );
+
+  const [query, setQuery] = useState("");
+  const [editing, setEditing] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -61,7 +47,7 @@ export function TenantsScreen() {
       await tenantsControllerRemove({ client, path: { id: tenant.id } });
       toast.success("테넌트를 삭제했어요.");
       if (selectedId === tenant.id) setSelectedId(null);
-      await loadList();
+      await reload();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "삭제에 실패했어요.");
     }
@@ -110,7 +96,7 @@ export function TenantsScreen() {
               title="불러오기 실패"
               description={listError}
               action={
-                <Button size="sm" variant="secondary" icon="refresh" onClick={() => loadList(true)}>
+                <Button size="sm" variant="secondary" icon="refresh" onClick={() => reload(true)}>
                   다시 시도
                 </Button>
               }

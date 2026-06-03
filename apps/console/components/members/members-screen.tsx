@@ -1,7 +1,8 @@
 "use client";
 
 // 회원 관리 — T-UM-01~05 (✅). T-UM-06 정지·차단 · T-UM-07 활동 이력 📅
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useFetchList } from "@blommunity/frontend-core/hooks";
 import { Icon } from "@/components/ui/icon";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ import {
 } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
-import type { components, Role } from "@/lib/api/types";
+import type { Role } from "@/lib/api/types";
 import { MemberListItem } from "./member-list-item";
 import { MemberDetail } from "./member-detail";
 import { ResetPasswordModal } from "./reset-password-modal";
@@ -26,33 +27,22 @@ export function MembersScreen() {
   const toast = useToast();
   const { user } = useAuth();
 
-  const [members, setMembers] = useState<components["schemas"]["UserEntity"][] | null>(null);
-  const [listError, setListError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const {
+    data: members,
+    error: listError,
+    reload,
+    setData: setMembers,
+    selectedId,
+    setSelectedId,
+    selected,
+  } = useFetchList(
+    () => usersControllerFindAll({ client }).then((r) => r.data!),
+    { errorMessage: "회원 목록을 불러오지 못했어요." },
+  );
 
+  const [query, setQuery] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [resetting, setResetting] = useState(false);
-
-  const loadList = useCallback(async (selectFirst = false) => {
-    setListError(null);
-    try {
-      const data = (await usersControllerFindAll({ client })).data!;
-      setMembers(data);
-      if (selectFirst && data.length > 0) {
-        setSelectedId((cur) => cur ?? data[0].id);
-      }
-    } catch (err) {
-      setMembers([]);
-      setListError(
-        err instanceof ApiError ? err.message : "회원 목록을 불러오지 못했어요.",
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    void loadList(true);
-  }, [loadList]);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -64,11 +54,6 @@ export function MembersScreen() {
         (m.email?.toLowerCase().includes(q) ?? false),
     );
   }, [members, query]);
-
-  const selected = useMemo(
-    () => (members ?? []).find((m) => m.id === selectedId) ?? null,
-    [members, selectedId],
-  );
 
   async function handleChangeRole(role: Role) {
     if (!selected) return;
@@ -142,7 +127,7 @@ export function MembersScreen() {
                   size="sm"
                   variant="secondary"
                   icon="refresh"
-                  onClick={() => loadList(true)}
+                  onClick={() => reload(true)}
                 >
                   다시 시도
                 </Button>

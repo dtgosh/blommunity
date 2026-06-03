@@ -36,6 +36,12 @@ export interface ApiClientOptions {
   baseUrl: string;
   getToken: () => string | null;
   clearToken: () => void;
+  /**
+   * 인증된 요청이 401 을 받았을 때 호출된다(토큰 클리어 직후). 앱은 보통 여기에
+   * 인메모리 인증 상태를 guest 로 떨어뜨리는 핸들러를 연결한다. 클라이언트는
+   * 모듈 스코프에서 만들어지므로 이 콜백을 통해 React 인증 상태와 이어진다.
+   */
+  onUnauthorized?: () => void;
 }
 
 function defaultStatusMessage(status: number): string {
@@ -49,7 +55,7 @@ function defaultStatusMessage(status: number): string {
   }
 }
 
-export function createApiClient({ baseUrl, getToken, clearToken }: ApiClientOptions) {
+export function createApiClient({ baseUrl, getToken, clearToken, onUnauthorized }: ApiClientOptions) {
   const client = createClient(createConfig({ baseUrl, throwOnError: true }));
 
   client.interceptors.request.use((request) => {
@@ -59,7 +65,10 @@ export function createApiClient({ baseUrl, getToken, clearToken }: ApiClientOpti
   });
 
   client.interceptors.response.use(async (response) => {
-    if (response.status === 401 && getToken()) clearToken();
+    if (response.status === 401 && getToken()) {
+      clearToken();
+      onUnauthorized?.();
+    }
     if (!response.ok) {
       const body = await response.clone().json().catch(() => null);
       throw new ApiError(

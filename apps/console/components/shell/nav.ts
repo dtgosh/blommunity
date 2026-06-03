@@ -1,19 +1,6 @@
-import type { IconName } from "@/components/ui/icon";
+import { isNavActive as isNavActiveFor, type NavEntry } from "@blommunity/frontend-core/nav";
 
-/** Backend-readiness of the screen (per docs/sitemap.md §2 / feature-spec §5.2). */
-export type NavStatus =
-  | "live" // ✅ backend ready (wired in a later build step)
-  | "soon"; // 📅 not yet implemented on the backend
-
-export interface NavEntry {
-  key: string;
-  label: string;
-  href: string;
-  icon: IconName;
-  status: NavStatus;
-  /** Feature IDs this screen covers, for traceability. */
-  featureIds: string[];
-}
+export type { NavEntry, NavStatus } from "@blommunity/frontend-core/nav";
 
 // Order mirrors BL_NAV in console-system.jsx.
 export const NAV: NavEntry[] = [
@@ -77,6 +64,5 @@ export const NAV: NavEntry[] = [
 
 /** Whether `href` is the active nav entry for the current pathname. */
 export function isNavActive(pathname: string, href: string): boolean {
-  if (href === "/console") return pathname === "/console";
-  return pathname === href || pathname.startsWith(href + "/");
+  return isNavActiveFor(pathname, href, "/console");
 }

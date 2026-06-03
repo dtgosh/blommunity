@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuthForm } from "@blommunity/frontend-core/hooks";
 import { AuthCard } from "@/components/auth/auth-card";
 import { useAuth } from "@/components/auth/auth-provider";
 import { Button } from "@/components/ui/button";
@@ -11,35 +12,28 @@ import { Field, Input, PasswordInput } from "@/components/ui/input";
 import { FormError } from "@/components/ui/form-error";
 import { authControllerSignIn } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
-import { ApiError } from "@/lib/api/errors";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { error, submitting, submit } = useAuthForm();
   const [tenantId, setTenantId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    try {
-      const token = (await authControllerSignIn({ client, body: { tenantId, username, password } })).data!;
-      await login(token);
-      router.replace("/");
-    } catch (err) {
-      setError(
-        err instanceof ApiError
-          ? err.status === 401
-            ? "아이디 또는 비밀번호가 올바르지 않아요."
-            : err.message
-          : "로그인 중 문제가 발생했어요.",
-      );
-      setSubmitting(false);
-    }
+    await submit(
+      async () => {
+        const token = (await authControllerSignIn({ client, body: { tenantId, username, password } })).data!;
+        await login(token);
+        router.replace("/");
+      },
+      {
+        unauthorizedMessage: "아이디 또는 비밀번호가 올바르지 않아요.",
+        fallbackMessage: "로그인 중 문제가 발생했어요.",
+      },
+    );
   }
 
   return (

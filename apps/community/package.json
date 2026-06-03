@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@blommunity/api-client": "*",
+    "@blommunity/frontend-core": "*",
     "@blommunity/tokens": "*",
     "@blommunity/types": "*",
     "@blommunity/ui": "*",
