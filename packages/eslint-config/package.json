@@ -1,0 +1,17 @@
+{
+  "name": "@blommunity/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./base": "./base.ts",
+    "./next": "./next.ts",
+    "./library": "./library.ts"
+  },
+  "dependencies": {
+    "@eslint/js": "*",
+    "@next/eslint-plugin-next": "*",
+    "eslint-plugin-react-hooks": "*",
+    "globals": "*",
+    "typescript-eslint": "*"
+  }
+}

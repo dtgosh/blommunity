@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter",system-ui,sans-serif;background:#fff;padding:22px 26px;color:#18181b}
+  .ttl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#92929c;margin:0 0 16px}
+  .row{display:flex;gap:14px}
+  .col{flex:1;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .nm{font-size:11px;font-weight:600;margin-top:11px;color:#27272a}
+  .hex{font-size:10.5px;color:#92929c;font-variant-numeric:tabular-nums;margin-top:2px}
+</style></head>
+<body>
+  <p class="ttl">Semantic · status</p>
+  <div class="row">
+    <div class="col"><span class="badge" style="color:#15803d;background:#f0fdf4;border:1px solid #c6ecd0"><span class="dot"></span>활성 ACTIVE</span><div class="nm">success</div><div class="hex">#15803D</div></div>
+    <div class="col"><span class="badge" style="color:#b45309;background:#fffbeb;border:1px solid #fbe3a8"><span class="dot"></span>승인 대기</span><div class="nm">warning</div><div class="hex">#B45309</div></div>
+    <div class="col"><span class="badge" style="color:#dc2626;background:#fef2f2;border:1px solid #f9cfcf"><span class="dot"></span>정지</span><div class="nm">danger</div><div class="hex">#DC2626</div></div>
+    <div class="col"><span class="badge" style="color:#5c5c66;background:#f4f4f5;border:1px solid #e4e4e7"><span class="dot"></span>MEMBER</span><div class="nm">neutral</div><div class="hex">#5C5C66</div></div>
+    <div class="col"><span class="badge" style="color:#4f46e5;background:#eef0fe;border:1px solid transparent">OWNER</span><div class="nm">accent</div><div class="hex">#4F46E5</div></div>
+  </div>
+</body></html>

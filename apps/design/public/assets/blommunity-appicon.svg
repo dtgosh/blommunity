@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="512" height="512" role="img" aria-label="blommunity app icon">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6366F1"></stop>
+      <stop offset="1" stop-color="#4F46E5"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="11" fill="url(#g)"></rect>
+  <g transform="translate(8.15,9.8) scale(0.66)">
+    <path d="M16 5 H32 A11 11 0 0 1 43 16 V27 A11 11 0 0 1 32 38 H8 A3 3 0 0 1 5 35 V16 A11 11 0 0 1 16 5 Z" fill="#FFFFFF"></path>
+    <rect x="13" y="15" width="22" height="4" rx="2" fill="#4F46E5"></rect>
+    <rect x="13" y="24" width="13" height="4" rx="2" fill="#4F46E5"></rect>
+  </g>
+</svg>

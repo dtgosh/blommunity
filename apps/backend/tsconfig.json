@@ -1,0 +1,90 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "paths": {
+      "@app/admin": [
+        "libs/admin/src"
+      ],
+      "@app/admin/*": [
+        "libs/admin/src/*"
+      ],
+      "@app/board": [
+        "libs/board/src"
+      ],
+      "@app/board/*": [
+        "libs/board/src/*"
+      ],
+      "@app/cache": [
+        "libs/cache/src"
+      ],
+      "@app/cache/*": [
+        "libs/cache/src/*"
+      ],
+      "@app/comment": [
+        "libs/comment/src"
+      ],
+      "@app/comment/*": [
+        "libs/comment/src/*"
+      ],
+      "@app/config": [
+        "libs/config/src"
+      ],
+      "@app/config/*": [
+        "libs/config/src/*"
+      ],
+      "@app/db": [
+        "libs/db/src"
+      ],
+      "@app/db/*": [
+        "libs/db/src/*"
+      ],
+      "@app/post": [
+        "libs/post/src"
+      ],
+      "@app/post/*": [
+        "libs/post/src/*"
+      ],
+      "@app/space": [
+        "libs/space/src"
+      ],
+      "@app/space/*": [
+        "libs/space/src/*"
+      ],
+      "@app/tenant": [
+        "libs/tenant/src"
+      ],
+      "@app/tenant/*": [
+        "libs/tenant/src/*"
+      ],
+      "@app/user": [
+        "libs/user/src"
+      ],
+      "@app/user/*": [
+        "libs/user/src/*"
+      ],
+      "@app/util": [
+        "libs/util/src"
+      ],
+      "@app/util/*": [
+        "libs/util/src/*"
+      ]
+    }
+  }
+}

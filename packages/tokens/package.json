@@ -1,0 +1,11 @@
+{
+  "name": "@blommunity/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.css",
+    "./console": "./src/console.css",
+    "./community": "./src/community.css",
+    "./base": "./src/base.css"
+  }
+}

@@ -1,0 +1,3012 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "description": "API 서버가 정상적으로 작동하는지 확인합니다.",
+        "operationId": "ApiController_healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "헬스체크",
+        "tags": [
+          "기본"
+        ]
+      }
+    },
+    "/auth/sign-up": {
+      "post": {
+        "description": "새로운 계정을 생성합니다. 성공 시 JWT 토큰을 반환합니다.",
+        "operationId": "AuthController_signUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "회원가입",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/sign-in": {
+      "post": {
+        "description": "계정 정보로 로그인합니다. 성공 시 JWT 토큰을 반환합니다.",
+        "operationId": "AuthController_signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "로그인",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/tenant-sign-up": {
+      "post": {
+        "description": "새로운 테넌트와 최초 사용자 계정을 함께 생성합니다. 성공 시 JWT 토큰을 반환합니다.",
+        "operationId": "AuthController_tenantSignUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantSignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "테넌트 회원가입",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/change-password": {
+      "post": {
+        "description": "현재 비밀번호 확인 후 새 비밀번호로 변경합니다.",
+        "operationId": "AuthController_changePassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "내 비밀번호 변경",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/admin/sign-up": {
+      "post": {
+        "description": "새로운 관리자 계정을 생성합니다. 생성된 계정은 승인 대기 상태이며, MANAGER 이상 권한자의 승인 후 로그인할 수 있습니다.",
+        "operationId": "AuthController_adminSignUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminSignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "관리자 회원가입",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/admin/sign-in": {
+      "post": {
+        "description": "관리자 계정 정보로 로그인합니다. 성공 시 JWT 토큰을 반환합니다.",
+        "operationId": "AuthController_adminSignIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminSignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "관리자 로그인",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/auth/admin/change-password": {
+      "post": {
+        "description": "현재 비밀번호 확인 후 새 비밀번호로 변경합니다.",
+        "operationId": "AuthController_adminChangePassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 내 비밀번호 변경",
+        "tags": [
+          "인증"
+        ]
+      }
+    },
+    "/admins": {
+      "get": {
+        "description": "관리자 목록을 조회합니다. `status` 쿼리로 승인 상태로 필터링할 수 있습니다.",
+        "operationId": "AdminsController_findAll",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "승인 상태 (pending: 미승인, approved: 승인됨)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "approved"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 목록 조회",
+        "tags": [
+          "관리자"
+        ]
+      }
+    },
+    "/admins/{id}": {
+      "get": {
+        "description": "ID로 단일 관리자를 조회합니다.",
+        "operationId": "AdminsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 상세 조회",
+        "tags": [
+          "관리자"
+        ]
+      },
+      "patch": {
+        "description": "관리자 정보를 수정합니다.",
+        "operationId": "AdminsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 수정",
+        "tags": [
+          "관리자"
+        ]
+      },
+      "delete": {
+        "description": "관리자를 삭제합니다(소프트 삭제). MANAGER 이상 권한 필요. 본인은 삭제할 수 없습니다.",
+        "operationId": "AdminsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 삭제",
+        "tags": [
+          "관리자"
+        ]
+      }
+    },
+    "/admins/{id}/approve": {
+      "post": {
+        "description": "승인 대기 중인 MEMBER 관리자를 승인합니다. MANAGER 이상 권한 필요.",
+        "operationId": "AdminsController_approve",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 승인",
+        "tags": [
+          "관리자"
+        ]
+      },
+      "delete": {
+        "description": "승인된 MEMBER 관리자를 다시 대기 상태로 되돌립니다. MANAGER 이상 권한 필요. 본인 승인은 회수할 수 없습니다.",
+        "operationId": "AdminsController_revokeApproval",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 승인 회수",
+        "tags": [
+          "관리자"
+        ]
+      }
+    },
+    "/admins/{id}/role": {
+      "patch": {
+        "description": "대상 관리자의 권한을 MANAGER 또는 MEMBER로 변경합니다. OWNER 권한 필요. 본인은 변경할 수 없으며, MEMBER로 임명될 때 자동 승인됩니다.",
+        "operationId": "AdminsController_assignRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "관리자 권한 임명",
+        "tags": [
+          "관리자"
+        ]
+      }
+    },
+    "/tenants": {
+      "get": {
+        "description": "전체 테넌트 목록을 조회합니다.",
+        "operationId": "TenantsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TenantEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "테넌트 목록 조회",
+        "tags": [
+          "테넌트"
+        ]
+      }
+    },
+    "/tenants/{id}": {
+      "get": {
+        "description": "ID로 단일 테넌트를 조회합니다.",
+        "operationId": "TenantsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "테넌트 상세 조회",
+        "tags": [
+          "테넌트"
+        ]
+      },
+      "patch": {
+        "description": "테넌트 정보를 수정합니다.",
+        "operationId": "TenantsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "테넌트 수정",
+        "tags": [
+          "테넌트"
+        ]
+      },
+      "delete": {
+        "description": "테넌트를 삭제합니다(소프트 삭제).",
+        "operationId": "TenantsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "테넌트 삭제",
+        "tags": [
+          "테넌트"
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "description": "동일 테넌트에 속한 계정 목록을 조회합니다.",
+        "operationId": "UsersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "계정 목록 조회",
+        "tags": [
+          "계정"
+        ]
+      },
+      "patch": {
+        "description": "현재 로그인한 계정의 프로필을 수정합니다.",
+        "operationId": "UsersController_update",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "내 프로필 수정",
+        "tags": [
+          "계정"
+        ]
+      },
+      "delete": {
+        "description": "현재 로그인한 계정을 탈퇴 처리합니다(소프트 삭제).",
+        "operationId": "UsersController_remove",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "내 계정 탈퇴",
+        "tags": [
+          "계정"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "ID로 단일 계정을 조회합니다. 동일 테넌트에 속한 계정만 조회됩니다.",
+        "operationId": "UsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "계정 상세 조회",
+        "tags": [
+          "계정"
+        ]
+      },
+      "delete": {
+        "description": "동일 테넌트에 속한 다른 계정을 삭제합니다(소프트 삭제). MANAGER 이상 권한 필요. 본인과 OWNER 계정은 삭제할 수 없습니다.",
+        "operationId": "UsersController_removeMember",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "계정 삭제",
+        "tags": [
+          "계정"
+        ]
+      }
+    },
+    "/users/{id}/role": {
+      "patch": {
+        "description": "동일 테넌트에 속한 다른 계정의 권한을 변경합니다. OWNER 권한 필요. 본인은 변경할 수 없으며, 임명을 통해 한 테넌트에 여러 OWNER가 존재할 수 있습니다.",
+        "operationId": "UsersController_assignRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "계정 권한 임명",
+        "tags": [
+          "계정"
+        ]
+      }
+    },
+    "/users/{id}/reset-password": {
+      "post": {
+        "description": "동일 테넌트에 속한 다른 계정의 비밀번호를 새 비밀번호로 강제 변경합니다. MANAGER 이상 권한 필요. 본인과 OWNER 계정은 리셋할 수 없습니다.",
+        "operationId": "UsersController_resetPassword",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "계정 비밀번호 리셋",
+        "tags": [
+          "계정"
+        ]
+      }
+    },
+    "/spaces": {
+      "post": {
+        "description": "새로운 공간을 생성합니다. 생성한 사용자가 소유자(OWNER)로 등록됩니다.",
+        "operationId": "SpacesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSpaceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpaceEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 생성",
+        "tags": [
+          "공간"
+        ]
+      },
+      "get": {
+        "description": "접근 가능한 공간 목록을 조회합니다. 공개(PUBLIC) 공간과 본인이 멤버(ACTIVE)인 비공개(PRIVATE) 공간이 반환됩니다.",
+        "operationId": "SpacesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SpaceEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 목록 조회",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/invitations/me": {
+      "get": {
+        "description": "본인이 받은 대기 중(PENDING) 공간 초대 목록을 조회합니다.",
+        "operationId": "SpacesController_findMyInvitations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SpaceUserEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "내 공간 초대 목록 조회",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/invitations/{invitationId}/accept": {
+      "post": {
+        "description": "본인에게 발송된 대기 중 공간 초대를 수락하고 해당 공간의 멤버(ACTIVE)로 등록됩니다.",
+        "operationId": "SpacesController_acceptInvitation",
+        "parameters": [
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 초대 수락",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/invitations/{invitationId}/decline": {
+      "post": {
+        "description": "본인에게 발송된 대기 중 공간 초대를 거절합니다. 초대 레코드가 삭제됩니다.",
+        "operationId": "SpacesController_declineInvitation",
+        "parameters": [
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 초대 거절",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/{id}": {
+      "get": {
+        "description": "ID로 단일 공간을 조회합니다. 접근 권한이 없는 비공개 공간은 조회되지 않습니다.",
+        "operationId": "SpacesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpaceEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 상세 조회",
+        "tags": [
+          "공간"
+        ]
+      },
+      "patch": {
+        "description": "공간 정보를 수정합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "SpacesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSpaceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpaceEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 수정",
+        "tags": [
+          "공간"
+        ]
+      },
+      "delete": {
+        "description": "공간을 삭제합니다(소프트 삭제). 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "SpacesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 삭제",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/{id}/join": {
+      "post": {
+        "description": "공개(PUBLIC) 공간에 본인을 멤버(ACTIVE)로 등록합니다. 비공개(PRIVATE) 공간은 초대를 통해서만 가입할 수 있습니다. 대기 중인 초대가 있다면 자동으로 수락 처리됩니다.",
+        "operationId": "SpacesController_join",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 가입",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/{id}/invitations": {
+      "post": {
+        "description": "동일 테넌트의 다른 사용자를 공간으로 초대합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다. 초대받은 사용자가 수락해야 멤버로 등록됩니다.",
+        "operationId": "SpacesController_createInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteSpaceUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpaceUserEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 초대 생성",
+        "tags": [
+          "공간"
+        ]
+      },
+      "get": {
+        "description": "해당 공간에 발송된 대기 중(PENDING) 초대 목록을 조회합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "SpacesController_findInvitations",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SpaceUserEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 초대 목록 조회",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/spaces/{id}/invitations/{invitationId}": {
+      "delete": {
+        "description": "대기 중인 공간 초대를 회수합니다(레코드 삭제). 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "SpacesController_revokeInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "공간 초대 회수",
+        "tags": [
+          "공간"
+        ]
+      }
+    },
+    "/boards": {
+      "post": {
+        "description": "공간 내에 새로운 게시판을 생성합니다. 생성한 사용자가 소유자(OWNER)로 등록됩니다. 비공개(PRIVATE) 공간이라면 해당 공간의 멤버여야 생성할 수 있습니다.",
+        "operationId": "BoardsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBoardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 생성",
+        "tags": [
+          "게시판"
+        ]
+      },
+      "get": {
+        "description": "접근 가능한 게시판 목록을 조회합니다. 공개(PUBLIC) 게시판과 본인이 멤버(ACTIVE)인 비공개(PRIVATE) 게시판이 반환됩니다. 비공개(PRIVATE) 공간의 게시판은 해당 공간의 멤버에게만 노출됩니다.",
+        "operationId": "BoardsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 목록 조회",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/invitations/me": {
+      "get": {
+        "description": "본인이 받은 대기 중(PENDING) 게시판 초대 목록을 조회합니다.",
+        "operationId": "BoardsController_findMyInvitations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardUserEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "내 게시판 초대 목록 조회",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/invitations/{invitationId}/accept": {
+      "post": {
+        "description": "본인에게 발송된 대기 중 게시판 초대를 수락하고 해당 게시판의 멤버(ACTIVE)로 등록됩니다.",
+        "operationId": "BoardsController_acceptInvitation",
+        "parameters": [
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 초대 수락",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/invitations/{invitationId}/decline": {
+      "post": {
+        "description": "본인에게 발송된 대기 중 게시판 초대를 거절합니다. 초대 레코드가 삭제됩니다.",
+        "operationId": "BoardsController_declineInvitation",
+        "parameters": [
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 초대 거절",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/{id}": {
+      "get": {
+        "description": "ID로 단일 게시판을 조회합니다. 접근 권한이 없는 비공개 게시판이나, 접근 권한이 없는 비공개(PRIVATE) 공간에 속한 게시판은 조회되지 않습니다.",
+        "operationId": "BoardsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 상세 조회",
+        "tags": [
+          "게시판"
+        ]
+      },
+      "patch": {
+        "description": "게시판 정보를 수정합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "BoardsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBoardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 수정",
+        "tags": [
+          "게시판"
+        ]
+      },
+      "delete": {
+        "description": "게시판을 삭제합니다(소프트 삭제). 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "BoardsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 삭제",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/{id}/join": {
+      "post": {
+        "description": "공개(PUBLIC) 게시판에 본인을 멤버(ACTIVE)로 등록합니다. 비공개(PRIVATE) 게시판은 초대를 통해서만 가입할 수 있으며, 비공개(PRIVATE) 공간의 게시판은 해당 공간의 멤버여야 합니다. 대기 중인 초대가 있다면 자동으로 수락 처리됩니다.",
+        "operationId": "BoardsController_join",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 가입",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/{id}/invitations": {
+      "post": {
+        "description": "동일 테넌트의 다른 사용자를 게시판으로 초대합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다. 초대받은 사용자가 수락해야 멤버로 등록됩니다.",
+        "operationId": "BoardsController_createInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteBoardUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardUserEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 초대 생성",
+        "tags": [
+          "게시판"
+        ]
+      },
+      "get": {
+        "description": "해당 게시판에 발송된 대기 중(PENDING) 초대 목록을 조회합니다. 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "BoardsController_findInvitations",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardUserEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 초대 목록 조회",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/boards/{id}/invitations/{invitationId}": {
+      "delete": {
+        "description": "대기 중인 게시판 초대를 회수합니다(레코드 삭제). 소유자(OWNER) 또는 관리자(MANAGER) 권한이 필요합니다.",
+        "operationId": "BoardsController_revokeInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시판 초대 회수",
+        "tags": [
+          "게시판"
+        ]
+      }
+    },
+    "/posts": {
+      "post": {
+        "description": "게시판에 새로운 게시물을 작성합니다. 요청한 사용자가 작성자로 등록됩니다. 비공개(PRIVATE) 공간 또는 게시판이라면 멤버여야 작성할 수 있습니다.",
+        "operationId": "PostsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시물 작성",
+        "tags": [
+          "게시물"
+        ]
+      },
+      "get": {
+        "description": "접근 가능한 게시물 목록을 조회합니다. 비공개(PRIVATE) 공간 또는 게시판에 속한 게시물은 해당 공간/게시판의 멤버에게만 노출됩니다.",
+        "operationId": "PostsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시물 목록 조회",
+        "tags": [
+          "게시물"
+        ]
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "description": "ID로 단일 게시물을 조회합니다. 접근 권한이 없는 비공개(PRIVATE) 공간/게시판에 속한 게시물은 조회되지 않습니다.",
+        "operationId": "PostsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시물 상세 조회",
+        "tags": [
+          "게시물"
+        ]
+      },
+      "patch": {
+        "description": "게시물을 수정합니다. 본인이 작성한 게시물만 수정할 수 있습니다.",
+        "operationId": "PostsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시물 수정",
+        "tags": [
+          "게시물"
+        ]
+      },
+      "delete": {
+        "description": "게시물을 삭제합니다(소프트 삭제). 작성자 본인이거나, 해당 게시판의 소유자(OWNER)/관리자(MANAGER)만 삭제할 수 있습니다.",
+        "operationId": "PostsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "게시물 삭제",
+        "tags": [
+          "게시물"
+        ]
+      }
+    },
+    "/comments": {
+      "post": {
+        "description": "게시물에 댓글을 작성합니다. 상위 댓글 ID를 지정하면 대댓글로 등록됩니다. 비공개(PRIVATE) 공간 또는 게시판이라면 멤버여야 작성할 수 있습니다.",
+        "operationId": "CommentsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "댓글 작성",
+        "tags": [
+          "댓글"
+        ]
+      },
+      "get": {
+        "description": "게시물에 속한 댓글 목록을 조회합니다. `parentId`를 지정하지 않으면 해당 게시물의 최상위 댓글을, 지정하면 해당 댓글의 대댓글을 반환합니다. 비공개(PRIVATE) 공간 또는 게시판에 속한 댓글은 해당 공간/게시판의 멤버에게만 노출됩니다.",
+        "operationId": "CommentsController_findAll",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "description": "게시물 ID",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "parentId",
+            "required": false,
+            "in": "query",
+            "description": "상위 댓글 ID. 지정하지 않으면 최상위 댓글을, 지정하면 해당 댓글의 대댓글을 반환합니다.",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "댓글 목록 조회",
+        "tags": [
+          "댓글"
+        ]
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "description": "ID로 단일 댓글을 조회합니다. 접근 권한이 없는 비공개(PRIVATE) 공간/게시판의 댓글은 조회되지 않습니다.",
+        "operationId": "CommentsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "댓글 상세 조회",
+        "tags": [
+          "댓글"
+        ]
+      },
+      "patch": {
+        "description": "댓글을 수정합니다. 본인이 작성한 댓글만 수정할 수 있습니다.",
+        "operationId": "CommentsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "댓글 수정",
+        "tags": [
+          "댓글"
+        ]
+      },
+      "delete": {
+        "description": "댓글을 삭제합니다(소프트 삭제). 작성자 본인이거나, 해당 게시판의 소유자(OWNER)/관리자(MANAGER)만 삭제할 수 있습니다.",
+        "operationId": "CommentsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "댓글 삭제",
+        "tags": [
+          "댓글"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "blommunity API 문서",
+    "description": "blommunity의 REST API 문서입니다. 인증, 게시물 관리 등의 기능을 제공합니다.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "SignUpDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "테넌트 아이디"
+          },
+          "username": {
+            "type": "string",
+            "description": "사용자 아이디"
+          },
+          "password": {
+            "type": "string",
+            "description": "비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "회원가입 요청 시 전달하는 계정 정보",
+        "required": [
+          "tenantId",
+          "username",
+          "password"
+        ]
+      },
+      "SignInDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "description": "테넌트 아이디"
+          },
+          "username": {
+            "type": "string",
+            "description": "사용자 아이디"
+          },
+          "password": {
+            "type": "string",
+            "description": "비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "로그인 요청 시 전달하는 인증 정보",
+        "required": [
+          "tenantId",
+          "username",
+          "password"
+        ]
+      },
+      "TenantSignUpDto": {
+        "type": "object",
+        "properties": {
+          "tenantName": {
+            "type": "string",
+            "description": "테넌트 이름"
+          },
+          "username": {
+            "type": "string",
+            "description": "사용자 아이디"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "테넌트와 최초 사용자 계정을 함께 생성하는 회원가입 요청 정보",
+        "required": [
+          "tenantName",
+          "username",
+          "email",
+          "password"
+        ]
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "description": "현재 비밀번호"
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "새 비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "현재 비밀번호 확인 후 새 비밀번호로 변경",
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      },
+      "AdminSignUpDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "관리자 이름"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "관리자 계정을 생성하는 회원가입 요청 정보",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "AdminSignInDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "관리자 로그인 요청 시 전달하는 인증 정보",
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AdminEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "관리자 ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "관리자 이름"
+          },
+          "email": {
+            "type": "string",
+            "description": "관리자 이메일"
+          },
+          "role": {
+            "description": "관리자 권한",
+            "enum": [
+              "OWNER",
+              "MANAGER",
+              "MEMBER"
+            ],
+            "type": "string"
+          },
+          "approvedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true,
+            "description": "승인 일시 (null이면 승인 대기)"
+          },
+          "approverId": {
+            "type": "string",
+            "nullable": true,
+            "description": "승인자 ID"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "수정일시"
+          }
+        },
+        "description": "관리자 조회 응답에 포함되는 정보",
+        "required": [
+          "id",
+          "name",
+          "email",
+          "role",
+          "approvedAt",
+          "approverId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateAdminDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "관리자 이름"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          }
+        },
+        "description": "관리자 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "AssignRoleDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "임명할 권한 (OWNER, MANAGER 또는 MEMBER)",
+            "enum": [
+              "OWNER",
+              "MANAGER",
+              "MEMBER"
+            ]
+          }
+        },
+        "description": "계정 권한 임명 요청 시 전달하는 정보",
+        "required": [
+          "role"
+        ]
+      },
+      "TenantEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "테넌트 ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "테넌트 이름"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          }
+        },
+        "description": "테넌트 조회 응답에 포함되는 테넌트 정보",
+        "required": [
+          "id",
+          "name",
+          "createdAt"
+        ]
+      },
+      "UpdateTenantDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "테넌트 이름"
+          }
+        },
+        "description": "테넌트 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "계정 ID"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "테넌트 ID"
+          },
+          "username": {
+            "type": "string",
+            "description": "사용자 아이디"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true,
+            "description": "사용자 이메일"
+          },
+          "role": {
+            "description": "계정 권한",
+            "enum": [
+              "OWNER",
+              "MANAGER",
+              "MEMBER"
+            ],
+            "type": "string"
+          },
+          "visibility": {
+            "description": "계정 가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "계정 생성일"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "계정 수정일"
+          }
+        },
+        "description": "프로필 조회 응답에 포함되는 계정 정보",
+        "required": [
+          "id",
+          "tenantId",
+          "username",
+          "email",
+          "role",
+          "visibility",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "사용자 아이디"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일 주소",
+            "format": "email"
+          }
+        },
+        "description": "계정 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "newPassword": {
+            "type": "string",
+            "description": "새 비밀번호 (8자 이상)",
+            "minLength": 8
+          }
+        },
+        "description": "대상 계정에 적용할 새 비밀번호",
+        "required": [
+          "newPassword"
+        ]
+      },
+      "CreateSpaceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "공간 이름"
+          },
+          "description": {
+            "type": "string",
+            "description": "설명"
+          },
+          "visibility": {
+            "type": "string",
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ]
+          }
+        },
+        "description": "공간 생성 요청 시 전달하는 정보",
+        "required": [
+          "name"
+        ]
+      },
+      "SpaceEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "공간 ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "공간 이름"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "공간 설명"
+          },
+          "visibility": {
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          }
+        },
+        "description": "게시판이 속한 공간의 상세 정보",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "visibility",
+          "createdAt"
+        ]
+      },
+      "SpaceUserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "멤버십 ID"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "공간 ID"
+          },
+          "userId": {
+            "type": "string",
+            "description": "사용자 ID"
+          },
+          "role": {
+            "description": "공간 내 역할",
+            "enum": [
+              "OWNER",
+              "MANAGER",
+              "MEMBER"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "멤버십 상태 (PENDING: 초대 대기, ACTIVE: 멤버)",
+            "enum": [
+              "PENDING",
+              "ACTIVE"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          }
+        },
+        "description": "공간 사용자(멤버 또는 초대 대기 중)의 상세 정보",
+        "required": [
+          "id",
+          "spaceId",
+          "userId",
+          "role",
+          "status",
+          "createdAt"
+        ]
+      },
+      "UpdateSpaceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "공간 이름"
+          },
+          "description": {
+            "type": "string",
+            "description": "설명"
+          },
+          "visibility": {
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "공간 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "InviteSpaceUserDto": {
+        "type": "object",
+        "properties": {
+          "inviteeId": {
+            "type": "string",
+            "description": "초대할 사용자 ID",
+            "format": "uuid"
+          }
+        },
+        "description": "공간 초대 요청 시 전달하는 정보",
+        "required": [
+          "inviteeId"
+        ]
+      },
+      "CreateBoardDto": {
+        "type": "object",
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "description": "소속 공간 ID",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "게시판 이름"
+          },
+          "description": {
+            "type": "string",
+            "description": "설명"
+          },
+          "visibility": {
+            "type": "string",
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ]
+          }
+        },
+        "description": "게시판 생성 요청 시 전달하는 정보",
+        "required": [
+          "spaceId",
+          "name"
+        ]
+      },
+      "BoardEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "게시판 ID"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "소속 공간 ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "게시판 이름"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "게시판 설명"
+          },
+          "visibility": {
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          }
+        },
+        "description": "공간에 속한 게시판의 상세 정보",
+        "required": [
+          "id",
+          "spaceId",
+          "name",
+          "description",
+          "visibility",
+          "createdAt"
+        ]
+      },
+      "BoardUserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "멤버십 ID"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "게시판 ID"
+          },
+          "userId": {
+            "type": "string",
+            "description": "사용자 ID"
+          },
+          "role": {
+            "description": "게시판 내 역할",
+            "enum": [
+              "OWNER",
+              "MANAGER",
+              "MEMBER"
+            ],
+            "type": "string"
+          },
+          "status": {
+            "description": "멤버십 상태 (PENDING: 초대 대기, ACTIVE: 멤버)",
+            "enum": [
+              "PENDING",
+              "ACTIVE"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "생성일시"
+          }
+        },
+        "description": "게시판 사용자(멤버 또는 초대 대기 중)의 상세 정보",
+        "required": [
+          "id",
+          "boardId",
+          "userId",
+          "role",
+          "status",
+          "createdAt"
+        ]
+      },
+      "UpdateBoardDto": {
+        "type": "object",
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "description": "소속 공간 ID",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "게시판 이름"
+          },
+          "description": {
+            "type": "string",
+            "description": "설명"
+          },
+          "visibility": {
+            "description": "가시성",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE"
+            ],
+            "type": "string"
+          }
+        },
+        "description": "게시판 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "InviteBoardUserDto": {
+        "type": "object",
+        "properties": {
+          "inviteeId": {
+            "type": "string",
+            "description": "초대할 사용자 ID",
+            "format": "uuid"
+          }
+        },
+        "description": "게시판 초대 요청 시 전달하는 정보",
+        "required": [
+          "inviteeId"
+        ]
+      },
+      "CreatePostDto": {
+        "type": "object",
+        "properties": {
+          "boardId": {
+            "type": "string",
+            "description": "소속 게시판 ID",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "description": "게시물 제목"
+          },
+          "content": {
+            "type": "string",
+            "description": "게시물 본문"
+          }
+        },
+        "description": "게시물 생성 요청 시 전달하는 정보",
+        "required": [
+          "boardId",
+          "title",
+          "content"
+        ]
+      },
+      "PostEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "게시물 ID"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "소속 게시판 ID"
+          },
+          "authorId": {
+            "type": "string",
+            "description": "작성자 ID"
+          },
+          "title": {
+            "type": "string",
+            "description": "게시물 제목"
+          },
+          "content": {
+            "type": "string",
+            "description": "게시물 본문"
+          },
+          "commentCount": {
+            "type": "number",
+            "description": "활성 댓글 수 (모든 depth 포함)"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "작성일시"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "수정일시"
+          }
+        },
+        "description": "게시판에 속한 게시물의 상세 정보",
+        "required": [
+          "id",
+          "boardId",
+          "authorId",
+          "title",
+          "content",
+          "commentCount",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdatePostDto": {
+        "type": "object",
+        "properties": {
+          "boardId": {
+            "type": "string",
+            "description": "소속 게시판 ID",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "description": "게시물 제목"
+          },
+          "content": {
+            "type": "string",
+            "description": "게시물 본문"
+          }
+        },
+        "description": "게시물 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      },
+      "CreateCommentDto": {
+        "type": "object",
+        "properties": {
+          "postId": {
+            "type": "string",
+            "description": "소속 게시물 ID",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "상위 댓글 ID (대댓글인 경우)",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "댓글 내용"
+          }
+        },
+        "description": "댓글 생성 요청 시 전달하는 정보",
+        "required": [
+          "postId",
+          "content"
+        ]
+      },
+      "CommentEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "댓글 ID"
+          },
+          "postId": {
+            "type": "string",
+            "description": "소속 게시물 ID"
+          },
+          "parentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "상위 댓글 ID"
+          },
+          "authorId": {
+            "type": "string",
+            "description": "작성자 ID"
+          },
+          "content": {
+            "type": "string",
+            "description": "댓글 내용"
+          },
+          "replyCount": {
+            "type": "number",
+            "description": "활성 대댓글 수 (모든 depth 포함)"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "작성일시"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "수정일시"
+          }
+        },
+        "description": "게시물에 속한 댓글의 상세 정보",
+        "required": [
+          "id",
+          "postId",
+          "parentId",
+          "authorId",
+          "content",
+          "replyCount",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateCommentDto": {
+        "type": "object",
+        "properties": {
+          "postId": {
+            "type": "string",
+            "description": "소속 게시물 ID",
+            "format": "uuid"
+          },
+          "parentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "상위 댓글 ID (대댓글인 경우)",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "댓글 내용"
+          }
+        },
+        "description": "댓글 수정 요청 시 전달하는 정보 (모든 필드 선택)"
+      }
+    }
+  }
+}

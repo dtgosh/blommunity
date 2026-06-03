@@ -1,0 +1,82 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+import Preview from "../../components/Preview.astro";
+import { Badge } from "@blommunity/ui/badge";
+import { RoleBadge, VisibilityBadge } from "@blommunity/ui/role-badge";
+---
+
+<DocLayout
+  title="배지"
+  description="상태, 역할, 가시성을 표현하는 소형 레이블 컴포넌트. 5가지 톤을 지원합니다."
+>
+
+  <h2 class="mb-3 text-[17px] font-bold text-ink">톤 (Tone)</h2>
+  <Preview label="Tones">
+    <Badge tone="neutral" client:load>Neutral</Badge>
+    <Badge tone="accent" client:load>Accent</Badge>
+    <Badge tone="success" client:load>Success</Badge>
+    <Badge tone="warning" client:load>Warning</Badge>
+    <Badge tone="danger" client:load>Danger</Badge>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">크기 (Size)</h2>
+  <Preview label="Sizes">
+    <Badge tone="accent" size="sm" client:load>Small</Badge>
+    <Badge tone="accent" size="md" client:load>Medium</Badge>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">아이콘</h2>
+  <Preview label="With Icon">
+    <Badge tone="success" icon="check" client:load>승인됨</Badge>
+    <Badge tone="warning" icon="clock" client:load>대기 중</Badge>
+    <Badge tone="danger" icon="ban" client:load>정지</Badge>
+    <Badge tone="neutral" icon="lock" client:load>PRIVATE</Badge>
+    <Badge tone="success" icon="globe" client:load>PUBLIC</Badge>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">역할 배지 (RoleBadge)</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">
+    <code class="rounded bg-surface-2 px-1 py-0.5">Role</code> 값을 받아 자동으로 톤을 적용합니다.
+    OWNER → accent, MANAGER → warning, MEMBER → neutral.
+  </p>
+  <Preview label="RoleBadge">
+    <RoleBadge role="OWNER" client:load />
+    <RoleBadge role="MANAGER" client:load />
+    <RoleBadge role="MEMBER" client:load />
+    <RoleBadge role="OWNER" size="md" client:load />
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">가시성 배지 (VisibilityBadge)</h2>
+  <Preview label="VisibilityBadge">
+    <VisibilityBadge visibility="PUBLIC" client:load />
+    <VisibilityBadge visibility="PRIVATE" client:load />
+    <VisibilityBadge visibility="PUBLIC" size="md" client:load />
+  </Preview>
+
+  <!-- Props 테이블 -->
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">Props</h2>
+  <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+    <table class="w-full text-[13px]">
+      <thead>
+        <tr class="border-b border-line bg-surface-2 text-left">
+          <th class="px-4 py-2.5 font-semibold text-ink">Prop</th>
+          <th class="px-4 py-2.5 font-semibold text-ink">타입</th>
+          <th class="px-4 py-2.5 font-semibold text-ink">기본값</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[
+          { prop: "tone", type: '"neutral" | "accent" | "success" | "warning" | "danger"', default: '"neutral"' },
+          { prop: "size", type: '"sm" | "md"', default: '"md"' },
+          { prop: "icon", type: "IconName", default: "—" },
+        ].map((r, i) => (
+          <tr class={i > 0 ? "border-t border-line" : ""}>
+            <td class="px-4 py-2.5"><code class="text-accent-text">{r.prop}</code></td>
+            <td class="px-4 py-2.5 text-ink-2">{r.type}</td>
+            <td class="px-4 py-2.5 text-ink-3">{r.default}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</DocLayout>

@@ -1,0 +1,112 @@
+/* ============================================================================
+   @blommunity/tokens — console.css
+   콘솔 패밀리 (--bl-*) — Operator Admin + Tenant Console.
+   쿨 뉴트럴 그레이, 정보 밀도 높은 SaaS UI. 라이트 + 다크.
+   .bl 래퍼에 적용; .bl.dark 추가로 다크 모드 전환.
+============================================================================ */
+
+@import "./base.css";
+
+.bl {
+  /* surfaces */
+  --bl-surface-0:     #f7f7f8;
+  --bl-surface-1:     #ffffff;
+  --bl-surface-2:     #f4f4f5;
+  --bl-surface-hover: #f4f4f5;
+  /* borders */
+  --bl-border:        #e7e7ea;
+  --bl-border-strong: #d7d7dc;
+  /* text */
+  --bl-text-1: #1a1a1f;
+  --bl-text-2: #5c5c66;
+  --bl-text-3: #92929c;
+  /* accent */
+  --bl-accent:       #4f46e5;
+  --bl-accent-hover: #4338ca;
+  --bl-accent-press: #3730a3;
+  --bl-accent-weak:  #eef0fe;
+  --bl-accent-text:  #4f46e5;
+  --bl-on-accent:    #ffffff;
+  /* semantic */
+  --bl-success:    #15803d; --bl-success-bg: #f0fdf4;              --bl-success-bd: #c6ecd0;
+  --bl-warning:    #b45309; --bl-warning-bg: #fffbeb;              --bl-warning-bd: #fbe3a8;
+  --bl-danger:     #dc2626; --bl-danger-bg:  #fef2f2;              --bl-danger-bd:  #f9cfcf;
+  --bl-neutral:    #5c5c66; --bl-neutral-bg: #f4f4f5;              --bl-neutral-bd: #e4e4e7;
+  /* 포커스 + 엘리베이션 */
+  --bl-focus:      rgba(79, 70, 229, 0.35);
+  --bl-shadow-pop: 0 8px 28px rgba(20, 20, 30, 0.12), 0 0 0 1px rgba(20, 20, 30, 0.05);
+  --shadow-pop:    var(--bl-shadow-pop);
+
+  color: var(--bl-text-1);
+  background: var(--bl-surface-0);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv05" 1, "ss01" 1;
+}
+
+.bl.dark {
+  --bl-surface-0:     #0a0a0c;
+  --bl-surface-1:     #141417;
+  --bl-surface-2:     #1c1c20;
+  --bl-surface-hover: #1f1f24;
+  --bl-border:        #28282e;
+  --bl-border-strong: #3a3a42;
+  --bl-text-1: #f3f3f5;
+  --bl-text-2: #a6a6b0;
+  --bl-text-3: #6e6e78;
+  --bl-accent:       #6366f1;
+  --bl-accent-hover: #7c7ff5;
+  --bl-accent-press: #5457e0;
+  --bl-accent-weak:  rgba(99, 102, 241, 0.16);
+  --bl-accent-text:  #a5a8fb;
+  --bl-on-accent:    #ffffff;
+  --bl-success:    #5ed68f; --bl-success-bg: rgba(34, 197, 94, 0.13);  --bl-success-bd: rgba(34, 197, 94, 0.28);
+  --bl-warning:    #f0b65a; --bl-warning-bg: rgba(217, 119, 6, 0.15);  --bl-warning-bd: rgba(217, 119, 6, 0.32);
+  --bl-danger:     #f08585; --bl-danger-bg:  rgba(220, 38, 38, 0.15);  --bl-danger-bd:  rgba(220, 38, 38, 0.32);
+  --bl-neutral:    #a6a6b0; --bl-neutral-bg: #1f1f24;                  --bl-neutral-bd: #303036;
+  --bl-focus:      rgba(124, 127, 245, 0.45);
+  --bl-shadow-pop: 0 10px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-pop:    var(--bl-shadow-pop);
+}
+
+.bl ::selection    { background: var(--bl-accent-weak); }
+.bl :focus-visible { outline: 2px solid var(--bl-focus); outline-offset: 2px; border-radius: 5px; }
+.bl-tnum           { font-variant-numeric: tabular-nums; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Tailwind v4 @theme inline — 디자인 토큰을 Tailwind 유틸리티에 매핑.
+   --font-sans는 앱별 Next.js 폰트 변수를 참조하므로 앱 globals.css에서 처리.
+────────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-surface-0:     var(--bl-surface-0);
+  --color-surface-1:     var(--bl-surface-1);
+  --color-surface-2:     var(--bl-surface-2);
+  --color-surface-hover: var(--bl-surface-hover);
+
+  --color-line:        var(--bl-border);
+  --color-line-strong: var(--bl-border-strong);
+
+  --color-ink:   var(--bl-text-1);
+  --color-ink-2: var(--bl-text-2);
+  --color-ink-3: var(--bl-text-3);
+
+  --color-accent:       var(--bl-accent);
+  --color-accent-hover: var(--bl-accent-hover);
+  --color-accent-press: var(--bl-accent-press);
+  --color-accent-weak:  var(--bl-accent-weak);
+  --color-accent-text:  var(--bl-accent-text);
+  --color-on-accent:    var(--bl-on-accent);
+
+  --color-success:    var(--bl-success);
+  --color-success-bg: var(--bl-success-bg);
+  --color-success-bd: var(--bl-success-bd);
+  --color-warning:    var(--bl-warning);
+  --color-warning-bg: var(--bl-warning-bg);
+  --color-warning-bd: var(--bl-warning-bd);
+  --color-danger:     var(--bl-danger);
+  --color-danger-bg:  var(--bl-danger-bg);
+  --color-danger-bd:  var(--bl-danger-bd);
+  --color-neutral:    var(--bl-neutral);
+  --color-neutral-bg: var(--bl-neutral-bg);
+  --color-neutral-bd: var(--bl-neutral-bd);
+}

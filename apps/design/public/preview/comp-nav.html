@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter","Pretendard",sans-serif;background:#fff;padding:20px 24px;color:#18181b;display:flex;gap:20px}
+  .nav{width:236px;background:#fff;border:1px solid #e7e7ea;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+  .item{position:relative;display:flex;align-items:center;gap:10px;height:36px;padding:0 10px 0 12px;border-radius:7px;font-size:13px;color:#5c5c66;font-weight:500}
+  .item.on{background:#eef0fe;color:#4f46e5;font-weight:650}
+  .item.on .accent{position:absolute;left:-8px;top:7px;bottom:7px;width:3px;border-radius:3px;background:#4f46e5}
+  .item.lock{color:#92929c;opacity:.6}
+  svg{width:17px;height:17px}
+  .badge{margin-left:auto;min-width:18px;height:18px;padding:0 5px;border-radius:9px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;background:#fffbeb;color:#b45309;border:1px solid #fbe3a8}
+  .cap{font-size:11px;color:#92929c;align-self:center}
+</style></head>
+<body>
+  <nav class="nav">
+    <div class="item on"><span class="accent"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.2"/><rect x="14" y="3" width="7" height="5" rx="1.2"/><rect x="14" y="11" width="7" height="10" rx="1.2"/><rect x="3" y="15" width="7" height="6" rx="1.2"/></svg>대시보드</div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="4" y="2" width="16" height="20" rx="1.5"/><path d="M9 22v-5h6v5"/></svg>테넌트 관리<span class="badge">3</span></div>
+    <div class="item lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m8.5 11.5 2.5 2.5 4.5-5"/></svg>운영자 관리<svg style="margin-left:auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>감사 로그</div>
+  </nav>
+  <span class="cap">Sidebar nav — active · pending badge · permission-locked item</span>
+</body></html>

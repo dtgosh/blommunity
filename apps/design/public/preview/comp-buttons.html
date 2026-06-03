@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter","Pretendard",sans-serif;background:#fff;padding:24px 26px;color:#18181b}
+  .row{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+  .row:last-child{margin-bottom:0}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;padding:0 14px;font-size:13.5px;font-weight:600;border-radius:6px;border:1px solid transparent;letter-spacing:-0.005em;cursor:default}
+  .primary{background:#4f46e5;color:#fff;box-shadow:0 1px 1px rgba(20,20,40,.10)}
+  .secondary{background:#fff;color:#1a1a1f;border-color:#d7d7dc}
+  .ghost{background:transparent;color:#5c5c66}
+  .danger{background:transparent;color:#dc2626;border-color:#e7e7ea}
+  .sm{height:30px;padding:0 11px;font-size:13px}
+  .lg{height:42px;padding:0 17px;font-size:14.5px}
+   svg{width:16px;height:16px}
+  .lbl{font-size:10.5px;color:#92929c;width:64px}
+</style></head>
+<body>
+  <div class="row"><span class="lbl">variants</span>
+    <button class="btn primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>새 게시판</button>
+    <button class="btn secondary">취소</button>
+    <button class="btn ghost">전체 보기</button>
+    <button class="btn danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>삭제</button>
+  </div>
+  <div class="row"><span class="lbl">sizes</span>
+    <button class="btn primary sm">Small</button>
+    <button class="btn primary">Medium</button>
+    <button class="btn primary lg">Large</button>
+  </div>
+</body></html>

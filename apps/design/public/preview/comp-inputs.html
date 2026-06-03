@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter","Pretendard",sans-serif;background:#fff;padding:24px 26px;color:#18181b;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .field{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:1px solid #d7d7dc;border-radius:7px;background:#fff;width:200px}
+  .field.focus{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.35)}
+  .field input{flex:1;border:none;outline:none;background:transparent;font-size:13.5px;font-family:inherit;color:#1a1a1f}
+  .field input::placeholder{color:#92929c}
+  svg{width:15px;height:15px;color:#92929c}
+  .seg{display:inline-flex;padding:3px;gap:3px;background:#f4f4f5;border-radius:9px;border:1px solid #e7e7ea}
+  .seg button{height:32px;padding:0 13px;border:none;border-radius:6px;font-size:12.5px;font-weight:550;font-family:inherit;background:transparent;color:#92929c;cursor:default}
+  .seg button.on{background:#fff;color:#1a1a1f;font-weight:650;box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px #e7e7ea}
+  .toggle{width:42px;height:24px;border-radius:13px;background:#4f46e5;position:relative}
+  .toggle span{position:absolute;top:2px;left:20px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .toggle.off{background:#d7d7dc}
+  .toggle.off span{left:2px}
+</style></head>
+<body>
+  <div class="field focus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input placeholder="이름·이메일 검색" value="북클럽"/></div>
+  <div class="seg"><button class="on">전체</button><button>OWNER</button><button>MANAGER</button></div>
+  <div class="toggle"><span></span></div>
+  <div class="toggle off"><span></span></div>
+</body></html>

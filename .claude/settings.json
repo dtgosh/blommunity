@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(git commit *)",
+      "Bash(* --version)",
+      "Bash(* --help *)",
+      "Bash(git add *)",
+      "Bash(turbo run *)",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(rm -rf *)"
+    ]
+  },
+  "model": "best",
+  "language": "korean"
+}

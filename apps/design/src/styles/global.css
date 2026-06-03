@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@blommunity/tokens";
+
+/* 폰트 — 앱과 달리 디자인 사이트는 CDN에서 직접 로드 */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@theme inline {
+  --font-sans: "Inter", "Pretendard", system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}

@@ -1,0 +1,48 @@
+/* ============================================================================
+   @blommunity/tokens — base.css
+   테마 독립적인 공유 상수. 앱 프레임워크에 관계없이 임포트 가능.
+   (폰트 CDN @import 없음 — 앱이 각자 처리)
+============================================================================ */
+
+:root {
+  /* —— 브랜드 상수 —— */
+  --brand-indigo:        #4f46e5;
+  --brand-indigo-bright: #6366f1;
+  --brand-indigo-deep:   #3730a3;
+  --brand-ink:           #18181b;
+  --brand-gradient:      linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+
+  /* —— 타입 패밀리 —— */
+  --font-sans: "Inter", "Pretendard", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
+
+  /* —— 타입 스케일 —— */
+  --fs-display: 30px;
+  --fs-h1:      21px;
+  --fs-h2:      17px;
+  --fs-body:    14px;
+  --fs-prose:   17px;
+  --fs-sm:      13px;
+  --fs-xs:      12px;
+  --fs-micro:   11px;
+
+  /* —— 웨이트 —— */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+  --fw-black:   800;
+
+  /* —— 라디우스 —— */
+  --r-xs:  5px;
+  --r-sm:  6px;
+  --r-md:  7px;
+  --r-lg:  8px;
+  --r-xl:  10px;
+  --r-2xl: 11px;
+  --r-pill: 999px;
+
+  /* —— 스페이싱 (4px 기준) —— */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+}

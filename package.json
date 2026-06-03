@@ -1,0 +1,46 @@
+{
+  "name": "blommunity",
+  "version": "1.0.0",
+  "description": "모든 유형의 게시판에서 공통적으로 사용하는 기능을 제공합니다.",
+  "keywords": [
+    "multi-tenancy",
+    "MACH",
+    "monorepo"
+  ],
+  "author": "dtgosh",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "npm@11.6.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "check-types": "turbo run check-types",
+    "prepare": "husky",
+    "commit": "cz",
+    "release": "commit-and-tag-version",
+    "gen:api": "turbo run generate"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.4.4",
+    "@commitlint/config-conventional": "^20.4.4",
+    "commit-and-tag-version": "^12.6.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "turbo": "^2.9.16"
+  },
+  "commitlint": {
+    "extends": "@commitlint/config-conventional"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

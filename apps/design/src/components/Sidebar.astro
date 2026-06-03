@@ -1,0 +1,63 @@
+---
+import { NAV } from "../nav";
+
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
+
+function isActive(href: string) {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+}
+---
+
+<aside class="flex w-60 shrink-0 flex-col overflow-y-auto border-r border-line bg-surface-1">
+  <!-- 로고 -->
+  <div class="flex h-14 shrink-0 items-center gap-2.5 border-b border-line px-5">
+    <div class="flex size-7 items-center justify-center rounded-lg bg-accent">
+      <!-- 블로뮤니티 마크 (CSS 빌드) -->
+      <div class="flex flex-col justify-center gap-[3px] px-1" style="width:18px;height:15px;">
+        <div class="h-[2px] w-full rounded-full bg-white"></div>
+        <div class="h-[2px] w-[58%] rounded-full bg-white"></div>
+      </div>
+    </div>
+    <div>
+      <div class="text-[13px] font-bold tracking-tight text-ink">blommunity</div>
+      <div class="text-[10px] font-semibold uppercase tracking-widest text-ink-3">Design System</div>
+    </div>
+  </div>
+
+  <!-- 네비게이션 -->
+  <nav class="flex-1 space-y-6 p-4 pt-5">
+    {NAV.map((section) => (
+      <div>
+        <p class="mb-1.5 px-2 text-[11px] font-bold uppercase tracking-widest text-ink-3">
+          {section.title}
+        </p>
+        <ul class="space-y-0.5">
+          {section.items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={[
+                  "flex items-center rounded-md px-2.5 py-[7px] text-[13px] font-medium transition-colors",
+                  isActive(item.href)
+                    ? "bg-accent-weak text-accent-text"
+                    : "text-ink-2 hover:bg-surface-2 hover:text-ink",
+                ].join(" ")}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+
+  <!-- 버전 -->
+  <div class="border-t border-line px-5 py-3.5">
+    <span class="text-[11px] text-ink-3">v1.0.0 · Tailwind v4</span>
+  </div>
+</aside>

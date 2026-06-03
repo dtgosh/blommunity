@@ -1,0 +1,96 @@
+/* ============================================================================
+   @blommunity/tokens — community.css
+   커뮤니티 패밀리 (--cm-*) — 테넌트별 재스킨 가능한 유저 커뮤니티.
+   따뜻한 종이 뉴트럴, 읽기 중심. 라이트 + 다크.
+   .cm-page 래퍼에 적용; [data-theme="dark"] 추가로 다크 모드 전환.
+   --accent / --accent-* 4개 변수만 교체하면 테넌트 브랜딩 완성.
+============================================================================ */
+
+@import "./base.css";
+
+.cm-page {
+  /* 테넌트별 교체 가능한 단일 액센트 */
+  --accent:       #4f46e5;
+  --accent-press: #4036c9;
+  --accent-weak:  #eef0fe;
+  --accent-text:  #4338ca;
+  /* 따뜻한 뉴트럴 베이스 */
+  --paper:         #fbfbf9;
+  --surface:       #ffffff;
+  --surface-2:     #f4f3ef;
+  --ink:           #1a1a18;
+  --text:          #34332e;
+  --muted:         #6f6e67;
+  --faint:         #9c9a91;
+  --border:        #e9e7e1;
+  --border-strong: #dcd9d1;
+  --like:          #d6455d;
+  --ok:            #2f8a52;
+  --focus:         rgba(79, 70, 229, 0.4);
+  --shadow-pop:    0 8px 28px rgba(20, 18, 12, 0.10), 0 0 0 1px rgba(20, 18, 12, 0.04);
+
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv05" 1;
+}
+
+.cm-page[data-theme="dark"] {
+  --accent:       #7c7ff5;
+  --accent-press: #6f72ee;
+  --accent-weak:  rgba(124, 127, 245, 0.16);
+  --accent-text:  #a9abfb;
+  --paper:         #0e0e10;
+  --surface:       #18181b;
+  --surface-2:     #1f1f23;
+  --ink:           #f3f2ef;
+  --text:          #cfcdc6;
+  --muted:         #9a988f;
+  --faint:         #6c6a63;
+  --border:        #2a2a2e;
+  --border-strong: #3a3a40;
+  --like:          #f0768a;
+  --ok:            #5ed68f;
+  --focus:         rgba(124, 127, 245, 0.5);
+  --shadow-pop:    0 10px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.cm-page ::selection    { background: var(--accent-weak); }
+.cm-page :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Tailwind v4 @theme inline — 공유 @blommunity/ui 컴포넌트가 사용하는
+   유틸리티 이름을 community 토큰 변수에 매핑.
+   --font-sans는 앱별 Next.js 폰트 변수를 참조하므로 앱 globals.css에서 처리.
+────────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-surface-0:     var(--paper);
+  --color-surface-1:     var(--surface);
+  --color-surface-2:     var(--surface-2);
+  --color-surface-hover: var(--surface-2);
+
+  --color-line:        var(--border);
+  --color-line-strong: var(--border-strong);
+
+  --color-ink:   var(--ink);
+  --color-ink-2: var(--text);
+  --color-ink-3: var(--muted);
+
+  --color-accent:       var(--accent);
+  --color-accent-hover: var(--accent-press);
+  --color-accent-press: var(--accent-press);
+  --color-accent-weak:  var(--accent-weak);
+  --color-accent-text:  var(--accent-text);
+  --color-on-accent:    #ffffff;
+
+  --color-success:    var(--ok);
+  --color-danger:     var(--like);
+}
+
+/* 장문 읽기 산문 */
+.cm-prose    { font-size: var(--fs-prose); line-height: 1.78; letter-spacing: -0.003em; }
+.cm-prose h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.35; }

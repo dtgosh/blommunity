@@ -1,0 +1,18 @@
+{
+  "name": "@blommunity/types",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@blommunity/eslint-config": "*"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
+  }
+}

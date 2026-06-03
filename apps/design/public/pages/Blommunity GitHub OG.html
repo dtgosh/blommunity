@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>blommunity — GitHub OG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{ --accent:#4F46E5; --accent2:#6366F1; --ink:#18181B; --paper:#FBFBF9; --muted:#54534D; --faint:#9C9A91; --border:#E7E5DF; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:#2a2a2e; }
+  body{ font-family:"Inter","Pretendard",system-ui,sans-serif; -webkit-font-smoothing:antialiased; display:flex; align-items:center; justify-content:center; min-height:100vh; }
+
+  /* exact GitHub OG canvas */
+  .og{
+    position:relative; width:1280px; height:640px; overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% -20%, rgba(99,102,241,0.10), rgba(99,102,241,0) 60%),
+      var(--paper);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  /* 40pt safe-area guide (decorative, sits at edges) */
+  .safe{ position:absolute; inset:40px; border-radius:6px; pointer-events:none; }
+
+  /* faint oversized watermark mark, bottom-left */
+  .wm{ position:absolute; left:-70px; bottom:-90px; opacity:0.05; transform:rotate(-8deg); }
+
+  .lockup{ display:flex; align-items:center; gap:30px; }
+  .word{ font-size:120px; font-weight:700; letter-spacing:-0.042em; color:var(--ink); line-height:1; }
+
+  .tagline{ margin-top:34px; font-size:33px; font-weight:500; color:var(--muted); letter-spacing:-0.015em; text-align:center; max-width:980px; line-height:1.4; }
+
+  .tags{ margin-top:34px; display:flex; gap:12px; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--border); background:#fff; font-size:20px; font-weight:600; color:var(--muted); letter-spacing:-0.01em; }
+  .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
+
+  .url{ position:absolute; bottom:46px; left:0; right:0; text-align:center; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:19px; color:var(--faint); letter-spacing:0.02em; }
+</style>
+</head>
+<body>
+  <div class="og" id="og">
+    <!-- lockup only -->
+    <div class="lockup">
+      <svg width="158" height="158" viewBox="0 0 48 48" role="img" aria-label="blommunity logo">
+        <mask id="cut"><rect width="48" height="48" fill="#fff"/><rect x="13" y="15" width="22" height="4" rx="2" fill="#000"/><rect x="13" y="24" width="13" height="4" rx="2" fill="#000"/></mask>
+        <path d="M16 5 H32 A11 11 0 0 1 43 16 V27 A11 11 0 0 1 32 38 H8 A3 3 0 0 1 5 35 V16 A11 11 0 0 1 16 5 Z" fill="#4F46E5" mask="url(#cut)"/>
+      </svg>
+      <span class="word">blommunity</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+import Preview from "../../components/Preview.astro";
+---
+
+<DocLayout
+  title="컬러"
+  description="blommunity 디자인 시스템의 색상 토큰. 콘솔 패밀리(--bl-*)와 커뮤니티 패밀리(--cm-*)로 구성됩니다."
+>
+
+  <!-- 브랜드 -->
+  <h2 class="mb-3 text-[17px] font-bold text-ink">브랜드 상수</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">테마에 관계없이 고정된 브랜드 값입니다.</p>
+  <div class="mb-8 grid grid-cols-3 gap-3">
+    {[
+      { name: "--brand-indigo",        hex: "#4f46e5", label: "Indigo (기본)" },
+      { name: "--brand-indigo-bright", hex: "#6366f1", label: "Indigo Bright" },
+      { name: "--brand-indigo-deep",   hex: "#3730a3", label: "Indigo Deep" },
+    ].map((c) => (
+      <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+        <div class="h-14" style={`background:${c.hex}`} />
+        <div class="p-3">
+          <p class="text-[13px] font-semibold text-ink">{c.label}</p>
+          <code class="text-[11px] text-ink-3">{c.name}</code>
+          <p class="mt-0.5 text-[11px] text-ink-3">{c.hex}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- 콘솔 서피스 -->
+  <h2 class="mb-3 text-[17px] font-bold text-ink">콘솔 서피스</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">쿨 뉴트럴 그레이. <code class="rounded bg-surface-2 px-1 py-0.5 text-[11px]">.bl</code> 래퍼에 적용됩니다.</p>
+  <Preview label="라이트">
+    {[
+      { token: "--bl-surface-0",     hex: "#f7f7f8", label: "Surface 0" },
+      { token: "--bl-surface-1",     hex: "#ffffff", label: "Surface 1" },
+      { token: "--bl-surface-2",     hex: "#f4f4f5", label: "Surface 2" },
+      { token: "--bl-border",        hex: "#e7e7ea", label: "Border" },
+      { token: "--bl-border-strong", hex: "#d7d7dc", label: "Border Strong" },
+    ].map((c) => (
+      <div class="w-28">
+        <div class="mb-2 h-12 rounded-lg border border-line-strong" style={`background:${c.hex}`} />
+        <p class="text-[12px] font-medium text-ink">{c.label}</p>
+        <p class="text-[11px] text-ink-3">{c.hex}</p>
+      </div>
+    ))}
+  </Preview>
+  <Preview label="다크" bg="dark">
+    {[
+      { token: "--bl-surface-0", hex: "#0a0a0c", label: "Surface 0" },
+      { token: "--bl-surface-1", hex: "#141417", label: "Surface 1" },
+      { token: "--bl-surface-2", hex: "#1c1c20", label: "Surface 2" },
+      { token: "--bl-border",    hex: "#28282e", label: "Border" },
+    ].map((c) => (
+      <div class="w-28">
+        <div class="mb-2 h-12 rounded-lg border border-white/10" style={`background:${c.hex}`} />
+        <p class="text-[12px] font-medium text-white/80">{c.label}</p>
+        <p class="text-[11px] text-white/40">{c.hex}</p>
+      </div>
+    ))}
+  </Preview>
+
+  <!-- 액센트 -->
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">액센트</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">단 하나의 인디고 액센트. 라이트/다크 모두 동일한 토큰 이름을 사용합니다.</p>
+  <div class="mb-8 grid grid-cols-3 gap-3">
+    {[
+      { token: "--bl-accent",       light: "#4f46e5", dark: "#6366f1",            label: "Accent" },
+      { token: "--bl-accent-hover", light: "#4338ca", dark: "#7c7ff5",            label: "Accent Hover" },
+      { token: "--bl-accent-weak",  light: "#eef0fe", dark: "rgba(99,102,241,.16)", label: "Accent Weak" },
+    ].map((c) => (
+      <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+        <div class="flex h-14">
+          <div class="flex-1" style={`background:${c.light}`} />
+          <div class="flex-1" style={`background:${c.dark}`} />
+        </div>
+        <div class="p-3">
+          <p class="text-[13px] font-semibold text-ink">{c.label}</p>
+          <code class="text-[11px] text-ink-3">{c.token}</code>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- 시맨틱 -->
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">시맨틱</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">각 시맨틱 컬러는 텍스트(base), 배경(-bg), 테두리(-bd) 세 가지 값을 가집니다.</p>
+  <div class="mb-8 grid grid-cols-2 gap-4">
+    {[
+      { label: "Success", base: "#15803d", bg: "#f0fdf4", bd: "#c6ecd0" },
+      { label: "Warning", base: "#b45309", bg: "#fffbeb", bd: "#fbe3a8" },
+      { label: "Danger",  base: "#dc2626", bg: "#fef2f2", bd: "#f9cfcf" },
+      { label: "Neutral", base: "#5c5c66", bg: "#f4f4f5", bd: "#e4e4e7" },
+    ].map((c) => (
+      <div class="flex items-stretch overflow-hidden rounded-xl border border-line bg-surface-1">
+        <div class="w-3 shrink-0" style={`background:${c.base}`} />
+        <div class="flex flex-1 gap-2 p-3">
+          <div class="h-10 flex-1 rounded-lg border" style={`background:${c.bg};border-color:${c.bd}`} />
+          <div class="flex flex-col justify-center">
+            <p class="text-[13px] font-semibold text-ink">{c.label}</p>
+            <p class="text-[11px] text-ink-3">{c.base}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- 커뮤니티 -->
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">커뮤니티 패밀리</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">따뜻한 종이 뉴트럴. <code class="rounded bg-surface-2 px-1 py-0.5 text-[11px]">.cm-page</code> 래퍼에 적용되며, <code class="rounded bg-surface-2 px-1 py-0.5 text-[11px]">--accent*</code> 4개 변수로 테넌트 리스킨이 가능합니다.</p>
+  <div class="grid grid-cols-4 gap-3">
+    {[
+      { label: "Paper",   hex: "#fbfbf9" },
+      { label: "Surface", hex: "#ffffff" },
+      { label: "Surface 2", hex: "#f4f3ef" },
+      { label: "Border",  hex: "#e9e7e1" },
+      { label: "Ink",     hex: "#1a1a18" },
+      { label: "Text",    hex: "#34332e" },
+      { label: "Muted",   hex: "#6f6e67" },
+      { label: "Like",    hex: "#d6455d" },
+    ].map((c) => (
+      <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+        <div class="h-10 border-b border-line" style={`background:${c.hex}`} />
+        <div class="p-2.5">
+          <p class="text-[12px] font-medium text-ink">{c.label}</p>
+          <p class="text-[11px] text-ink-3">{c.hex}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</DocLayout>

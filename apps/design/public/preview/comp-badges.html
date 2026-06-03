@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter","Pretendard",sans-serif;background:#fff;padding:24px 26px;color:#18181b}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  .row:last-child{margin-bottom:0}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:5px;letter-spacing:.01em}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  svg{width:12px;height:12px}
+  .lbl{font-size:10.5px;color:#92929c;width:58px}
+</style></head>
+<body>
+  <div class="row"><span class="lbl">status</span>
+    <span class="badge" style="color:#15803d;background:#f0fdf4;border:1px solid #c6ecd0"><span class="dot"></span>활성</span>
+    <span class="badge" style="color:#b45309;background:#fffbeb;border:1px solid #fbe3a8"><span class="dot"></span>승인 대기</span>
+    <span class="badge" style="color:#dc2626;background:#fef2f2;border:1px solid #f9cfcf"><span class="dot"></span>정지</span>
+  </div>
+  <div class="row"><span class="lbl">role</span>
+    <span class="badge" style="color:#4f46e5;background:#eef0fe;border:1px solid transparent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.6 12.4 9.4-9.4M16 7l3 3"/></svg>OWNER</span>
+    <span class="badge" style="color:#5c5c66;background:#f4f4f5;border:1px solid #e4e4e7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m8.5 11.5 2.5 2.5 4.5-5"/></svg>MANAGER</span>
+    <span class="badge" style="color:#5c5c66;background:#f4f4f5;border:1px solid #e4e4e7">MEMBER</span>
+  </div>
+  <div class="row"><span class="lbl">visibility</span>
+    <span class="badge" style="color:#15803d;background:#f0fdf4;border:1px solid #c6ecd0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg>PUBLIC</span>
+    <span class="badge" style="color:#5c5c66;background:#f4f4f5;border:1px solid #e4e4e7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>PRIVATE</span>
+  </div>
+</body></html>

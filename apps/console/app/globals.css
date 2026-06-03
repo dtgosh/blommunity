@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@blommunity/tokens/console";
+
+@theme inline {
+  /* Next.js next/font 변수를 font-sans에 연결 */
+  --font-sans: var(--font-inter), "Pretendard", system-ui, -apple-system, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}

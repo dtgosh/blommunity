@@ -1,0 +1,322 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "./src/generated"
+  moduleFormat        = "cjs"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// 운영자
+model Admin {
+  /// 고유 식별자
+  id             String          @id @default(uuid(7)) @db.Uuid
+  /// 이름
+  name           String          @db.VarChar
+  /// 이메일 주소
+  email          String          @unique @db.VarChar
+  /// 비밀번호
+  password       String          @db.VarChar(60)
+  /// 역할
+  role           Role            @default(MEMBER)
+  /// 승인 일시 (null이면 승인 대기)
+  approvedAt     DateTime?       @map("approved_at")
+  /// 승인자 ID
+  approverId     String?         @map("approver_id") @db.Uuid
+  /// 생성일시
+  createdAt      DateTime        @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt      DateTime?       @map("deleted_at")
+  approver       Admin?          @relation("AdminApprovals", fields: [approverId], references: [id])
+  approvedAdmins Admin[]         @relation("AdminApprovals")
+  auditLogs      AdminAuditLog[]
+
+  @@map("admins")
+}
+
+/// 운영자 활동 내역
+model AdminAuditLog {
+  /// 고유 식별자
+  id        String   @id @default(uuid(7)) @db.Uuid
+  /// 운영자 ID
+  adminId   String   @map("admin_id") @db.Uuid
+  /// 요청 방식
+  method    String   @map("method")
+  /// 요청 URL
+  path      String   @map("url")
+  /// 요청 쿼리
+  query     Json?    @map("query")
+  /// 요청 본문
+  body      Json?    @map("body")
+  /// 생성 일시
+  createdAt DateTime @default(now()) @map("created_at")
+  admin     Admin    @relation(fields: [adminId], references: [id])
+
+  @@index([createdAt(sort: Desc)])
+  @@index([path, createdAt(sort: Desc)])
+  @@index([adminId, createdAt(sort: Desc)])
+  @@map("admin_audit_logs")
+}
+
+/// 테넌트
+model Tenant {
+  /// 고유 식별자
+  id         String      @id @default(uuid(7)) @db.Uuid
+  /// 이름
+  name       String      @unique @db.VarChar
+  /// 생성 일시
+  createdAt  DateTime    @default(now()) @map("created_at")
+  /// 수정 일시
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  /// 삭제 일시
+  deletedAt  DateTime?   @map("deleted_at")
+  boardUsers BoardUser[]
+  boards     Board[]
+  comments   Comment[]
+  posts      Post[]
+  spaceUsers SpaceUser[]
+  spaces     Space[]
+  users      User[]
+
+  @@map("tenants")
+}
+
+/// 사용자
+model User {
+  /// 고유 식별자
+  id         String      @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId   String      @map("tenant_id") @db.Uuid
+  /// 사용자 이름
+  username   String      @db.VarChar
+  /// 이메일 주소
+  email      String?     @db.VarChar
+  /// 역할
+  role       Role        @default(MEMBER)
+  /// 비밀번호
+  password   String      @db.VarChar(60)
+  /// 공개 범위
+  visibility Visibility  @default(PRIVATE)
+  /// 생성일시
+  createdAt  DateTime    @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt  DateTime?   @map("deleted_at")
+  boards     BoardUser[]
+  comments   Comment[]
+  posts      Post[]
+  spaces     SpaceUser[]
+  tenant     Tenant      @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, username])
+  @@unique([tenantId, email])
+  @@map("users")
+}
+
+/// 공간
+model Space {
+  /// 고유 식별자
+  id          String      @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId    String      @map("tenant_id") @db.Uuid
+  /// 이름
+  name        String      @db.VarChar
+  /// 설명
+  description String?     @db.VarChar
+  /// 공개 범위
+  visibility  Visibility  @default(PUBLIC)
+  /// 생성일시
+  createdAt   DateTime    @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt   DateTime?   @map("deleted_at")
+  boards      Board[]
+  users       SpaceUser[]
+  tenant      Tenant      @relation(fields: [tenantId], references: [id])
+
+  @@map("spaces")
+}
+
+/// 공간 사용자
+model SpaceUser {
+  /// 고유 식별자
+  id        String           @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId  String           @map("tenant_id") @db.Uuid
+  /// 소속 공간 ID
+  spaceId   String           @map("space_id") @db.Uuid
+  /// 사용자 ID
+  userId    String           @map("user_id") @db.Uuid
+  /// 역할
+  role      Role             @default(MEMBER)
+  /// 멤버십 상태 (PENDING: 초대 대기, ACTIVE: 멤버)
+  status    MembershipStatus @default(ACTIVE)
+  /// 생성일시
+  createdAt DateTime         @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt DateTime         @updatedAt @map("updated_at")
+  space     Space            @relation(fields: [spaceId], references: [id])
+  tenant    Tenant           @relation(fields: [tenantId], references: [id])
+  user      User             @relation(fields: [userId], references: [id])
+
+  @@unique([spaceId, userId])
+  @@index([userId])
+  @@map("space_users")
+}
+
+/// 게시판
+model Board {
+  /// 고유 식별자
+  id          String      @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId    String      @map("tenant_id") @db.Uuid
+  /// 소속 공간 ID
+  spaceId     String      @map("space_id") @db.Uuid
+  /// 이름
+  name        String      @db.VarChar
+  /// 설명
+  description String?     @db.VarChar
+  /// 공개 범위
+  visibility  Visibility  @default(PUBLIC)
+  /// 생성일시
+  createdAt   DateTime    @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt   DateTime?   @map("deleted_at")
+  users       BoardUser[]
+  space       Space       @relation(fields: [spaceId], references: [id])
+  tenant      Tenant      @relation(fields: [tenantId], references: [id])
+  posts       Post[]
+
+  @@unique([spaceId, name])
+  @@map("boards")
+}
+
+/// 게시판 사용자
+model BoardUser {
+  /// 고유 식별자
+  id        String           @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId  String           @map("tenant_id") @db.Uuid
+  /// 소속 게시판 ID
+  boardId   String           @map("board_id") @db.Uuid
+  /// 사용자 ID
+  userId    String           @map("user_id") @db.Uuid
+  /// 역할
+  role      Role             @default(MEMBER)
+  /// 멤버십 상태 (PENDING: 초대 대기, ACTIVE: 멤버)
+  status    MembershipStatus @default(ACTIVE)
+  /// 생성일시
+  createdAt DateTime         @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt DateTime         @updatedAt @map("updated_at")
+  board     Board            @relation(fields: [boardId], references: [id])
+  tenant    Tenant           @relation(fields: [tenantId], references: [id])
+  user      User             @relation(fields: [userId], references: [id])
+
+  @@unique([boardId, userId])
+  @@index([userId])
+  @@map("board_users")
+}
+
+/// 게시물
+model Post {
+  /// 고유 식별자
+  id           String    @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId     String    @map("tenant_id") @db.Uuid
+  /// 소속 게시판 ID
+  boardId      String    @map("board_id") @db.Uuid
+  /// 작성자 ID
+  authorId     String    @map("author_id") @db.Uuid
+  /// 제목
+  title        String    @db.VarChar
+  /// 본문 내용
+  content      String
+  /// 활성 댓글 수 (모든 depth 포함)
+  commentCount Int       @default(0) @map("comment_count")
+  /// 생성일시
+  createdAt    DateTime  @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt    DateTime? @map("deleted_at")
+  comments     Comment[]
+  author       User      @relation(fields: [authorId], references: [id])
+  board        Board     @relation(fields: [boardId], references: [id])
+  tenant       Tenant    @relation(fields: [tenantId], references: [id])
+
+  @@index([boardId, createdAt(sort: Desc)])
+  @@map("posts")
+}
+
+/// 댓글
+model Comment {
+  /// 고유 식별자
+  id         String    @id @default(uuid(7)) @db.Uuid
+  /// 소속 테넌트 ID
+  tenantId   String    @map("tenant_id") @db.Uuid
+  /// 게시물 ID
+  postId     String    @map("post_id") @db.Uuid
+  /// 상위 댓글 ID (대댓글인 경우)
+  parentId   String?   @map("parent_id") @db.Uuid
+  /// 작성자 ID
+  authorId   String    @map("author_id") @db.Uuid
+  /// 댓글 내용
+  content    String
+  /// 활성 대댓글 수 (모든 depth 포함)
+  replyCount Int       @default(0) @map("reply_count")
+  /// 생성일시
+  createdAt  DateTime  @default(now()) @map("created_at")
+  /// 수정일시
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  /// 삭제일시
+  deletedAt  DateTime? @map("deleted_at")
+  author     User      @relation(fields: [authorId], references: [id])
+  parent     Comment?  @relation("comment_parent", fields: [parentId], references: [id])
+  replies    Comment[] @relation("comment_parent")
+  post       Post      @relation(fields: [postId], references: [id])
+  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+
+  @@index([postId, parentId, createdAt(sort: Desc)])
+  @@map("comments")
+}
+
+/// 역할
+enum Role {
+  /// 소유자
+  OWNER   @map("owner")
+  /// 관리자
+  MANAGER @map("manager")
+  /// 일반사용자
+  MEMBER  @map("member")
+
+  @@map("role")
+}
+
+/// 공개 범위
+enum Visibility {
+  /// 공개
+  PUBLIC  @map("public")
+  /// 비공개
+  PRIVATE @map("private")
+
+  @@map("visibility")
+}
+
+/// 멤버십 상태
+enum MembershipStatus {
+  /// 초대 대기 중
+  PENDING @map("pending")
+  /// 멤버
+  ACTIVE  @map("active")
+
+  @@map("membership_status")
+}

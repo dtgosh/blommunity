@@ -1,0 +1,25 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+  bg?: "surface" | "accent" | "dark";
+}
+const { label, class: cls, bg = "surface" } = Astro.props;
+
+const bgClass = {
+  surface: "bg-surface-0",
+  accent:  "bg-accent",
+  dark:    "bg-[#0a0a0c]",
+}[bg];
+---
+
+<div class="my-6 overflow-hidden rounded-xl border border-line">
+  {label && (
+    <div class="border-b border-line bg-surface-2 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-ink-3">
+      {label}
+    </div>
+  )}
+  <div class={["flex flex-wrap items-center gap-3 p-6", bgClass, cls].filter(Boolean).join(" ")}>
+    <slot />
+  </div>
+</div>

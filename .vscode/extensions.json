@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "Anthropic.claude-code",
+    "ms-azuretools.vscode-containers",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.live-server",
+    "esbenp.prettier-vscode",
+    "Prisma.prisma"
+  ]
+}

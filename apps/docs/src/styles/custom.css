@@ -1,0 +1,42 @@
+/* 폰트 — @import는 최상단에 위치해야 합니다 */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* blommunity 브랜드 컬러를 Starlight 변수에 매핑 */
+:root {
+  --sl-color-accent-low:    #eef0fe;
+  --sl-color-accent:        #4f46e5;
+  --sl-color-accent-high:   #3730a3;
+
+  --sl-color-white:         #f3f3f5;
+  --sl-color-gray-1:        #a6a6b0;
+  --sl-color-gray-2:        #6e6e78;
+  --sl-color-gray-3:        #3a3a42;
+  --sl-color-gray-4:        #28282e;
+  --sl-color-gray-5:        #1c1c20;
+  --sl-color-gray-6:        #141417;
+  --sl-color-black:         #0a0a0c;
+
+  --sl-font: "Inter", "Pretendard", system-ui, -apple-system, sans-serif;
+}
+
+/* 라이트 모드 오버라이드 */
+:root[data-theme="light"] {
+  --sl-color-accent-low:    #eef0fe;
+  --sl-color-accent:        #4f46e5;
+  --sl-color-accent-high:   #3730a3;
+
+  --sl-color-white:         #1a1a1f;
+  --sl-color-gray-1:        #5c5c66;
+  --sl-color-gray-2:        #92929c;
+  --sl-color-gray-3:        #d7d7dc;
+  --sl-color-gray-4:        #e7e7ea;
+  --sl-color-gray-5:        #f4f4f5;
+  --sl-color-gray-6:        #f7f7f8;
+  --sl-color-black:         #ffffff;
+}
+
+.site-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}

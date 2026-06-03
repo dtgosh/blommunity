@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blommunity 테넌트 콘솔 — 프로토타입</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #f7f7f8; }
+  #root { height: 100%; }
+  * { -webkit-font-smoothing: antialiased; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#4f46e5"/>
+    <rect x="28" y="30" width="44" height="40" rx="9" fill="#fff"/>
+    <text x="50" y="51" font-family="Inter, sans-serif" font-size="24" font-weight="800" fill="#4f46e5" text-anchor="middle" dominant-baseline="central">북</text>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="../components/console-system.jsx?v=3"></script>
+<script type="text/babel" src="../components/tenant-ui.jsx?v=3"></script>
+<script type="text/babel" src="../components/tenant-data.jsx?v=3"></script>
+<script type="text/babel" src="../components/screen-dashboard.jsx?v=3"></script>
+<script type="text/babel" src="../components/screen-spaces.jsx?v=3"></script>
+<script type="text/babel" src="../components/tenant-screens.jsx?v=3"></script>
+
+<script type="text/babel">
+  function App() {
+    const [screen, setScreen] = React.useState('dashboard');
+    const [theme, setTheme] = React.useState('light');
+    const [modal, setModal] = React.useState(null);
+    const [toast, setToast] = React.useState(null);
+    const toastTimer = React.useRef(0);
+
+    const showToast = React.useCallback((msg, opts = {}) => {
+      clearTimeout(toastTimer.current);
+      setToast({ id: Math.random().toString(36).slice(2), msg, sub: opts.sub });
+      toastTimer.current = setTimeout(() => setToast(null), 3200);
+    }, []);
+
+    const app = {
+      screen,
+      dark: theme === 'dark',
+      theme,
+      navigate: (s) => setScreen(s),
+      toggleTheme: () => setTheme((t) => (t === 'light' ? 'dark' : 'light')),
+      openModal: (name, data) => setModal({ name, data }),
+      closeModal: () => setModal(null),
+      modal,
+      showToast,
+      toast,
+    };
+
+    let view;
+    switch (screen) {
+      case 'spaces': view = <SpaceMgmt app={app} />; break;
+      case 'boards': view = <BoardsScreen app={app} />; break;
+      case 'members': view = <MembersScreen app={app} />; break;
+      case 'moderation': view = <ModerationScreen app={app} />; break;
+      case 'settings': view = <SettingsScreen app={app} />; break;
+      case 'profile': view = <ProfileScreen app={app} />; break;
+      case 'dashboard':
+      default: view = <Dashboard app={app} />;
+    }
+
+    return (
+      <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+        {view}
+        <ModalHost app={app} />
+        <ToastHost app={app} />
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

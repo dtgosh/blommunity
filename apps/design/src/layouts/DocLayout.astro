@@ -1,0 +1,47 @@
+---
+import Layout from "./Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<Layout title={title}>
+  <div class="flex h-screen overflow-hidden">
+    <!-- 사이드바 -->
+    <Sidebar currentPath={pathname} />
+
+    <!-- 메인 콘텐츠 -->
+    <div class="flex flex-1 flex-col overflow-hidden">
+      <!-- 상단바 -->
+      <header class="flex h-14 shrink-0 items-center border-b border-line bg-surface-1/88 px-8 backdrop-blur-sm">
+        <div class="flex-1" />
+        <a
+          href="https://github.com/dtgosh/blommunity"
+          target="_blank"
+          rel="noopener"
+          class="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] text-ink-3 hover:bg-surface-2 hover:text-ink"
+        >
+          GitHub ↗
+        </a>
+      </header>
+
+      <!-- 문서 본문 -->
+      <main class="flex-1 overflow-y-auto">
+        <div class="mx-auto max-w-4xl px-8 py-10">
+          <div class="mb-8 border-b border-line pb-6">
+            <h1 class="text-[28px] font-bold tracking-tight text-ink">{title}</h1>
+            {description && (
+              <p class="mt-2 text-[15px] leading-relaxed text-ink-2">{description}</p>
+            )}
+          </div>
+          <slot />
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

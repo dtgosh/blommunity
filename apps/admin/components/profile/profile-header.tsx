@@ -1,0 +1,24 @@
+import { Avatar } from "@/components/ui/avatar";
+import { RoleBadge } from "@/components/ui/role-badge";
+import { avatarIdx } from "@/lib/avatar";
+import type { CurrentAdmin } from "@/lib/api/types";
+
+/** Profile header — avatar, name, email and role badge. */
+export function ProfileHeader({ admin }: { admin: CurrentAdmin }) {
+  return (
+    <div className="flex items-center gap-4">
+      <Avatar name={admin.name} idx={avatarIdx(admin.id)} size={56} />
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
+          <h2 className="truncate text-lg font-semibold text-ink">{admin.name}</h2>
+          <RoleBadge role={admin.role} />
+        </div>
+        {admin.email ? (
+          <p className="mt-0.5 truncate text-sm text-ink-2">{admin.email}</p>
+        ) : (
+          <p className="mt-0.5 truncate text-sm text-ink-3">이메일 미설정</p>
+        )}
+      </div>
+    </div>
+  );
+}

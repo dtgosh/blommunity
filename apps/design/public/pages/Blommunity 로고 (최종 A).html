@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>blommunity — 로고 (최종)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --accent:#4F46E5; --accent2:#6366F1; --ink:#18181B; --paper:#FBFBF9;
+    --surface:#fff; --border:#e9e7e1; --border2:#dcd9d1; --muted:#6f6e67; --faint:#9c9a91;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#eceae5;}
+  body{font-family:"Inter","Pretendard",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;}
+  .wrap{max-width:1080px;margin:0 auto;padding:56px 32px 96px;}
+  .eyebrow{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:18px;}
+  h1{font-size:30px;font-weight:800;letter-spacing:-0.03em;margin:0;}
+  .lede{font-size:15.5px;color:#54534d;margin:12px 0 0;max-width:680px;line-height:1.6;}
+  .sec-h{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 18px;}
+  section{margin-top:56px;}
+  .grid{display:grid;gap:20px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .pad{padding:30px;}
+  .label{font-size:12px;color:var(--faint);font-weight:600;padding:13px 16px;border-top:1px solid var(--border);}
+  .center{display:flex;align-items:center;justify-content:center;}
+  .cap{font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center;}
+  .swatch{height:78px;border-radius:10px;border:1px solid rgba(0,0,0,.06);}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;}
+  .mono-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .pill{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);background:#f4f3ef;border:1px solid var(--border);border-radius:6px;padding:3px 8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow"><img src="../assets/blommunity-mark.svg" width="22" height="22" alt="" /> blommunity · Brand</div>
+    <h1>로고 — 최종</h1>
+    <p class="lede">확정 방향은 <strong>A · Post</strong> 입니다. 한쪽 모서리만 각진 말풍선(커뮤니티의 대화)에 글줄 두 개(블로그의 글)를 담아 <strong>blog + community</strong>를 한 형태로 합쳤습니다. 인디고 단색·기하학적 형태로, 라이트·다크·앱 아이콘까지 일관되게 확장됩니다.</p>
+  </header>
+
+  <!-- Primary -->
+  <section>
+    <div class="sec-h">기본 마크</div>
+    <div class="grid" style="grid-template-columns:1.3fr 1fr;">
+      <div class="card center" style="min-height:300px;background:var(--surface);">
+        <img src="../assets/blommunity-mark.svg" width="148" height="148" alt="blommunity 마크" />
+      </div>
+      <div class="card center" style="min-height:300px;background:var(--ink);">
+        <img src="../assets/blommunity-mark-white.svg" width="148" height="148" alt="blommunity 마크 (녹아웃)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Lockup -->
+  <section>
+    <div class="sec-h">락업</div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;">
+      <div class="card">
+        <div class="pad center" style="min-height:150px;"><img src="../assets/blommunity-lockup.svg" width="330" alt="blommunity 가로 락업" /></div>
+        <div class="label">가로 락업 · 라이트</div>
+      </div>
+      <div class="card">
+        <div class="pad center" style="min-height:150px;background:var(--ink);"><img src="../assets/blommunity-lockup-dark.svg" width="330" alt="blommunity 가로 락업 (다크)" /></div>
+        <div class="label">가로 락업 · 다크</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px;">
+      <div class="pad center" style="min-height:230px;flex-direction:column;gap:0;">
+        <img src="../assets/blommunity-mark.svg" width="92" height="92" alt="" />
+        <span style="font-size:32px;font-weight:700;letter-spacing:-0.038em;margin-top:-6px;">blommunity</span>
+      </div>
+      <div class="label">세로 락업</div>
+    </div>
+  </section>
+
+  <!-- Applications -->
+  <section>
+    <div class="sec-h">응용</div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="card">
+        <div class="pad center" style="min-height:230px;"><img src="../assets/blommunity-appicon.svg" width="150" height="150" style="border-radius:34px;box-shadow:0 12px 30px rgba(79,70,229,.30);" alt="앱 아이콘" /></div>
+        <div class="label">앱 아이콘</div>
+      </div>
+      <div class="card">
+        <div class="pad center" style="min-height:230px;gap:30px;align-items:flex-end;">
+          <span style="display:flex;flex-direction:column;align-items:center;gap:10px;"><img src="../assets/blommunity-mark.svg" width="64" height="64" alt="" /><span class="pill">64</span></span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:10px;"><img src="../assets/blommunity-mark.svg" width="32" height="32" alt="" /><span class="pill">32</span></span>
+          <span style="display:flex;flex-direction:column;align-items:center;gap:10px;"><img src="../assets/blommunity-mark.svg" width="16" height="16" alt="" /><span class="pill">16</span></span>
+        </div>
+        <div class="label">파비콘 / 최소 크기 (≥16px)</div>
+      </div>
+      <div class="card">
+        <div class="center" style="min-height:230px;">
+          <div style="width:50%;height:230px;display:flex;align-items:center;justify-content:center;background:#fff;"><img src="../assets/blommunity-mark-mono.svg" width="76" height="76" style="color:var(--ink);" alt="먹 1도" /></div>
+          <div style="width:50%;height:230px;display:flex;align-items:center;justify-content:center;background:var(--ink);"><img src="../assets/blommunity-mark-white.svg" width="76" height="76" alt="녹아웃" /></div>
+        </div>
+        <div class="label">모노크롬 · 먹 1도 / 녹아웃</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clearspace -->
+  <section>
+    <div class="sec-h">여백 &amp; 색</div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;">
+      <div class="card">
+        <div class="pad center" style="min-height:200px;">
+          <div style="position:relative;padding:34px;border:1px dashed var(--border2);border-radius:12px;">
+            <img src="../assets/blommunity-mark.svg" width="96" height="96" alt="" />
+          </div>
+        </div>
+        <div class="label">최소 여백 = 마크 높이의 ⅓ (글줄 높이 기준)</div>
+      </div>
+      <div class="card pad">
+        <div class="grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <div><div class="swatch" style="background:#4F46E5;"></div><div style="margin-top:8px;font-size:12.5px;font-weight:600;">Indigo</div><code>#4F46E5</code></div>
+          <div><div class="swatch" style="background:#18181B;"></div><div style="margin-top:8px;font-size:12.5px;font-weight:600;">Ink</div><code>#18181B</code></div>
+          <div><div class="swatch" style="background:#FBFBF9;"></div><div style="margin-top:8px;font-size:12.5px;font-weight:600;">Paper</div><code>#FBFBF9</code></div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin:18px 0 0;line-height:1.6;">워드마크는 <strong style="color:var(--ink);">Inter</strong> Bold(700), 자간 −0.038em. 단색 인디고 하나만 사용하고, 상태색은 제품 UI에서만 씁니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Files -->
+  <section>
+    <div class="sec-h">에셋 파일</div>
+    <div class="card pad">
+      <div class="mono-row">
+        <span class="pill">assets/blommunity-mark.svg</span>
+        <span class="pill">blommunity-mark-mono.svg</span>
+        <span class="pill">blommunity-mark-white.svg</span>
+        <span class="pill">blommunity-appicon.svg</span>
+        <span class="pill">blommunity-lockup.svg</span>
+        <span class="pill">blommunity-lockup-dark.svg</span>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin:16px 0 0;line-height:1.6;">모든 마크는 벡터(SVG)이며 글줄은 배경이 비치는 <strong style="color:var(--ink);">녹아웃(knockout)</strong> 처리라 어떤 배경 위에서도 한 가지 색으로 깨끗하게 올라갑니다. <code>blommunity-mark-mono.svg</code> 는 <code>currentColor</code> 라 CSS <code>color</code> 로 자유롭게 색을 바꿀 수 있어요.</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

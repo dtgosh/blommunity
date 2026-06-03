@@ -1,0 +1,114 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+import Preview from "../../components/Preview.astro";
+---
+
+<DocLayout
+  title="브랜드"
+  description="blommunity 브랜드 아이덴티티 — 마크, 로고, 색상, 사용 규칙."
+>
+
+  <!-- 브랜드 마크 -->
+  <h2 class="mb-4 text-[17px] font-bold text-ink">브랜드 마크</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">
+    말풍선 안에 두 줄의 "게시글 라인"이 있는 형태.
+    SVG 에셋과 CSS-built 인라인 버전 두 가지로 제공됩니다.
+  </p>
+  <Preview label="마크 변형">
+    <img src="/assets/blommunity-mark.svg" alt="mark" class="h-10" />
+    <img src="/assets/blommunity-mark-white.svg" alt="mark white" class="h-10 rounded-lg bg-[#4f46e5] p-2" />
+    <img src="/assets/blommunity-mark-mono.svg" alt="mark mono" class="h-10 rounded-lg bg-surface-2 p-2" />
+    <img src="/assets/blommunity-appicon.svg" alt="app icon" class="h-10 rounded-xl" />
+  </Preview>
+
+  <!-- 로고 록업 -->
+  <h2 class="mb-4 mt-8 text-[17px] font-bold text-ink">로고 록업</h2>
+  <Preview label="라이트">
+    <img src="/assets/blommunity-lockup.svg" alt="lockup light" class="h-8" />
+  </Preview>
+  <Preview label="다크" bg="dark">
+    <img src="/assets/blommunity-lockup-dark.svg" alt="lockup dark" class="h-8" />
+  </Preview>
+
+  <!-- 세 서피스 -->
+  <h2 class="mb-4 mt-8 text-[17px] font-bold text-ink">세 가지 서피스</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">
+    하나의 브랜드, 세 가지 맥락.
+    콘솔 패밀리(<code class="rounded bg-surface-2 px-1 py-0.5 text-[11px]">--bl-*</code>)와
+    커뮤니티 패밀리(<code class="rounded bg-surface-2 px-1 py-0.5 text-[11px]">--cm-*</code>)로 구성됩니다.
+  </p>
+  <div class="mb-8 grid grid-cols-3 gap-4">
+    {[
+      { label: "테넌트 콘솔",  who: "사업자 CMS",  tokens: "--bl-*", href: "/ui-kits/console/index.html" },
+      { label: "운영자 어드민", who: "내부 관리",   tokens: "--bl-*", href: "/ui-kits/operator/index.html" },
+      { label: "유저 커뮤니티", who: "회원 대상",   tokens: "--cm-*", href: "/ui-kits/community/index.html" },
+    ].map((s) => (
+      <a
+        href={s.href}
+        target="_blank"
+        class="group overflow-hidden rounded-xl border border-line bg-surface-1 transition-colors hover:border-accent-weak"
+      >
+        <div class="flex h-20 items-center justify-center bg-surface-2 text-[11px] font-semibold uppercase tracking-widest text-ink-3 transition-colors group-hover:bg-accent-weak group-hover:text-accent-text">
+          프로토타입 보기 ↗
+        </div>
+        <div class="p-4">
+          <p class="text-[13px] font-bold text-ink">{s.label}</p>
+          <p class="mt-0.5 text-[12px] text-ink-3">{s.who}</p>
+          <code class="mt-1 inline-block text-[11px] text-accent-text">{s.tokens}</code>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- 보이스 & 톤 -->
+  <h2 class="mb-4 mt-8 text-[17px] font-bold text-ink">보이스 & 톤</h2>
+  <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+    {[
+      { label: "문체",       value: "해요체 — 정중하지만 딱딱하지 않게. ~습니다 ✗, ~해요 ✅" },
+      { label: "인사",       value: "\"안녕하세요, 지은님\" — 이름을 부르며 따뜻하게" },
+      { label: "확인 메시지", value: "과거형 + 구체적으로 — \"'베이킹 클래스' 테넌트를 승인했습니다\"" },
+      { label: "빈 상태",    value: "안심시키기 — \"처리할 신고가 없어요\", \"새 신고가 들어오면 여기에 표시됩니다\"" },
+      { label: "권한 거부",  value: "설명형 — \"역할 변경은 OWNER만 할 수 있어요\"" },
+      { label: "이모지",     value: "UI 아이콘으로 절대 사용 금지. 사용자 생성 콘텐츠에만 등장" },
+    ].map((r, i) => (
+      <div class={["flex gap-4 px-5 py-3.5 text-[13px]", i > 0 ? "border-t border-line" : ""].join(" ")}>
+        <p class="w-32 shrink-0 font-semibold text-ink-2">{r.label}</p>
+        <p class="text-ink">{r.value}</p>
+      </div>
+    ))}
+  </div>
+
+  <!-- 디자인 스펙 카드 -->
+  <h2 class="mb-4 mt-8 text-[17px] font-bold text-ink">디자인 스펙 카드</h2>
+  <p class="mb-4 text-[13px] leading-relaxed text-ink-2">
+    컬러, 타이포그래피, 스페이싱, 컴포넌트 단위 상세 스펙을 확인할 수 있습니다.
+  </p>
+  <div class="grid grid-cols-4 gap-2">
+    {[
+      { label: "콘솔 뉴트럴",   href: "/preview/color-console-neutral.html" },
+      { label: "액센트",        href: "/preview/color-accent.html" },
+      { label: "커뮤니티 워밍", href: "/preview/color-community-warm.html" },
+      { label: "시맨틱",        href: "/preview/color-semantic.html" },
+      { label: "다크 모드",     href: "/preview/color-dark.html" },
+      { label: "타입 패밀리",   href: "/preview/type-family.html" },
+      { label: "타입 스케일",   href: "/preview/type-scale.html" },
+      { label: "타입 웨이트",   href: "/preview/type-weights.html" },
+      { label: "스페이싱",      href: "/preview/spacing-scale.html" },
+      { label: "라디우스",      href: "/preview/radii.html" },
+      { label: "그림자",        href: "/preview/shadows.html" },
+      { label: "버튼",          href: "/preview/comp-buttons.html" },
+      { label: "배지",          href: "/preview/comp-badges.html" },
+      { label: "카드",          href: "/preview/comp-cards.html" },
+      { label: "인풋",          href: "/preview/comp-inputs.html" },
+      { label: "네비게이션",    href: "/preview/comp-nav.html" },
+    ].map((c) => (
+      <a
+        href={c.href}
+        target="_blank"
+        class="rounded-lg border border-line bg-surface-1 px-3 py-2.5 text-[12px] font-medium text-ink-2 transition-colors hover:border-accent-weak hover:bg-accent-weak hover:text-accent-text"
+      >
+        {c.label} ↗
+      </a>
+    ))}
+  </div>
+</DocLayout>

@@ -1,0 +1,77 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+import Preview from "../../components/Preview.astro";
+import { Button } from "@blommunity/ui/button";
+---
+
+<DocLayout
+  title="버튼"
+  description="주요 액션, 보조 액션, 위험 액션을 표현하는 버튼 컴포넌트. 3가지 변형과 3가지 크기를 지원합니다."
+>
+
+  <h2 class="mb-3 text-[17px] font-bold text-ink">변형 (Variant)</h2>
+  <Preview label="Variants">
+    <Button variant="primary" client:load>Primary</Button>
+    <Button variant="secondary" client:load>Secondary</Button>
+    <Button variant="ghost" client:load>Ghost</Button>
+    <Button variant="danger" client:load>Danger</Button>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">크기 (Size)</h2>
+  <Preview label="Sizes">
+    <Button variant="primary" size="sm" client:load>Small</Button>
+    <Button variant="primary" size="md" client:load>Medium</Button>
+    <Button variant="primary" size="lg" client:load>Large</Button>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">아이콘</h2>
+  <Preview label="With Icon">
+    <Button variant="primary" icon="plus" client:load>새 스페이스</Button>
+    <Button variant="secondary" icon="edit" client:load>편집</Button>
+    <Button variant="ghost" icon="logout" client:load>로그아웃</Button>
+    <Button variant="danger" icon="trash" client:load>삭제</Button>
+  </Preview>
+  <Preview label="Icon Right">
+    <Button variant="secondary" iconRight="chevronRight" client:load>다음</Button>
+    <Button variant="ghost" iconRight="arrowRight" client:load>전체 보기</Button>
+  </Preview>
+
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">상태</h2>
+  <Preview label="States">
+    <Button variant="primary" disabled client:load>비활성</Button>
+    <Button variant="secondary" disabled client:load>비활성</Button>
+    <Button variant="primary" full client:load>전체 너비</Button>
+  </Preview>
+
+  <!-- Props 테이블 -->
+  <h2 class="mb-3 mt-8 text-[17px] font-bold text-ink">Props</h2>
+  <div class="overflow-hidden rounded-xl border border-line bg-surface-1">
+    <table class="w-full text-[13px]">
+      <thead>
+        <tr class="border-b border-line bg-surface-2 text-left">
+          <th class="px-4 py-2.5 font-semibold text-ink">Prop</th>
+          <th class="px-4 py-2.5 font-semibold text-ink">타입</th>
+          <th class="px-4 py-2.5 font-semibold text-ink">기본값</th>
+          <th class="px-4 py-2.5 font-semibold text-ink">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[
+          { prop: "variant", type: '"primary" | "secondary" | "ghost" | "danger"', default: '"secondary"', desc: "버튼 스타일" },
+          { prop: "size", type: '"sm" | "md" | "lg"', default: '"md"', desc: "버튼 크기" },
+          { prop: "icon", type: "IconName", default: "—", desc: "왼쪽 아이콘" },
+          { prop: "iconRight", type: "IconName", default: "—", desc: "오른쪽 아이콘" },
+          { prop: "full", type: "boolean", default: "false", desc: "전체 너비 (w-full)" },
+          { prop: "disabled", type: "boolean", default: "false", desc: "비활성 상태" },
+        ].map((r, i) => (
+          <tr class={i > 0 ? "border-t border-line" : ""}>
+            <td class="px-4 py-2.5"><code class="text-accent-text">{r.prop}</code></td>
+            <td class="px-4 py-2.5 text-ink-2">{r.type}</td>
+            <td class="px-4 py-2.5 text-ink-3">{r.default}</td>
+            <td class="px-4 py-2.5 text-ink-2">{r.desc}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</DocLayout>

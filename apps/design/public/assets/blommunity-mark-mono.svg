@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="256" height="256" role="img" aria-label="blommunity">
+  <mask id="cut">
+    <rect width="48" height="48" fill="#fff"></rect>
+    <rect x="13" y="15" width="22" height="4" rx="2" fill="#000"></rect>
+    <rect x="13" y="24" width="13" height="4" rx="2" fill="#000"></rect>
+  </mask>
+  <path d="M16 5 H32 A11 11 0 0 1 43 16 V27 A11 11 0 0 1 32 38 H8 A3 3 0 0 1 5 35 V16 A11 11 0 0 1 16 5 Z" fill="currentColor" mask="url(#cut)"></path>
+</svg>

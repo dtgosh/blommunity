@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter",system-ui,sans-serif;background:#fff;padding:22px 26px;color:#18181b}
+  .grid{display:flex;gap:0}
+  .sw{flex:1}
+  .chip{height:64px;display:flex;align-items:flex-end;padding:8px 10px}
+  .first .chip{border-radius:10px 0 0 10px}
+  .last .chip{border-radius:0 10px 10px 0}
+  .nm{font-size:11px;font-weight:600;margin-top:9px;color:#27272a}
+  .hex{font-size:10.5px;color:#92929c;font-variant-numeric:tabular-nums;margin-top:2px}
+  .ttl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#92929c;margin:0 0 14px}
+  .w{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.85)}
+</style></head>
+<body>
+  <p class="ttl">Accent · Indigo</p>
+  <div class="grid">
+    <div class="sw first"><div class="chip" style="background:#6366f1"><span class="w">bright</span></div><div class="nm">accent-bright</div><div class="hex">#6366F1</div></div>
+    <div class="sw"><div class="chip" style="background:#4f46e5"><span class="w">base</span></div><div class="nm">accent</div><div class="hex">#4F46E5</div></div>
+    <div class="sw"><div class="chip" style="background:#4338ca"><span class="w">hover</span></div><div class="nm">accent-hover</div><div class="hex">#4338CA</div></div>
+    <div class="sw"><div class="chip" style="background:#3730a3"><span class="w">press</span></div><div class="nm">accent-press</div><div class="hex">#3730A3</div></div>
+    <div class="sw"><div class="chip" style="background:#eef0fe;border:1px solid #e7e7ea;border-right:none"></div><div class="nm">accent-weak</div><div class="hex">#EEF0FE</div></div>
+    <div class="sw last"><div class="chip" style="background:#fff;border:1px solid #e7e7ea"><span style="color:#4f46e5;font-size:11px;font-weight:700">Aa</span></div><div class="nm">accent-text</div><div class="hex">#4F46E5</div></div>
+  </div>
+</body></html>

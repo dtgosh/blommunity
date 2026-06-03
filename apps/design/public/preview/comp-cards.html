@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+  html,body{margin:0}
+  body{font-family:"Inter","Pretendard",sans-serif;background:#f7f7f8;padding:22px 26px;color:#18181b;display:flex;gap:16px}
+  .card{background:#fff;border:1px solid #e7e7ea;border-radius:10px;padding:16px 18px;width:210px}
+  .ico{width:28px;height:28px;border-radius:7px;background:#f4f4f5;color:#5c5c66;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+  .ico.acc{background:#eef0fe;color:#4f46e5}
+  svg{width:16px;height:16px}
+  .lab{font-size:12.5px;font-weight:550;color:#5c5c66}
+  .val{font-size:30px;font-weight:700;letter-spacing:-0.03em;line-height:1;margin-top:11px}
+  .unit{font-size:13px;color:#92929c;font-weight:500}
+  .delta{font-size:12px;font-weight:600;color:#15803d;margin-top:11px;display:inline-flex;align-items:center;gap:3px}
+</style></head>
+<body>
+  <div class="card">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+    <div class="lab">총 회원 수</div>
+    <div class="val">237<span class="unit"> 명</span></div>
+    <div class="delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6"/></svg>+12 <span style="color:#92929c;font-weight:500">이번 주</span></div>
+  </div>
+  <div class="card">
+    <div class="ico acc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
+    <div class="lab">당일 활동량</div>
+    <div class="val">5,805<span class="unit"> 건</span></div>
+    <div class="delta" style="color:#92929c;font-weight:500">API 호출 2.4M</div>
+  </div>
+</body></html>

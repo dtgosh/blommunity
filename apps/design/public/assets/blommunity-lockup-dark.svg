@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 52" width="630" height="156" role="img" aria-label="blommunity">
+  <svg x="2" y="6" width="40" height="40" viewBox="0 0 48 48" overflow="visible">
+    <mask id="cutd">
+      <rect width="48" height="48" fill="#fff"></rect>
+      <rect x="13" y="15" width="22" height="4" rx="2" fill="#000"></rect>
+      <rect x="13" y="24" width="13" height="4" rx="2" fill="#000"></rect>
+    </mask>
+    <path d="M16 5 H32 A11 11 0 0 1 43 16 V27 A11 11 0 0 1 32 38 H8 A3 3 0 0 1 5 35 V16 A11 11 0 0 1 16 5 Z" fill="#6366F1" mask="url(#cutd)"></path>
+  </svg>
+  <text x="51" y="35" font-family="Inter, &#39;Helvetica Neue&#39;, sans-serif" font-size="30" font-weight="700" letter-spacing="-1.15" fill="#FBFBF9">blommunity</text>
+</svg>

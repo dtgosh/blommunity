@@ -1,0 +1,23 @@
+{
+  "name": "@blommunity/api-client",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit",
+    "generate": "openapi-ts"
+  },
+  "dependencies": {
+    "@blommunity/types": "*"
+  },
+  "devDependencies": {
+    "@blommunity/eslint-config": "*",
+    "@hey-api/openapi-ts": "^0.76.0"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
+  }
+}
