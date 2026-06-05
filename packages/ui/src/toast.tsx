@@ -50,10 +50,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const seq = useRef(0);
   const timers = useRef(new Map<number, ReturnType<typeof setTimeout>>());
 
-  // 언마운트 시 모든 타이머 정리
+  // 언마운트 시 모든 타이머 정리 — ref는 재할당되지 않지만, cleanup 시점 안정성을
+  // 위해 effect 진입 시 현재 Map을 로컬에 복사해 둔다.
   useEffect(() => {
+    const pending = timers.current;
     return () => {
-      timers.current.forEach(clearTimeout);
+      pending.forEach(clearTimeout);
     };
   }, []);
 

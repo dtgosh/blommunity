@@ -1,7 +1,7 @@
 "use client";
 
 // 댓글 섹션 — U-CM-01~06 (✅). 최상위 댓글 작성/목록 + 대댓글(지연 로드)·수정·삭제.
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { commentsControllerFindAll, commentsControllerCreate } from "@blommunity/api-client";
 import { client } from "@/lib/api/client";
@@ -25,7 +25,8 @@ export function CommentSection({
   const [comments, setComments] = useState<components["schemas"]["CommentEntity"][] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function load() {
+  // postId에만 의존하므로 useCallback으로 메모이즈해 아래 effect 의존성으로 그대로 쓴다.
+  const load = useCallback(async () => {
     try {
       setComments((await commentsControllerFindAll({ client, query: { postId } })).data!);
       setError(null);
@@ -33,13 +34,12 @@ export function CommentSection({
       setComments([]);
       setError(err instanceof ApiError ? err.message : "댓글을 불러오지 못했어요.");
     }
-  }
+  }, [postId]);
 
-  // Reload whenever the post changes. `load` closes over postId only; recreating
-  // it each render must not retrigger this effect, so it's intentionally omitted.
+  // postId가 바뀔 때(= load 재생성 시)마다 다시 로드.
   useEffect(() => {
     void load();
-  }, [postId]);
+  }, [load]);
 
   async function submitTopLevel(content: string) {
     await commentsControllerCreate({ client, body: { postId, content } });

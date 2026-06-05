@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -52,11 +52,17 @@ export function InvitePanel({
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // listInvitations는 매 렌더 새 identity로 전달되므로(부모에서 인라인 생성) effect
+  // 의존성에 넣으면 refetch 루프가 생긴다. 최신 콜백을 ref에 보관해 두면 targetId/
+  // canManage가 바뀔 때만 재로드하면서도 항상 최신 함수를 호출할 수 있다.
+  const listInvitationsRef = useRef(listInvitations);
+  listInvitationsRef.current = listInvitations;
+
   useEffect(() => {
     if (!canManage) return;
     let cancelled = false;
     setError(null);
-    Promise.all([usersControllerFindAll({ client }).then(r => r.data!), listInvitations()])
+    Promise.all([usersControllerFindAll({ client }).then(r => r.data!), listInvitationsRef.current()])
       .then(([u, inv]) => {
         if (cancelled) return;
         setUsers(u);
@@ -71,9 +77,7 @@ export function InvitePanel({
     return () => {
       cancelled = true;
     };
-    // Keyed on targetId (stable) so switching the selected space/board reloads,
-    // but new callback identities on every render don't trigger refetch loops.
-    // (listInvitations is intentionally excluded — see comment above.)
+    // targetId(안정적)를 키로 두어 선택한 space/board가 바뀌면 재로드.
   }, [canManage, targetId]);
 
   const nameById = useMemo(() => {
